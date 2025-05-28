@@ -2,13 +2,14 @@ import s from './HeaderDetail.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
-import { useCreateBillMutation, useUpdateBillMutation } from '../../redux/updsApiActions';
+import { useCreateUpdMutation, useUpdateBillMutation } from '../../redux/updsApiActions';
 //icons
 import { ReactComponent as IconDoneWhite } from '../../assets/icons/iconDoneWhite.svg'
 //slice
 import {
     setCustomerValidation,
     setDetailValidation,
+    setSignatoryValidation,
     setNumberValidation,
     setPositionsValidation
 } from '../../redux/validation/slice';
@@ -20,9 +21,9 @@ import ButtonsEdit from '../ButtonsEdit/ButtonsEdit';
 import { BUTTON_TEXT_CREATE } from '../../constants/upds';
 
 const HeaderDetail = ({ id, type, setType }) => {
-    const { customer, detail, numberBill, date } = useSelector((state) => state.mainInfo);
+    const { customer, detail, signatory, numberBill, date } = useSelector((state) => state.mainInfo);
     const { positions, total } = useSelector((state) => state.positions);
-    const [createBill, { data, isError, isLoading }] = useCreateBillMutation();
+    const [createUpd, { data, isError, isLoading }] = useCreateUpdMutation();
     const [updateBill, { isLoading: isLoadingEdit }] = useUpdateBillMutation();
     const dispatch = useDispatch();
     const navigate = useNavigate()
@@ -30,10 +31,13 @@ const HeaderDetail = ({ id, type, setType }) => {
     const handleValidation = () => {
         const customerValidation = customer?.partnership_id ? true : false;
         const detailValidation = detail?.partnership_id ? true : false;
+        const signatoryValidation = signatory?.id ? true : false;
+        
         const numberValidation = Number(numberBill) !== 0 ? true : false;
         const positionsValidation = positions.every(el => el?.rate?.name_service !== '' && Number(el?.count) > 0 && el?.units !== '' && Number(el?.code) > 0 && Number(el?.price) > 0 && Number(el?.total) > 0);
         dispatch(setCustomerValidation(customerValidation))
         dispatch(setDetailValidation(detailValidation))
+        dispatch(setSignatoryValidation(signatoryValidation))
         dispatch(setNumberValidation(numberValidation))
         dispatch(setPositionsValidation(positionsValidation))
         console.log(positionsValidation)
@@ -65,6 +69,7 @@ const HeaderDetail = ({ id, type, setType }) => {
             num: Number(numberBill),
             detail_partnership_id: detail?.partnership_id,
             detail_number: detail?.num,
+            company_contact_id: signatory.id,
             rows,
             sum: total,
 
@@ -72,7 +77,7 @@ const HeaderDetail = ({ id, type, setType }) => {
 
 
         if (handleValidation()) {
-            createBill(dataForSend)
+            createUpd(dataForSend)
                 .then((data) => {
                     console.log(data)
                     if (data.data.success) {

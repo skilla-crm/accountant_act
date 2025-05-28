@@ -35,8 +35,12 @@ const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveI
 
             type == 'position' && activeItem?.name_service && activeItem?.name_service !== '' && setQuery(activeItem?.name_service)
             type == 'position' && (!activeItem?.name_service || activeItem?.name_service == '') && setQuery(activeItem?.name_button)
+
+            type == 'signatory' && setQuery(`${activeItem?.name} ${activeItem?.surname}`)
+            type == 'signatory' && setCaption(activeItem?.e_mail)
             return
         } else {
+            type == 'signatory' && setQuery(``)
             setCaption('')
             setLable('')
         }
@@ -79,7 +83,7 @@ const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveI
     }, []);
 
     return (
-        <div className={s.root}>
+        <div className={classNames(s.root,type == 'signatory' && s.root_wide)}>
             {sub && sub !== '' && <span className={s.sub}>{sub}</span>}
             <div ref={fieldRef} onClick={handleFocus} className={classNames(s.field, disabled && s.field_disabled, error && s.field_error)}>
                 <input disabled={disabled} ref={inputRef} onFocus={handleOpenList} value={query || ''} onChange={handleSearch}></input>

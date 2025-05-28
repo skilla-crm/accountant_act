@@ -30,7 +30,7 @@ const InputBillNumber = ({ sub, number, setNumber, errorEmpity, errorText, reset
     }
 
     const handleBlur = () => {
-        getCheckNumber(0, number)
+        getCheckNumber(2, number)
             .then(res => setError(false))
             .catch(err => { number !== '' && setError(true) })
         setFocus(false)
@@ -42,7 +42,7 @@ const InputBillNumber = ({ sub, number, setNumber, errorEmpity, errorText, reset
         setDone(false)
         setLoad(true)
         setCount(prevState => prevState + 1)
-        getRandomNumber(0)
+        getRandomNumber(2)
             .then(res => {
                 const num = res.data.num;
                 setNumber(num)

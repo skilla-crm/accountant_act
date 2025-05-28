@@ -2,7 +2,7 @@ import s from './Create.module.scss';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 //components
-import Bill from '../../components/Bill/Bill';
+import Upd from '../../components/Upd/Upd';
 
 const Create = () => {
     const [anim, setAnim] = useState(false)
@@ -15,7 +15,7 @@ const Create = () => {
 
     return (
         <div className={classNames(s.root, anim && s.root_anim)}>
-            <Bill type={'create'} />
+            <Upd type={'create'} />
         </div>
     )
 };

@@ -17,7 +17,7 @@ import {
 } from '../../redux/mainInfo/slice';
 import { setPositions } from '../../redux/positions/slice';
 //components
-import Bill from '../../components/Bill/Bill';
+import Upd from '../../components/Upd/Upd';
 import SceletonBill from '../../components/SceletonBill/SceletonBill';
 
 const Detail = () => {
@@ -65,7 +65,7 @@ const Detail = () => {
     return (
         <div className={classNames(s.root, anim && s.root_anim)}>
             <SceletonBill isLoading={isLoading} />
-            <Bill id={id} type={type} setType={setType} />
+            <Upd id={id} type={type} setType={setType} />
         </div>
     )
 };

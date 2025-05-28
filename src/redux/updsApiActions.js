@@ -41,9 +41,9 @@ export const updsApiActions = createApi({
       transformResponse: (response) => response?.data
     }),
 
-    createBill: build.mutation({
+    createUpd: build.mutation({
       query: (body) => ({
-        url: `bills/create`,
+        url: `upd/create`,
         method: 'POST',
         body: body
       }),
@@ -93,7 +93,7 @@ export const {
   useGetBillsQuery,
   useGetBillQuery,
   useGetParametersQuery,
-  useCreateBillMutation,
+  useCreateUpdMutation,
   useUpdateBillMutation,
   useDeleteBillMutation,
   useSendBillMutation,

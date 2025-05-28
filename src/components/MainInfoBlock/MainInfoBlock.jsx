@@ -6,18 +6,21 @@ import dayjs from 'dayjs';
 import DropDown from '../Genegal/DropDown/DropDown';
 import Customer from '../Customer/Customer';
 import Detail from '../Detail/Detail';
+import Contact from '../Contact/Contact';
 import InputData from '../InputData/InputData';
 import InputBillNumber from '../InputBillNumber/InputBillNumber';
+import InputText from '../Genegal/InputText/InputText';
+import ContractInput from '../ContractInput/ContractInput';
 //slice
-import { setCustomer, setDetail, setNumberBill, setDate } from '../../redux/mainInfo/slice';
-import { setCustomerValidation, setDetailValidation, setNumberValidation } from '../../redux/validation/slice';
+import { setCustomer, setDetail, setNumberBill, setDate, setSignatory } from '../../redux/mainInfo/slice';
+import { setCustomerValidation, setDetailValidation, setSignatoryValidation, setNumberValidation } from '../../redux/validation/slice';
 
 
 
 const MainInfoBlock = ({ parameters, disabled }) => {
     const dispatch = useDispatch()
-    const { customer, detail, numberBill, date, orders, draft } = useSelector((state) => state.mainInfo);
-    const { customerValidation, detailValidation, numberValidation } = useSelector((state) => state.validation);
+    const { customer, detail, numberBill, date, orders, signatory, draft } = useSelector((state) => state.mainInfo);
+    const { customerValidation, detailValidation, signatoryValidation, numberValidation } = useSelector((state) => state.validation);
     const [detailsList, setDetailsList] = useState([])
 
     useEffect(() => {
@@ -43,6 +46,10 @@ const MainInfoBlock = ({ parameters, disabled }) => {
 
     const handleResetErrorDetail = () => {
         dispatch(setDetailValidation(true))
+    }
+
+    const handleResetErrorSignatory= () => {
+        dispatch(setSignatoryValidation(true))
     }
 
     const handleResetErrorNumber = () => {
@@ -75,15 +82,34 @@ const MainInfoBlock = ({ parameters, disabled }) => {
             <DropDown
                 z={4}
                 type={'detail'}
-                sub={'Получатель'}
+                sub={'Поставщик'}
                 list={detailsList}
                 ListItem={Detail}
                 activeItem={detail}
                 setActiveItem={data => dispatch(setDetail(data))}
-                disabled={disabled}
+                disabled={disabled || detailsList?.length === 0}
                 error={!detailValidation}
                 errorText={'Реквизиты не выбраны'}
                 resetError={handleResetErrorDetail}
+            />
+
+            <ContractInput
+                text={customer?.contract_n}
+                span={customer?.contract_date && dayjs(customer?.contract_date).format('DD.MM.YY')}
+            />
+
+            <DropDown
+                z={3}
+                type={'signatory'}
+                sub={'Подписант плательщика'}
+                list={customer?.contacts}
+                ListItem={Contact}
+                activeItem={signatory}
+                setActiveItem={data => dispatch(setSignatory(data))}
+                disabled={disabled}
+                error={!signatoryValidation}
+                errorText={'Выбери подписанта'}
+                resetError={handleResetErrorSignatory}
             />
 
             <div className={s.block}>

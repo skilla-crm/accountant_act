@@ -1,4 +1,4 @@
-import s from './Bill.module.scss';
+import s from './Upd.module.scss';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
@@ -15,15 +15,16 @@ import MainInfoBlock from '../MainInfoBlock/MainInfoBlock';
 import ServicesBlock from '../ServicesBlock/ServicesBlock';
 
 
-const Bill = ({ id, type, setType }) => {
+const Upd = ({ id, type, setType }) => {
     const { data: parameters, isLoading: isLoadingParams } = useGetParametersQuery();
     const { customer, detail, numberBill, date } = useSelector((state) => state.mainInfo);
     const { positionsValidation } = useSelector((state) => state.validation);
     const dispatch = useDispatch()
 
     useEffect(() => {
-        numberBill == '' && dispatch(setNumberBill(parameters?.num))
-    }, [parameters, numberBill])
+        console.log(numberBill, parameters?.num)
+        numberBill == '' && parameters?.num && dispatch(setNumberBill(parameters?.num))
+    }, [parameters])
 
     const handleResetErrorPositions = () => {
         dispatch(setPositionsValidation(true))
@@ -53,4 +54,4 @@ const Bill = ({ id, type, setType }) => {
     )
 };
 
-export default Bill;
+export default Upd;

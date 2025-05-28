@@ -7,7 +7,8 @@ const initialState = {
   detail: {},
   numberBill: '',
   date: dayjs().locale('ru') || '',
-  orders: []
+  orders: [],
+  signatory: {}
 };
 
 export const mainInfoSlice = createSlice({
@@ -21,6 +22,7 @@ export const mainInfoSlice = createSlice({
 
     setCustomer: (state, action) => {
       state.customer = action.payload;
+      state.signatory = {};
     },
 
     setDetail: (state, action) => {
@@ -37,6 +39,10 @@ export const mainInfoSlice = createSlice({
 
     setOrders: (state, action) => {
       state.orders = action.payload;
+    },
+
+    setSignatory: (state, action) => {
+      state.signatory = action.payload;
     }
   }
 });
@@ -47,6 +53,7 @@ export const {
   setDetail,
   setNumberBill,
   setDate,
-  setOrders
+  setOrders,
+  setSignatory
 } = mainInfoSlice.actions;
 export default mainInfoSlice.reducer;

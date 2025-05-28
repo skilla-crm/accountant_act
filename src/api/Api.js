@@ -1,5 +1,5 @@
 import axios from 'axios';
-const token = document.getElementById('root_bills')?.getAttribute('token');
+const token = document.getElementById('root_upd')?.getAttribute('token');
 const baseURL = process.env.REACT_APP_BASE_URL;
 const instanceWithToken = axios.create({
   withCredentials: false,
