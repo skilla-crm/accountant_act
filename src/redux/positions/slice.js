@@ -31,9 +31,9 @@ export const positionsSlice = createSlice({
       let modifyItem = { ...item }
 
       if (key === 'rate' && data.rate.okei) {
-        modifyItem = { ...item, [key]: data[key], count: data.rate.amount, units: data.rate.unit.toLowerCase(), code: data.rate.okei, price: data.rate?.price ? data.rate?.price : '', total: '' }
+        modifyItem = { ...item, [key]: data[key], units: data.rate.unit, code: data.rate.okei}
       } else if (key === 'rate' && !data.rate.okei) {
-        modifyItem = { ...item, [key]: data[key], count: '', units: 'ед', code: '642', price: data.rate?.price && data.rate?.price > 0 ? data.rate?.price : '', total: '' }
+        modifyItem = { ...item, [key]: data[key], units: 'Ед', code: '642'}
       } else if (key === 'count' && item.price !== '') {
         modifyItem = { ...item, [key]: data[key], total: item.price * data[key] !== 0 ? item.price * data[key] : '' }
       } else if (key === 'price') {

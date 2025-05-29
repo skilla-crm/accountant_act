@@ -2,7 +2,7 @@ import s from './EmailSender.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 //api
-import { useSendBillMutation } from '../../redux/updsApiActions';
+import { useSendUpdMutation } from '../../redux/updsApiActions';
 //icons
 import { ReactComponent as IconClose } from './icons/iconCloseBlack.svg'
 import { ReactComponent as IconMailBlack } from './icons/IconMailBlack.svg'
@@ -17,7 +17,7 @@ import FormatList from './FormatList/FormatList';
 import { emailValidate } from './utils/EmailValidate';
 
 const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partnerEmail, handleSendEmailSuccess, detailState }) => {
-    const [sendBill, { data, isError, isLoading }] = useSendBillMutation();
+    const [sendUpd, { data, isError, isLoading }] = useSendUpdMutation();
     const [emails, setEmails] = useState([])
     const [emailValue, setEmailValue] = useState('')
     const [emailError, setEmailError] = useState(false)
@@ -66,7 +66,7 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
 
         console.log(dataForSend)
 
-        sendBill({ body: dataForSend, id })
+        sendUpd({ body: dataForSend, id })
             .then(res => {
                 console.log(res)
                 if (res.data.success) {
@@ -273,7 +273,7 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
                         <span>Прикрепленные документы</span>
                         <div className={s.switches}>
                             <Switch
-                                text={'Счет'}
+                                text={'УПД'}
                                 switchState={true}
                                 disabled={true}
                             />

@@ -2,8 +2,9 @@ import s from './Buttons.module.scss';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
+import printJS from 'print-js'
 //api
-import { useGetBillDownloadMutation, useGetParametersQuery } from '../../redux/updsApiActions';
+import { useGetUpdDownloadMutation, useGetParametersQuery } from '../../redux/updsApiActions';
 //constants
 import { BUTTON_EDIT, BUTTON_SEND_EMAIL, BUTTON_PRINT, BUTTON_DOWNLOAD } from '../../constants/upds';
 //icons
@@ -30,7 +31,7 @@ const Buttons = ({ id, setType }) => {
     const { customer, date, numberBill, orders } = useSelector((state) => state.mainInfo);
     const [modalDelete, setModalDelete] = useState(false)
     const [modalEmail, setModalEmail] = useState(false)
-    const [getBillDownload, { isLoading }] = useGetBillDownloadMutation();
+    const [getUpdDownload, { isLoading }] = useGetUpdDownloadMutation();
     const [loadDownload, setLoadDownload] = useState(false)
     const [loadPrint, setLoadPrint] = useState(false)
     const [notificationOpen, setNotification] = useState({ state: false })
@@ -59,10 +60,10 @@ const Buttons = ({ id, setType }) => {
 
     const handleDownload = async (params) => {
         setLoadDownload(true)
-        const data = await getBillDownload({ params, id }).unwrap()
+        const data = await getUpdDownload({ params, id }).unwrap()
         const link = document.createElement('a');
         link.href = URL.createObjectURL(data);
-        link.setAttribute('download', `Cчет №${numberBill} от ${dayjs(date).format('DD.MM.YYYY')}.${params.format}`);
+        link.setAttribute('download', `УПД №${numberBill} от ${dayjs(date).format('DD.MM.YYYY')}.${params.format}`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -70,13 +71,8 @@ const Buttons = ({ id, setType }) => {
 
     const handlePrint = async (params) => {
         setLoadPrint(true)
-        const data = await getBillDownload({ params, id }).unwrap()
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(data);
-        link.setAttribute('target', `_blank`);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        const data = await getUpdDownload({ params, id }).unwrap()
+        printJS(URL.createObjectURL(data))
     }
 
     const downloadOptions = [
@@ -201,8 +197,8 @@ const Buttons = ({ id, setType }) => {
                 open={modalEmail}
                 setOpen={setModalEmail}
                 contacts={customer?.contacts?.filter(el => el.e_mail !== '')}
-                theme={`Счет № ${numberBill} от ${dayjs(date).format('DD.MM.YYYY')}`}
-                text={parameters?.bill_message}
+                theme={`УПД № ${numberBill} от ${dayjs(date).format('DD.MM.YYYY')}`}
+                text={parameters?.act_message}
                 formats={[{ id: 1, name: 'PDF с печатью' }, { id: 2, name: 'Word с печатью' }]}
                 partnerEmail={parameters?.email}
                 handleSendEmailSuccess={handleSendEmailSuccess}

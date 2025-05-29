@@ -28,6 +28,9 @@
 
 .name {
     width: 100%;
+    @media(max-width: 2000px) {
+        min-width: 470px;
+    }
 }
 
 .number {
@@ -53,11 +56,19 @@
 .price {
     width: 150px;
     flex-shrink: 0;
+
+     @media(max-width: 2000px) {
+        width: 140px;
+    }
 }
 
 .total {
     width: 150px;
     flex-shrink: 0;
+
+     @media(max-width: 2000px) {
+        width: 140px;
+    }
 }
 
 .button {

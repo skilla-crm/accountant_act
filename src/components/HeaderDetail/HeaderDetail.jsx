@@ -2,14 +2,13 @@ import s from './HeaderDetail.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
-import { useCreateUpdMutation, useUpdateBillMutation } from '../../redux/updsApiActions';
+import { useCreateUpdMutation, useUpdateUpdMutation } from '../../redux/updsApiActions';
 //icons
 import { ReactComponent as IconDoneWhite } from '../../assets/icons/iconDoneWhite.svg'
 //slice
 import {
     setCustomerValidation,
     setDetailValidation,
-    setSignatoryValidation,
     setNumberValidation,
     setPositionsValidation
 } from '../../redux/validation/slice';
@@ -24,23 +23,19 @@ const HeaderDetail = ({ id, type, setType }) => {
     const { customer, detail, signatory, numberBill, date } = useSelector((state) => state.mainInfo);
     const { positions, total } = useSelector((state) => state.positions);
     const [createUpd, { data, isError, isLoading }] = useCreateUpdMutation();
-    const [updateBill, { isLoading: isLoadingEdit }] = useUpdateBillMutation();
+    const [updateUpd, { isLoading: isLoadingEdit }] = useUpdateUpdMutation();
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
     const handleValidation = () => {
         const customerValidation = customer?.partnership_id ? true : false;
         const detailValidation = detail?.partnership_id ? true : false;
-        const signatoryValidation = signatory?.id ? true : false;
-        
         const numberValidation = Number(numberBill) !== 0 ? true : false;
         const positionsValidation = positions.every(el => el?.rate?.name_service !== '' && Number(el?.count) > 0 && el?.units !== '' && Number(el?.code) > 0 && Number(el?.price) > 0 && Number(el?.total) > 0);
         dispatch(setCustomerValidation(customerValidation))
         dispatch(setDetailValidation(detailValidation))
-        dispatch(setSignatoryValidation(signatoryValidation))
         dispatch(setNumberValidation(numberValidation))
         dispatch(setPositionsValidation(positionsValidation))
-        console.log(positionsValidation)
 
         if (customerValidation && detailValidation && numberValidation && positionsValidation) {
             return true
@@ -69,7 +64,8 @@ const HeaderDetail = ({ id, type, setType }) => {
             num: Number(numberBill),
             detail_partnership_id: detail?.partnership_id,
             detail_number: detail?.num,
-            company_contact_id: signatory.id,
+            company_contact_id: signatory.id && signatory.id !== 'dir' && signatory.id !== 'no' && signatory.id !== 'another' ? signatory.id : null,
+            signature: signatory.id !== 'no' ? signatory.name : null,
             rows,
             sum: total,
 
@@ -110,13 +106,15 @@ const HeaderDetail = ({ id, type, setType }) => {
             num: Number(numberBill),
             detail_partnership_id: detail?.partnership_id,
             detail_number: detail?.num,
+            company_contact_id: signatory.id && signatory.id !== 'dir' && signatory.id !== 'no' && signatory.id !== 'another' ? signatory.id : null,
+            signature: signatory.id !== 'no' ? signatory.name : null,
             rows,
             sum: total,
             draft: 0
         }
 
         if (handleValidation()) {
-            updateBill({ body: dataForSend, id })
+            updateUpd({ body: dataForSend, id })
                 .then((data) => {
                     if (data.data.success) {
                         setType('detail')
@@ -130,10 +128,10 @@ const HeaderDetail = ({ id, type, setType }) => {
 
     return (
         <div className={s.root}>
-            {type == 'create' && <h2>Новый счет №{numberBill} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
-            {type == 'draft' && <h2>Новый счет №{numberBill} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
-            {type == 'detail' && <h2>Cчет №{numberBill} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
-            {type == 'edit' && <h2>Cчет №{numberBill} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
+            {type == 'create' && <h2>Новый УПД №{numberBill} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
+            {type == 'draft' && <h2>Новый УПД №{numberBill} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
+            {type == 'detail' && <h2>УПД №{numberBill} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
+            {type == 'edit' && <h2>УПД №{numberBill} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
 
             {type == 'create' && <Button
                 type={'create'}

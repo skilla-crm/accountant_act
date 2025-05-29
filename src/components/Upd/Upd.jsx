@@ -23,7 +23,7 @@ const Upd = ({ id, type, setType }) => {
 
     useEffect(() => {
         console.log(numberBill, parameters?.num)
-        numberBill == '' && parameters?.num && dispatch(setNumberBill(parameters?.num))
+        numberBill == '' && parameters?.num && dispatch(setNumberBill(parameters?.upd_num))
     }, [parameters])
 
     const handleResetErrorPositions = () => {

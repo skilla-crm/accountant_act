@@ -15,7 +15,7 @@ export const updsApiActions = createApi({
   }),
   endpoints: (build) => ({
 
-    getBills: build.query({
+    getUpds: build.query({
       query: (params) => ({
         url: `upd`,
         method: 'GET',
@@ -25,9 +25,9 @@ export const updsApiActions = createApi({
       providesTags: ['Upds']
     }),
 
-    getBill: build.query({
+    getUpd: build.query({
       query: (id) => ({
-        url: `bills/detail/${id}`,
+        url: `upd/detail/${id}`,
         method: 'GET',
       }),
       transformResponse: (response) => response?.data
@@ -50,35 +50,35 @@ export const updsApiActions = createApi({
       invalidatesTags: ['Upds']
     }),
 
-    updateBill: build.mutation({
+    updateUpd: build.mutation({
       query: ({ body, id }) => ({
-        url: `bills/update/${id}`,
+        url: `upd/update/${id}`,
         method: 'PATCH',
         body: body
       }),
       invalidatesTags: ['Upds']
     }),
 
-    deleteBill: build.mutation({
+    deleteUpd: build.mutation({
       query: (id) => ({
-        url: `bills/delete/${id}`,
+        url: `upd/delete/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Upds']
     }),
 
-    sendBill: build.mutation({
+    sendUpd: build.mutation({
       query: ({ body, id }) => ({
-        url: `bills/send/${id}`,
+        url: `upd/send/${id}`,
         method: 'POST',
         body: body
       }),
       invalidatesTags: ['Upds']
     }),
 
-    getBillDownload: build.mutation({
+    getUpdDownload: build.mutation({
       query: ({ id, params }) => ({
-        url: `bills/download/${id}`,
+        url: `upd/download/${id}`,
         method: 'GET',
         params,
         responseHandler: (response) => {
@@ -90,12 +90,12 @@ export const updsApiActions = createApi({
 });
 
 export const {
-  useGetBillsQuery,
-  useGetBillQuery,
+  useGetUpdsQuery,
+  useGetUpdQuery,
   useGetParametersQuery,
   useCreateUpdMutation,
-  useUpdateBillMutation,
-  useDeleteBillMutation,
-  useSendBillMutation,
-  useGetBillDownloadMutation
+  useUpdateUpdMutation,
+  useDeleteUpdMutation,
+  useSendUpdMutation,
+  useGetUpdDownloadMutation
 } = updsApiActions;

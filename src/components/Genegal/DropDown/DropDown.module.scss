@@ -9,6 +9,13 @@
     &_wide {
         width: 500px;
     }
+
+    &_noactive {
+
+        svg {
+            opacity: 0;
+        }
+    }
 }
 
 .sub {
@@ -75,7 +82,7 @@
     max-height: 0;
     /*  opacity: 0; */
     z-index: 2;
-    scrollbar-gutter: stable;
+  /*   scrollbar-gutter: stable; */
     transition: all 0.25s ease-in-out;
 
     &_open {
@@ -140,7 +147,7 @@
     border: none;
     border-right: none;
     width: calc(100% - 40px);
-    padding: 0 12px;
+    padding: 2px 12px 0;
     height: 38px;
     box-sizing: border-box;
     border-radius: 4px;

@@ -13,7 +13,7 @@ import InputText from '../Genegal/InputText/InputText';
 import ContractInput from '../ContractInput/ContractInput';
 //slice
 import { setCustomer, setDetail, setNumberBill, setDate, setSignatory } from '../../redux/mainInfo/slice';
-import { setCustomerValidation, setDetailValidation, setSignatoryValidation, setNumberValidation } from '../../redux/validation/slice';
+import { setCustomerValidation, setDetailValidation, setNumberValidation } from '../../redux/validation/slice';
 
 
 
@@ -22,6 +22,21 @@ const MainInfoBlock = ({ parameters, disabled }) => {
     const { customer, detail, numberBill, date, orders, signatory, draft } = useSelector((state) => state.mainInfo);
     const { customerValidation, detailValidation, signatoryValidation, numberValidation } = useSelector((state) => state.validation);
     const [detailsList, setDetailsList] = useState([])
+    const [signatureList, setSignatureList] = useState([])
+
+    console.log(detail)
+
+    useEffect(() => {
+        console.log(customer)
+        if (customer.id) {
+            customer?.gendir?.replace(/\s+/g, '') === '' ?
+                setSignatureList([...customer?.contacts?.filter(el => el.name !== ''), { id: 'no', name: 'Без подписанта' }])
+                :
+                setSignatureList([{ id: 'dir', name: customer?.gendir }, ...customer?.contacts?.filter(el => el.name !== ''), { id: 'no', name: 'Без подписанта' }])
+            return
+        }
+
+    }, [customer])
 
     useEffect(() => {
         if (customer.partnership_id) {
@@ -48,9 +63,7 @@ const MainInfoBlock = ({ parameters, disabled }) => {
         dispatch(setDetailValidation(true))
     }
 
-    const handleResetErrorSignatory= () => {
-        dispatch(setSignatoryValidation(true))
-    }
+
 
     const handleResetErrorNumber = () => {
         dispatch(setNumberValidation(true))
@@ -60,6 +73,7 @@ const MainInfoBlock = ({ parameters, disabled }) => {
         const orderId = e.currentTarget.id;
         window.open(`https://lk.skilla.ru/new/orders/order_detail/${orderId}`, '_blank')
     }
+    console.log(signatureList, signatory)
 
 
     return (
@@ -87,7 +101,7 @@ const MainInfoBlock = ({ parameters, disabled }) => {
                 ListItem={Detail}
                 activeItem={detail}
                 setActiveItem={data => dispatch(setDetail(data))}
-                disabled={disabled || detailsList?.length === 0}
+                disabled={disabled}
                 error={!detailValidation}
                 errorText={'Реквизиты не выбраны'}
                 resetError={handleResetErrorDetail}
@@ -96,20 +110,21 @@ const MainInfoBlock = ({ parameters, disabled }) => {
             <ContractInput
                 text={customer?.contract_n}
                 span={customer?.contract_date && dayjs(customer?.contract_date).format('DD.MM.YY')}
+                disabled={disabled}
             />
 
             <DropDown
                 z={3}
                 type={'signatory'}
                 sub={'Подписант плательщика'}
-                list={customer?.contacts}
+                list={signatureList}
                 ListItem={Contact}
                 activeItem={signatory}
                 setActiveItem={data => dispatch(setSignatory(data))}
                 disabled={disabled}
-                error={!signatoryValidation}
+                noActive={signatureList?.length === 0 || !customer?.contacts}
+                error={false}
                 errorText={'Выбери подписанта'}
-                resetError={handleResetErrorSignatory}
             />
 
             <div className={s.block}>

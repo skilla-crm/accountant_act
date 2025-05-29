@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
 //Api
-import { useGetBillQuery } from '../../redux/updsApiActions';
+import { useGetUpdQuery } from '../../redux/updsApiActions';
 //slice
 import {
     setCustomer,
@@ -13,7 +13,8 @@ import {
     setNumberBill,
     setDate,
     setOrders,
-    setDraft
+    setDraft,
+    setSignatory
 } from '../../redux/mainInfo/slice';
 import { setPositions } from '../../redux/positions/slice';
 //components
@@ -26,7 +27,7 @@ const Detail = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const id = location.pathname?.split('/').pop()
-    const { data, isLoading, isFetching } = useGetBillQuery(id);
+    const { data, isLoading, isFetching } = useGetUpdQuery(id);
 
     useEffect(() => {
         setTimeout(() => {
@@ -37,11 +38,13 @@ const Detail = () => {
 
     useEffect(() => {
         if (data) {
+            console.log(data)
             data?.draft === 1 && setType('draft')
             dispatch(setDraft(data?.draft))
             dispatch(setDate(dayjs(data?.date)))
             dispatch(setNumberBill(data?.number))
             dispatch(setOrders(data?.orders))
+
 
             const rows = data?.rows?.map((el, i) => {
                 return {
@@ -59,6 +62,16 @@ const Detail = () => {
             dispatch(setPositions(rows))
             dispatch(setCustomer(data?.company))
             dispatch(setDetail({ ...data?.partnership, ...data?.details }))
+
+            if (data?.details?.company_contact_id) {
+                dispatch(setSignatory({ id: data?.details?.company_contact_id, name: data?.details?.signature}))
+            } else if (data?.details?.signature) {
+                dispatch(setSignatory({ id: 'another', name: data?.details?.signature }))
+            } else {
+                dispatch(setSignatory({ id: 'no', name: 'Без подписанта' }))
+            }
+
+
         }
     }, [data, isFetching])
 

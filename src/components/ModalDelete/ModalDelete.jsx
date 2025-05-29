@@ -2,7 +2,7 @@ import s from './ModalDelete.module.scss';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 //api
-import { useDeleteBillMutation } from '../../redux/updsApiActions';
+import { useDeleteUpdMutation } from '../../redux/updsApiActions';
 import { useEffect, useRef } from 'react';
 import { ReactComponent as IconClose } from '../../assets/icons/iconCloseBlack.svg' 
 import { ReactComponent as IconDeleteBlack } from '../../assets/icons/iconDeleteBlack.svg'
@@ -11,7 +11,7 @@ import { ReactComponent as IconDeleteWhite } from '../../assets/icons/iconDelete
 import LoaderButton from '../LoaderButton/LoaderButton';
 
 const ModalDelete = ({ open, setOpen, id }) => {
-    const [deleteBill, { data, isError, isLoading }] = useDeleteBillMutation();
+    const [deleteUpd, { data, isError, isLoading }] = useDeleteUpdMutation();
     const modalRef = useRef()
     const navigate = useNavigate()
 
@@ -20,7 +20,7 @@ const ModalDelete = ({ open, setOpen, id }) => {
     }
 
     const handleDelete = () => {
-        deleteBill(id)
+        deleteUpd(id)
         .then(res => {
             const data = res.data
             data.success && navigate('/')

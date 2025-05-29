@@ -5,7 +5,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 //Api
-import { useGetBillsQuery, useGetParametersQuery } from '../../redux/updsApiActions';
+import { useGetUpdsQuery, useGetParametersQuery } from '../../redux/updsApiActions';
 import { getNextPage } from '../../api/Api';
 //slice
 import {
@@ -40,7 +40,7 @@ const List = () => {
         'filter[date_start]': dateStart,
         'filter[date_end]': dateEnd
     };
-    const { data, isLoading, isError, isFetching } = useGetBillsQuery(params, { refetchOnMountOrArgChange: true });
+    const { data, isLoading, isError, isFetching } = useGetUpdsQuery(params, { refetchOnMountOrArgChange: true });
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -63,7 +63,7 @@ const List = () => {
     }, [])
 
     useEffect(() => {
-        dispatch(setNumberBill(parameters?.num))
+        dispatch(setNumberBill(parameters?.upd_num))
     }, [parameters])
 
 

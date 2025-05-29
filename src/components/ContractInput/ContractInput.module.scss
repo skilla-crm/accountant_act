@@ -27,6 +27,10 @@
     position: relative;
     gap: 6px;
 
+    &_disabled {
+        background-color: rgba(212, 223, 243, 0.17);
+    }
+
     span {
         color: #71869D;
         vertical-align: top;

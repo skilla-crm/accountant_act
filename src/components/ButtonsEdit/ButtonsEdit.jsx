@@ -1,6 +1,6 @@
 import s from './ButtonsEdit.module.scss';
 //api
-import {  useGetBillQuery } from '../../redux/updsApiActions';
+import {  useGetUpdQuery } from '../../redux/updsApiActions';
 
 //constants
 import { BUTTON_SAVE, BUTTON_CANCEL } from '../../constants/upds';
@@ -13,7 +13,7 @@ import ButtonSecond from '../Genegal/ButtonSecond/ButtonSecond';
 
 
 const ButtonsEdit = ({ id, setType, handleUpdate, isLoading }) => {
-    const { refetch } = useGetBillQuery(id);
+    const { refetch } = useGetUpdQuery(id);
 
     const handleCancelEdit = () => {
         refetch()

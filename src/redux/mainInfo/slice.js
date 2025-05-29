@@ -22,7 +22,11 @@ export const mainInfoSlice = createSlice({
 
     setCustomer: (state, action) => {
       state.customer = action.payload;
-      state.signatory = {};
+      state.signatory = action.payload?.gendir && action.payload?.gendir?.replace(/\s+/g, '') !== ''
+        ? { id: 'dir', name: action.payload?.gendir } :
+        action.payload?.contacts?.[0]
+          ? action.payload?.contacts?.[0]
+          : {};
     },
 
     setDetail: (state, action) => {

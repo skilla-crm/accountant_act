@@ -61,9 +61,9 @@ const ServicesBlock = ({ parameters, error, errorText, resetError, disabled }) =
                     </div>
 
                     <div className={s.price}>
-                        <span>За ед.{nds && nds > 0 && ` с НДС ${nds}%`}</span>
+                        <span>За ед.{nds && nds > 0 ? ` с НДС ${nds}%` : ''}</span>
                     </div>
-                    <span className={s.total}>Итого{nds && nds > 0 && ` с НДС ${nds}%`}</span>
+                    <span className={s.total}>Итого{nds && nds > 0 ? ` с НДС ${nds}%` : ''}</span>
                     <div className={s.button}></div>
                 </div>
                 {positions.map((el, i) => {

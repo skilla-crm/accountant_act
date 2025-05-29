@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';;
 const initialState = {
  customerValidation: true,
  detailValidation: true,
- signatoryValidation: true,
  numberValidation: true,
  positionsValidation: true
 
@@ -29,9 +28,7 @@ export const validationSlice = createSlice({
       state.positionsValidation = action.payload;
     },
 
-    setSignatoryValidation: (state, action) => {
-      state.signatoryValidation = action.payload;
-    },
+
 
 
   }
@@ -40,7 +37,6 @@ export const validationSlice = createSlice({
 export const {
   setCustomerValidation,
   setDetailValidation,
-  setSignatoryValidation,
   setNumberValidation,
   setPositionsValidation
 } = validationSlice.actions;

@@ -8,7 +8,7 @@ import { ReactComponent as IconWarning } from '../../../assets/icons/iconWarning
 //utils
 import { handleSearchCompany } from '../../../utils/SearchCompany';
 
-const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveItem, disabled, error, errorText, resetError }) => {
+const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveItem, disabled, error, errorText, resetError, noActive }) => {
     const [parent] = useAutoAnimate({ duration: 150 });
     const [query, setQuery] = useState('');
     const [caption, setCaption] = useState('')
@@ -36,11 +36,12 @@ const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveI
             type == 'position' && activeItem?.name_service && activeItem?.name_service !== '' && setQuery(activeItem?.name_service)
             type == 'position' && (!activeItem?.name_service || activeItem?.name_service == '') && setQuery(activeItem?.name_button)
 
-            type == 'signatory' && setQuery(`${activeItem?.name} ${activeItem?.surname}`)
-            type == 'signatory' && setCaption(activeItem?.e_mail)
+            type == 'signatory' && activeItem?.surname && setQuery(`${activeItem?.name} ${activeItem?.surname}`)
+            type == 'signatory' && !activeItem?.surname && setQuery(`${activeItem?.name}`)
+            type == 'signatory' && activeItem?.e_mail && setCaption(activeItem?.e_mail)
+            type == 'signatory' && !activeItem?.e_mail && setCaption('')
             return
         } else {
-            type == 'signatory' && setQuery(``)
             setCaption('')
             setLable('')
         }
@@ -50,10 +51,11 @@ const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveI
         const value = e.currentTarget.value;
         setQuery(value)
         setActiveItem({})
+        type == 'signatory' && setActiveItem({id: 'another', name: value })
         type == 'position' && setActiveItem({ name_service: value })
         const result = handleSearchCompany(value, list)
         setSearchList(result)
-        type !== 'position' && resetError()
+        type !== 'position' && type !== 'signatory' && resetError()
     }
     const handleOpenList = () => {
         setOpenList(true)
@@ -66,7 +68,7 @@ const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveI
     const handleChoseActiveItem = (el) => {
         setActiveItem(el)
         setOpenList(false)
-        type !== 'position' && resetError()
+        type !== 'position' && type !== 'signatory' && resetError()
     }
 
     const closeModal = (e) => {
@@ -83,7 +85,7 @@ const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveI
     }, []);
 
     return (
-        <div className={classNames(s.root,type == 'signatory' && s.root_wide)}>
+        <div className={classNames(s.root, type == 'signatory' && s.root_wide, noActive && s.root_noactive)}>
             {sub && sub !== '' && <span className={s.sub}>{sub}</span>}
             <div ref={fieldRef} onClick={handleFocus} className={classNames(s.field, disabled && s.field_disabled, error && s.field_error)}>
                 <input disabled={disabled} ref={inputRef} onFocus={handleOpenList} value={query || ''} onChange={handleSearch}></input>
@@ -101,12 +103,13 @@ const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveI
                 className={classNames(s.block, openList && s.block_open, searchList?.length > 6 && s.block_scroll, type == 'position' && s.block_position)}
             >
                 {header?.title && <div className={s.header}></div>}
-                <div ref={parent} className={s.list}>
+                {!noActive && <div ref={parent} className={s.list}>
                     {searchList?.length === 0 && <div className={s.notfound}>Не найдено по запросу “{query}”</div>}
                     {searchList?.map(el => {
                         return <div onClick={() => handleChoseActiveItem(el)}><ListItem el={el} key={el.id} /></div>
                     })}
                 </div>
+                }
 
             </ul>
 

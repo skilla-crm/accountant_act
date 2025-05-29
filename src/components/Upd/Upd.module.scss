@@ -31,9 +31,13 @@
     align-items: center;
     justify-content: center;
 
-     @media(max-width: 1900px) {
+    @media(max-width: 2000px) {
+        min-width: 450px;
+    }
+
+    @media(max-width: 1900px) {
         display: none;
-     }
+    }
 
     p {
         color: #ADBFDF;
