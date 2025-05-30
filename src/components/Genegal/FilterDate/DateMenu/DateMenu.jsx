@@ -23,7 +23,7 @@ export const DateMenu = ({ isOpen, setIsOpen, setLoadFilter, setDone }) => {
   const handlerAll = () => {
     setLoadFilter(true)
     setDone(false)
-    console.log('сброс фильтра')
+
     dispatch(setDateStart(''));
     dispatch(setDateEnd(''));
     setIsOpen(false);

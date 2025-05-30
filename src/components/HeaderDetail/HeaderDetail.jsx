@@ -31,7 +31,7 @@ const HeaderDetail = ({ id, type, setType }) => {
         const customerValidation = customer?.partnership_id ? true : false;
         const detailValidation = detail?.partnership_id ? true : false;
         const numberValidation = Number(numberBill) !== 0 ? true : false;
-        const positionsValidation = positions.every(el => el?.rate?.name_service !== '' && Number(el?.count) > 0 && el?.units !== '' && Number(el?.code) > 0 && Number(el?.price) > 0 && Number(el?.total) > 0);
+        const positionsValidation = positions.every(el => el?.rate?.name_service !== '' && el?.rate?.name_service && Number(el?.count) > 0 && el?.units !== '' && Number(el?.code) > 0 && Number(el?.price) > 0 && Number(el?.total) > 0);
         dispatch(setCustomerValidation(customerValidation))
         dispatch(setDetailValidation(detailValidation))
         dispatch(setNumberValidation(numberValidation))
@@ -75,7 +75,6 @@ const HeaderDetail = ({ id, type, setType }) => {
         if (handleValidation()) {
             createUpd(dataForSend)
                 .then((data) => {
-                    console.log(data)
                     if (data.data.success) {
                         const id = data.data.data.id;
                         navigate(`/detail/${id}`)

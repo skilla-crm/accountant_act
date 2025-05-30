@@ -21,7 +21,6 @@ const FilterListCustomer = ({ items, openModal, handleReset, setOpenModal, setLo
     const [activeCompany, setActiveCompany] = useState(items || []);
     const [filterCompanies, setFilterCompanies] = useState(parameters?.companies || [])
     const dispatch = useDispatch()
-    console.log(items)
 
     useEffect(() => {
         setFilterCompanies(parameters?.companies)
@@ -37,7 +36,6 @@ const FilterListCustomer = ({ items, openModal, handleReset, setOpenModal, setLo
         setSearchQuery(value)
         const result = handleSearchCompany(value, parameters?.companies)
         setFilterCompanies(result)
-        console.log(result)
     }
 
     const handleConfirm = () => {

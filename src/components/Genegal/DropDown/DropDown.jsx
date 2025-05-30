@@ -42,6 +42,7 @@ const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveI
             type == 'signatory' && !activeItem?.e_mail && setCaption('')
             return
         } else {
+            type == 'detail' && setQuery('')
             setCaption('')
             setLable('')
         }
@@ -51,7 +52,7 @@ const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveI
         const value = e.currentTarget.value;
         setQuery(value)
         setActiveItem({})
-        type == 'signatory' && setActiveItem({id: 'another', name: value })
+        type == 'signatory' && setActiveItem({ id: 'another', name: value })
         type == 'position' && setActiveItem({ name_service: value })
         const result = handleSearchCompany(value, list)
         setSearchList(result)

@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-const positionSample = { rate: {}, count: '', units: 'ед', code: '642', price: '', total: '' }
+const positionSample = { rate: {}, count: 1, units: 'ед', code: '642', price: '', total: '' }
 
 const initialState = {
-  positions: [{ id: 1, rate: {}, count: '', units: 'ед', code: '642', price: '', total: '' }],
+  positions: [{ id: 1, rate: {}, count: 1, units: 'ед', code: '642', price: '', total: '' }],
   total: 0
 };
 

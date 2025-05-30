@@ -7,14 +7,27 @@ import 'dayjs/locale/ru';
 //icons
 import { ReactComponent as IconDone } from '../../assets/icons/iconDone.svg';
 import { ReactComponent as IconCloseBlue } from '../../assets/icons/iconCloseBlue.svg';
+import { ReactComponent as IconInfo } from '../../assets/icons/iconInfo.svg';
+import { ReactComponent as IconUp } from '../../assets/icons/iconUp.svg';
 //components
-import Tooltip from '../Tooltip/Tooltip';
+/* import Tooltip from '../Tooltip/Tooltip'; */
 //utils
 import { addSpaceNumber } from '../../utils/addSpaceNumber';
 
 
 
 const Table = ({ data }) => {
+    const [openTooltip, setOpenTooltip] = useState('');
+
+    const handleOpenTooltip = (e) => {
+        const id = e.currentTarget.id;
+        setOpenTooltip(id)
+    }
+
+    const handleCloseTooltip = () => {
+        setOpenTooltip('')
+    }
+
     return (
         <table className={s.root}>
             <thead>
@@ -25,8 +38,18 @@ const Table = ({ data }) => {
                     <th className={s.summ}>Сумма, ₽</th>
                     <th className={s.recipient}>Поставщик</th>
                     <th className={s.bill}>Счет поставщика</th>
-                    <th className={s.connection}>Связь с заказом</th>
-                   {/*  <th className={s.progress}>Прогресс</th>
+                    <th className={s.connection}>Связь с заказом
+                        <div className={s.container_tooltip}>
+                            <IconInfo
+                                onMouseEnter={handleOpenTooltip}
+                                onMouseLeave={handleCloseTooltip}
+                                id={'pay'}
+                                className={s.info}
+                            />
+                            <Tooltip id={'pay'} open={openTooltip === 'pay'} />
+                        </div>
+                    </th>
+                    {/*  <th className={s.progress}>Прогресс</th>
                     <th className={s.progress}>Прогресс</th> */}
                     <th className={s.button}></th>
                 </tr>
@@ -108,12 +131,22 @@ const Row = ({ bill }) => {
     )
 };
 
+const Tooltip = ({ open, id }) => {
+    return (
+        <div className={classNames(s.tooltip, open && s.tooltip_open, id === 'pay' && s.tooltip_pay)}>
+            <IconUp />
+            {id === 'order' && <p>Показывает наличие привязки счета к заказу</p>}
+            {id === 'pay' && <p>Старый функционал будет убран 1 июля 2025</p>}
+        </div>
+    )
+}
+
 
 const Progress = () => {
     return (
         <div className={s.line}>
             <div className={classNames(s.bar, s.bar_active)}>
-                <Tooltip />
+                {/*      <Tooltip /> */}
             </div>
             <div className={classNames(s.bar)}></div>
             <div className={classNames(s.bar)}></div>

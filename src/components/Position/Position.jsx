@@ -50,7 +50,7 @@ const Position = ({ data, id, i, length, rates, disabled }) => {
                 <div className={s.count}>
                     <InputNum
                         num={data?.count}
-                        setNum={(count) => dispatch(setPositionValues({ key: 'count', id, count }))}
+                        setNum={(count) => dispatch(setPositionValues({ key: 'count', id, count: Number(count) }))}
                     />
                 </div>
                 <div className={s.units}>

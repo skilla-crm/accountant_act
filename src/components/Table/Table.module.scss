@@ -80,7 +80,10 @@
     padding-right: 0 !important;
     display: flex;
     justify-content: center;
+    gap: 6px;
     flex-shrink: 0;
+    position: relative;
+    overflow: visible !important;
 }
 
 .summ {
@@ -111,7 +114,7 @@
     gap: 4px;
 
     sup {
-       font-size: 14px;
+        font-size: 14px;
     }
 
     p {
@@ -213,4 +216,60 @@
     left: 28px;
     border-top: 1px solid #EAF0FA;
     width: calc(100% - 56px);
+}
+
+.container_tooltip {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    svg {
+        cursor: pointer;
+    }
+}
+
+.tooltip {
+    width: fit-content;
+    position: absolute;
+    z-index: 2;
+    top: 20px;
+    left: -160px;
+    opacity: 0;
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.15s;
+    padding: 3px 12px 8px 12px;
+    background-color: #1f3345e6;
+    border-radius: 4px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 32, 51, 0.10);
+
+    svg {
+        position: relative;
+        left: 48%;
+        top: -8px;
+    }
+
+    p {
+        text-wrap: nowrap;
+        color: #FFF;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 140%;
+    }
+
+
+    &_open {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &_pay {
+        left: -286px;
+
+        svg {
+            left: 88%;
+        }
+    }
+
 }

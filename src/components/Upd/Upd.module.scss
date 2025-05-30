@@ -30,6 +30,7 @@
     gap: 12px;
     align-items: center;
     justify-content: center;
+    text-wrap: nowrap;
 
     @media(max-width: 2000px) {
         min-width: 450px;

@@ -19,8 +19,6 @@ const SubHeader = ({ isFetching }) => {
     const { search, filterCompanys, filterCustomers, filterStatus } = useSelector((state) => state.filters);
     const dispatch = useDispatch();
 
-    console.log(filterCustomers)
-
     return (
         <div className={s.root}>
             <Search isFetching={isFetching} />

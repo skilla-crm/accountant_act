@@ -21,7 +21,7 @@ const ServicesBlock = ({ parameters, error, errorText, resetError, disabled }) =
     useEffect(() => {
         resetError()
         const sum = positions.reduce((accumulator, currentValue) => {
-            return accumulator + (currentValue.price * currentValue.count)
+            return accumulator + (currentValue.total ? Number(currentValue.total) : 0)
         }, 0);
         dispatch(setTotal(sum))
     }, [positions])

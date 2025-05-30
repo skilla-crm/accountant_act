@@ -12,9 +12,6 @@ const InputBillNumber = ({ sub, number, setNumber, errorEmpity, errorText, reset
     const [done, setDone] = useState(false);
     const [error, setError] = useState(false)
     const inputRef = useRef()
-    console.log(number)
-
-
 
     const handleNumberValue = (e) => {
         let reg = /[A-Za-zA-Яа-яЁё]/g;

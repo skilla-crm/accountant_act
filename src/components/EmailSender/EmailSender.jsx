@@ -43,7 +43,12 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
     }, [text])
 
     useEffect(() => {
-        const result = contacts?.filter(item => !emails.some(el => el.email === item.e_mail))
+        const result = contacts?.filter(el => el.e_mail !== '').map(item => { return { ...item, email: item.e_mail } })
+        setEmails(result)
+    }, [contacts])
+
+    useEffect(() => {
+        const result = contacts?.filter(item => !emails?.some(el => el.email === item.e_mail))
         setFilterContacts(result)
     }, [contacts, emails])
 
@@ -64,15 +69,13 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
             subject: themeValue
         }
 
-        console.log(dataForSend)
 
         sendUpd({ body: dataForSend, id })
             .then(res => {
-                console.log(res)
                 if (res.data.success) {
                     setOpen(false)
                     handleSendEmailSuccess()
-                    setEmails([])
+                    setEmails(contacts?.filter(el => el.email !== ''))
                     setThemeValue(theme)
                     setTextValue(text)
                     setSendDetailing(false)
@@ -207,7 +210,7 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
                         <span>Кому</span>
                         <div ref={emailsRef} onClick={handleFocusInput} className={s.emails}>
 
-                            {emails.map((el, i) => {
+                            {emails?.map((el, i) => {
                                 return <Email
                                     key={el.email}
                                     el={el}

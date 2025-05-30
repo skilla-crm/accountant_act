@@ -38,7 +38,6 @@ const Detail = () => {
 
     useEffect(() => {
         if (data) {
-            console.log(data)
             data?.draft === 1 && setType('draft')
             dispatch(setDraft(data?.draft))
             dispatch(setDate(dayjs(data?.date)))
@@ -61,10 +60,10 @@ const Detail = () => {
             )
             dispatch(setPositions(rows))
             dispatch(setCustomer(data?.company))
-            dispatch(setDetail({ ...data?.partnership, ...data?.details }))
+            dispatch(setDetail({ ...data?.partnership, ...data?.details, nds: data?.details?.nds }))
 
             if (data?.details?.company_contact_id) {
-                dispatch(setSignatory({ id: data?.details?.company_contact_id, name: data?.details?.signature}))
+                dispatch(setSignatory({ id: data?.details?.company_contact_id, name: data?.details?.signature }))
             } else if (data?.details?.signature) {
                 dispatch(setSignatory({ id: 'another', name: data?.details?.signature }))
             } else {

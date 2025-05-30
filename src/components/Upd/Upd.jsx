@@ -22,7 +22,6 @@ const Upd = ({ id, type, setType }) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        console.log(numberBill, parameters?.num)
         numberBill == '' && parameters?.num && dispatch(setNumberBill(parameters?.upd_num))
     }, [parameters])
 
@@ -47,7 +46,7 @@ const Upd = ({ id, type, setType }) => {
 
                 <div className={s.preview}>
                     <IconPreview />
-                    <p>Предварительный просмотр разработке</p>
+                    <p>Предварительный просмотр в разработке</p>
                 </div>
             </div>
         </div>

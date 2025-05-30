@@ -24,10 +24,7 @@ const MainInfoBlock = ({ parameters, disabled }) => {
     const [detailsList, setDetailsList] = useState([])
     const [signatureList, setSignatureList] = useState([])
 
-    console.log(detail)
-
     useEffect(() => {
-        console.log(customer)
         if (customer.id) {
             customer?.gendir?.replace(/\s+/g, '') === '' ?
                 setSignatureList([...customer?.contacts?.filter(el => el.name !== ''), { id: 'no', name: 'Без подписанта' }])
@@ -39,7 +36,7 @@ const MainInfoBlock = ({ parameters, disabled }) => {
     }, [customer])
 
     useEffect(() => {
-        if (customer.partnership_id) {
+        if (customer?.partnership_id) {
             const result = parameters?.partnerships_details?.filter(el => el.partnership_id === customer.partnership_id)
             setDetailsList(result)
         } else {
@@ -49,7 +46,7 @@ const MainInfoBlock = ({ parameters, disabled }) => {
 
     useEffect(() => {
 
-        if (detail.partnership_id && customer.partnership_id && detail.partnership_id !== customer.partnership_id) {
+        if (detail?.partnership_id && customer?.partnership_id && detail?.partnership_id !== customer?.partnership_id) {
             dispatch(setDetail({}))
         }
 
@@ -73,8 +70,6 @@ const MainInfoBlock = ({ parameters, disabled }) => {
         const orderId = e.currentTarget.id;
         window.open(`https://lk.skilla.ru/new/orders/order_detail/${orderId}`, '_blank')
     }
-    console.log(signatureList, signatory)
-
 
     return (
         <div className={s.root}>
@@ -86,7 +81,10 @@ const MainInfoBlock = ({ parameters, disabled }) => {
                 list={parameters?.companies}
                 ListItem={Customer}
                 activeItem={customer}
-                setActiveItem={data => dispatch(setCustomer(data))}
+                setActiveItem={data => {
+                    dispatch(setCustomer(data))
+                    dispatch(setDetail(parameters?.partnerships_details?.find(el => el.partnership_id === data?.partnership_id)))
+                }}
                 disabled={disabled || draft === 1}
                 error={!customerValidation}
                 errorText={'Заказчик не определен'}

@@ -18,7 +18,6 @@ export const DatePickerСhoose = ({ setOpenDateFilter, setLoadFilter }) => {
   const dispatch = useDispatch();
 
   const { dateStartPicker, dateEndPicker, dateEnd } = useSelector((state) => state.dateRange);
-  console.log(dateStartPicker, dateEndPicker)
   const onChange = (dates) => {
 
     const [start, end] = dates;
