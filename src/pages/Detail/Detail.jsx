@@ -24,6 +24,7 @@ import SceletonBill from '../../components/SceletonBill/SceletonBill';
 const Detail = () => {
     const [anim, setAnim] = useState(false)
     const [type, setType] = useState('detail')
+    const [isAct, setIsAct] = useState(true)
     const dispatch = useDispatch();
     const location = useLocation();
     const id = location.pathname?.split('/').pop()
@@ -43,8 +44,7 @@ const Detail = () => {
             dispatch(setDate(dayjs(data?.date)))
             dispatch(setNumberBill(data?.number))
             dispatch(setOrders(data?.orders))
-
-
+            
             const rows = data?.rows?.map((el, i) => {
                 return {
                     id: i + 1,
@@ -77,7 +77,7 @@ const Detail = () => {
     return (
         <div className={classNames(s.root, anim && s.root_anim)}>
             <SceletonBill isLoading={isLoading} />
-            <Upd id={id} type={type} setType={setType} />
+            <Upd id={id} type={type} setType={setType} isAct={isAct}/>
         </div>
     )
 };

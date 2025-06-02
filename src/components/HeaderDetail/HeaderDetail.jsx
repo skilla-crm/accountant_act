@@ -19,7 +19,7 @@ import ButtonsEdit from '../ButtonsEdit/ButtonsEdit';
 //constants
 import { BUTTON_TEXT_CREATE } from '../../constants/upds';
 
-const HeaderDetail = ({ id, type, setType }) => {
+const HeaderDetail = ({ id, type, setType, isAct }) => {
     const { customer, detail, signatory, numberBill, date } = useSelector((state) => state.mainInfo);
     const { positions, total } = useSelector((state) => state.positions);
     const [createUpd, { data, isError, isLoading }] = useCreateUpdMutation();
@@ -129,8 +129,11 @@ const HeaderDetail = ({ id, type, setType }) => {
         <div className={s.root}>
             {type == 'create' && <h2>Новый УПД №{numberBill} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
             {type == 'draft' && <h2>Новый УПД №{numberBill} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
-            {type == 'detail' && <h2>УПД №{numberBill} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
-            {type == 'edit' && <h2>УПД №{numberBill} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
+            {type == 'detail' && !isAct && <h2>УПД №{numberBill} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
+            {type == 'detail' && isAct && <h2>АКТ №{numberBill} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
+            {type == 'edit' && !isAct && <h2>УПД №{numberBill} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
+             {type == 'edit' && isAct && <h2>АКТ №{numberBill} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
+
 
             {type == 'create' && <Button
                 type={'create'}
@@ -152,6 +155,7 @@ const HeaderDetail = ({ id, type, setType }) => {
             {type === 'detail' && <Buttons
                 setType={setType}
                 id={id}
+                isAct={isAct}
             />}
             {type === 'edit' && <ButtonsEdit
                 setType={setType}

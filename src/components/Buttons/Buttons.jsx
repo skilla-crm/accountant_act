@@ -16,6 +16,7 @@ import { ReactComponent as IconPrint } from '../../assets/icons/iconPrint.svg'
 import { ReactComponent as IconDoc } from '../../assets/icons/iconDoc.svg'
 import { ReactComponent as IconDocPdf } from '../../assets/icons/iconDocPdf.svg'
 import { ReactComponent as IconDocDoc } from '../../assets/icons/iconDocDoc.svg'
+import { ReactComponent as IconXml } from '../../assets/icons/iconXml.svg'
 //components
 import Button from '../Genegal/Button/Button';
 import ButtonSecond from '../Genegal/ButtonSecond/ButtonSecond';
@@ -25,7 +26,7 @@ import ModalDelete from '../ModalDelete/ModalDelete';
 import EmailSender from '../EmailSender/EmailSender';
 import Notification from '../Genegal/Notification/Notification';
 
-const Buttons = ({ id, setType }) => {
+const Buttons = ({ id, setType, isAct }) => {
     const { data: parameters } = useGetParametersQuery();
     const { user } = useSelector((state) => state.user);
     const { customer, date, numberBill, orders } = useSelector((state) => state.mainInfo);
@@ -48,6 +49,11 @@ const Buttons = ({ id, setType }) => {
     const params3 = {
         'sign': 0,
         'format': 'docx',
+    }
+
+    const params4 = {
+        'sign': 0,
+        'format': 'xml',
     }
 
     useEffect(() => {
@@ -99,6 +105,15 @@ const Buttons = ({ id, setType }) => {
             icon: IconDocDoc,
             default: false,
             handler: () => handleDownload(params3)
+        },
+
+        
+        {
+            id: 4,
+            name: 'XML для ЭДО',
+            icon: IconXml,
+            default: false,
+            handler: () => handleDownload(params4)
         },
     ]
 

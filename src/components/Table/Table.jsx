@@ -72,7 +72,7 @@ const Row = ({ bill }) => {
     const navigate = useNavigate()
 
     const handleNavigate = () => {
-        navigate(`/detail/${bill?.id}`)
+      navigate(`/detail/${bill?.id}`)
     }
 
     const handleFocus = () => {
@@ -82,6 +82,7 @@ const Row = ({ bill }) => {
     const handleBlur = () => {
         setFocus(false)
     }
+
     return (
         <tr onMouseEnter={handleFocus} onMouseLeave={handleBlur} className={s.row} onClick={handleNavigate}>
             <div className={s.border}></div>
@@ -113,6 +114,9 @@ const Row = ({ bill }) => {
                 {bill?.details?.rs && <p><sup>*</sup>{String(bill?.details?.rs)?.slice(-4)}</p>}
             </td>
             <td className={s.connection}>
+                {bill?.type === 1 && <div className={classNames(s.lable, s.lable_act)}>
+                    <span>АКТ</span>
+                </div>}
                 {bill?.related_order && <IconDone />}
             </td>
             {/* <td className={s.progress}>

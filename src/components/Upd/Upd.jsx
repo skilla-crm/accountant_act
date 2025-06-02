@@ -15,7 +15,7 @@ import MainInfoBlock from '../MainInfoBlock/MainInfoBlock';
 import ServicesBlock from '../ServicesBlock/ServicesBlock';
 
 
-const Upd = ({ id, type, setType }) => {
+const Upd = ({ id, type, setType, isAct }) => {
     const { data: parameters, isLoading: isLoadingParams } = useGetParametersQuery();
     const { customer, detail, numberBill, date } = useSelector((state) => state.mainInfo);
     const { positionsValidation } = useSelector((state) => state.validation);
@@ -31,10 +31,10 @@ const Upd = ({ id, type, setType }) => {
 
     return (
         <div className={s.root}>
-            <HeaderDetail id={id} type={type} setType={setType} />
+            <HeaderDetail id={id} type={type} setType={setType} isAct={isAct}/>
             <div className={s.container}>
                 <div className={s.left}>
-                    <MainInfoBlock parameters={parameters} disabled={type === 'detail'} />
+                    <MainInfoBlock parameters={parameters} disabled={type === 'detail' || type === 'detail_act'} />
                     <ServicesBlock
                         disabled={type === 'detail'}
                         parameters={parameters}

@@ -2,6 +2,9 @@
 
 export const TITLE_UPD = 'Универсальные передаточные документы';
 export const BUTTON_TEXT = 'Создать УПД'
+export const BUTTON_TEXT_EDO = 'Выгрузка в ЭДО'
+export const BUTTON_TEXT_1C = 'Выгрузка в 1С'
+export const BUTTON_TEXT_EXCEL = 'Отчет Excel'
 export const BUTTON_TEXT_CREATE = 'Создать'
 export const BUTTON_TEXT_EDIT = 'Создать'
 export const BUTTON_SEND_EMAIL = 'Отправить по e-mail'

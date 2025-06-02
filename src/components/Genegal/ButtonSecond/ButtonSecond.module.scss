@@ -31,9 +31,16 @@
     }
 }
 
+.icon {
+    transition: all 0.1s;
+    &_hidden {
+        opacity: 0;
+    }
+}
+
 .loader {
     position: absolute;
-    right: 21px;
+    left: 21px;
     background-color: inherit;
     opacity: 0;
     visibility: hidden;
