@@ -16,7 +16,7 @@ import FormatList from './FormatList/FormatList';
 //utils
 import { emailValidate } from './utils/EmailValidate';
 
-const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partnerEmail, handleSendEmailSuccess, detailState, isAct }) => {
+const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partnerEmail, handleSendEmailSuccess, detailState }) => {
     const [sendUpd, { data, isError, isLoading }] = useSendUpdMutation();
     const [emails, setEmails] = useState([])
     const [emailValue, setEmailValue] = useState('')
@@ -37,26 +37,23 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
     const contactsRef = useRef()
 
     useEffect(() => {
-        console.log(theme.replace('УПД', 'Акт'), isAct, sendInvoice, sendAct)
-        if (isAct && !sendInvoice && sendAct) {
+      
+        if (!sendInvoice && sendAct) {
             setThemeValue(theme.replace('УПД', 'Акт'))
             return
         }
 
-        if (isAct && sendInvoice && sendAct) {
+        if (sendInvoice && sendAct) {
             setThemeValue(theme.replace('УПД', 'Акт и Счёт-фактура'))
             return
         }
 
-        if (isAct && sendInvoice && !sendAct) {
+        if (sendInvoice && !sendAct) {
             setThemeValue(theme.replace('УПД', 'Счёт-фактура'))
             return
         }
 
-        if (!isAct) {
-            setThemeValue(theme)
-        }
-    }, [theme, sendInvoice, sendAct, isAct])
+    }, [theme, sendInvoice, sendAct])
 
     useEffect(() => {
         setTextValue(text)
@@ -303,32 +300,27 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
                     <div className={s.block}>
                         <span>Прикрепленные документы</span>
                         <div className={s.switches}>
-                            {!isAct && <Switch
-                                text={'УПД'}
-                                switchState={true}
-                                disabled={true}
-                            />}
 
-                            {isAct && <Switch
+                            <Switch
                                 text={'Акт'}
                                 switchState={sendAct}
                                 handleSwitch={handleSendAct}
                                 disabled={false}
-                            />}
+                            />
 
-                            {isAct && <Switch
+                            <Switch
                                 text={'Счёт-фактура'}
                                 switchState={sendInvoice}
                                 handleSwitch={handleSendInvoice}
                                 disabled={false}
-                            />}
+                            />
 
-                            {detailState && <Switch
+                            <Switch
                                 text={'Детализация'}
                                 switchState={sendDetailing}
                                 handleSwitch={handleSendDetailing}
                                 disabled={false}
-                            />}
+                            />
                         </div>
                     </div>
 

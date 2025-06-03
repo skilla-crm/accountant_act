@@ -26,10 +26,10 @@ import ModalDelete from '../ModalDelete/ModalDelete';
 import EmailSender from '../EmailSender/EmailSender';
 import Notification from '../Genegal/Notification/Notification';
 
-const Buttons = ({ id, setType, isAct }) => {
+const Buttons = ({ id, idInvoice, setType }) => {
     const { data: parameters } = useGetParametersQuery();
     const { user } = useSelector((state) => state.user);
-    const { customer, date, numberBill, orders } = useSelector((state) => state.mainInfo);
+    const { customer, date, numberAct, numberInvoice, orders } = useSelector((state) => state.mainInfo);
     const [modalDelete, setModalDelete] = useState(false)
     const [modalEmail, setModalEmail] = useState(false)
     const [getUpdDownload, { isLoading }] = useGetUpdDownloadMutation();
@@ -64,31 +64,49 @@ const Buttons = ({ id, setType, isAct }) => {
         }
     }, [isLoading])
 
-    const handleDownload = async (params) => {
+    console.log(idInvoice)
+
+    const handleDownloadAct = async (params) => {
         setLoadDownload(true)
-        const data = await getUpdDownload({ params, id }).unwrap()
+        const data = await getUpdDownload({ type: 'acts', params, id }).unwrap()
         const link = document.createElement('a');
         link.href = URL.createObjectURL(data);
-        link.setAttribute('download', `УПД №${numberBill} от ${dayjs(date).format('DD.MM.YYYY')}.${params.format}`);
+        link.setAttribute('download', `Акт №${numberAct} от ${dayjs(date).format('DD.MM.YYYY')}.${params.format}`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     }
 
-    const handlePrint = async (params) => {
+    const handleDownloadInvoice = async (params) => {
+        setLoadDownload(true)
+        const data = await getUpdDownload({ type: 'invoices', params, id: idInvoice }).unwrap()
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(data);
+        link.setAttribute('download', `Счет-фактура №${numberInvoice} от ${dayjs(date).format('DD.MM.YYYY')}.${params.format}`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    const handlePrintAct = async (params) => {
         setLoadPrint(true)
-        const data = await getUpdDownload({ params, id }).unwrap()
+        const data = await getUpdDownload({ type: 'acts', params, id }).unwrap()
         printJS(URL.createObjectURL(data))
     }
 
-    const downloadOptions = [
+    const handlePrintInvoice = async (params) => {
+        setLoadPrint(true)
+        const data = await getUpdDownload({ type: 'invoices', params, id: idInvoice }).unwrap()
+        printJS(URL.createObjectURL(data))
+    }
 
+    const downloadOptionsActs = [
         {
             id: 1,
             name: 'PDF с печатью',
             icon: IconDocPdf,
             default: true,
-            handler: () => handleDownload(params1)
+            handler: () => handleDownloadAct(params1)
         },
 
         {
@@ -96,7 +114,7 @@ const Buttons = ({ id, setType, isAct }) => {
             name: 'PDF без печати',
             icon: IconDocPdf,
             default: false,
-            handler: () => handleDownload(params2)
+            handler: () => handleDownloadAct(params2)
         },
 
         {
@@ -104,34 +122,93 @@ const Buttons = ({ id, setType, isAct }) => {
             name: 'WORD без печати',
             icon: IconDocDoc,
             default: false,
-            handler: () => handleDownload(params3)
+            handler: () => handleDownloadAct(params3)
         },
 
-        
+
         {
             id: 4,
             name: 'XML для ЭДО',
             icon: IconXml,
             default: false,
-            handler: () => handleDownload(params4)
+            handler: () => handleDownloadAct(params4)
         },
     ]
 
-    const printOptions = [
+    const downloadOptionsInvoice = [
         {
             id: 1,
-            name: 'С печатью',
-            icon: IconDoc,
-            default: true,
-            handler: () => handlePrint(params1)
+            name: 'PDF с печатью',
+            icon: IconDocPdf,
+            default: false,
+            handler: () => handleDownloadInvoice(params1)
         },
 
         {
             id: 2,
+            name: 'PDF без печати',
+            icon: IconDocPdf,
+            default: false,
+            handler: () => handleDownloadInvoice(params2)
+        },
+
+        {
+            id: 3,
+            name: 'WORD без печати',
+            icon: IconDocDoc,
+            default: false,
+            handler: () => handleDownloadInvoice(params3)
+        },
+
+
+        {
+            id: 4,
+            name: 'XML для ЭДО',
+            icon: IconXml,
+            default: false,
+            handler: () => handleDownloadInvoice(params4)
+        },
+    ]
+
+
+
+    const printOptionsAct = [
+        {
+            type: 'act',
+            id: 1,
+            name: 'С печатью',
+            icon: IconDoc,
+            default: true,
+            handler: () => handlePrintAct(params1)
+        },
+
+        {
+            type: 'act',
+            id: 2,
             name: 'Без печати',
             icon: IconDoc,
             default: false,
-            handler: () => handlePrint(params2)
+            handler: () => handlePrintAct(params2)
+        }
+    ]
+
+    const printOptionsInvoice = [
+        {
+            type: 'act',
+            id: 1,
+            name: 'С печатью',
+            icon: IconDoc,
+            default: false,
+            handler: () => handlePrintInvoice(params1)
+        },
+
+        {
+            type: 'act',
+            id: 2,
+            name: 'Без печати',
+            icon: IconDoc,
+            default: false,
+            handler: () => handlePrintInvoice(params2)
         }
     ]
 
@@ -182,19 +259,21 @@ const Buttons = ({ id, setType, isAct }) => {
             />
 
             <ButtonOptions
-                handler={() => handleDownload(params1)}
+                handler={() => handleDownloadAct(params1)}
                 buttonText={BUTTON_DOWNLOAD}
                 Icon={IconDownload}
                 isLoading={loadDownload}
-                options={downloadOptions}
+                options={downloadOptionsActs}
+                options2={idInvoice ? downloadOptionsInvoice : []}
             />
 
             <ButtonOptions
-                handler={() => handlePrint(params1)}
+                handler={() => printOptionsInvoice(params1)}
                 buttonText={BUTTON_PRINT}
                 Icon={IconPrint}
                 isLoading={loadPrint}
-                options={printOptions}
+                options={printOptionsAct}
+                options2={idInvoice ? printOptionsInvoice : []}
             />
 
 
@@ -212,8 +291,9 @@ const Buttons = ({ id, setType, isAct }) => {
                 open={modalEmail}
                 setOpen={setModalEmail}
                 contacts={customer?.contacts?.filter(el => el.e_mail !== '')}
-                theme={`УПД № ${numberBill} от ${dayjs(date).format('DD.MM.YYYY')}`}
-                isAct={isAct}
+                theme={`УПД №  от ${dayjs(date).format('DD.MM.YYYY')}`}
+                numberAct={numberAct}
+                numberInvoice={numberInvoice}
                 text={parameters?.act_message}
                 formats={[{ id: 1, name: 'PDF с печатью' }, { id: 2, name: 'Word с печатью' }]}
                 partnerEmail={parameters?.email}

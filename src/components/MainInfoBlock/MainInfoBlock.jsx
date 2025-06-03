@@ -12,17 +12,18 @@ import InputBillNumber from '../InputBillNumber/InputBillNumber';
 import InputText from '../Genegal/InputText/InputText';
 import ContractInput from '../ContractInput/ContractInput';
 //slice
-import { setCustomer, setDetail, setNumberBill, setDate, setSignatory } from '../../redux/mainInfo/slice';
+import { setCustomer, setDetail, setNumberAct, setNumberInvoice, setDate, setSignatory } from '../../redux/mainInfo/slice';
 import { setCustomerValidation, setDetailValidation, setNumberValidation } from '../../redux/validation/slice';
 
 
 
 const MainInfoBlock = ({ parameters, disabled }) => {
     const dispatch = useDispatch()
-    const { customer, detail, numberBill, date, orders, signatory, draft } = useSelector((state) => state.mainInfo);
+    const { customer, detail, numberAct, numberInvoice, date, orders, signatory, draft } = useSelector((state) => state.mainInfo);
     const { customerValidation, detailValidation, signatoryValidation, numberValidation } = useSelector((state) => state.validation);
     const [detailsList, setDetailsList] = useState([])
     const [signatureList, setSignatureList] = useState([])
+    console.log(numberInvoice)
 
     useEffect(() => {
         if (customer.id) {
@@ -134,15 +135,28 @@ const MainInfoBlock = ({ parameters, disabled }) => {
                     disabled={disabled}
                 />
 
+
                 <InputBillNumber
-                    sub={'Номер'}
-                    setNumber={data => dispatch(setNumberBill(data))}
-                    number={numberBill}
+                    sub={'Номер акта'}
+                    setNumber={data => dispatch(setNumberAct(data))}
+                    number={numberAct}
                     errorEmpity={!numberValidation}
                     errorText={'Введи номер'}
                     resetError={handleResetErrorNumber}
                     disabled={disabled}
+                    type={1}
                 />
+
+                {numberInvoice !== null && <InputBillNumber
+                    sub={'Номер счет-фактуры'}
+                    setNumber={data => dispatch(setNumberInvoice(data))}
+                    number={numberInvoice}
+                    errorEmpity={!numberValidation}
+                    errorText={'Введи номер'}
+                    resetError={handleResetErrorNumber}
+                    disabled={disabled}
+                    type={2}
+                />}
             </div>
 
             {orders.length > 0 && <div className={s.orders}>

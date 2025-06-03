@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-const token = document.getElementById('root_upd')?.getAttribute('token');
+const token = document.getElementById('root_act')?.getAttribute('token');
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 export const updsApiActions = createApi({
@@ -17,7 +17,7 @@ export const updsApiActions = createApi({
 
     getUpds: build.query({
       query: (params) => ({
-        url: `upd`,
+        url: `acts`,
         method: 'GET',
         params
       }),
@@ -27,7 +27,7 @@ export const updsApiActions = createApi({
 
     getUpd: build.query({
       query: (id) => ({
-        url: `upd/detail/${id}`,
+        url: `acts/detail/${id}`,
         method: 'GET',
       }),
       transformResponse: (response) => response?.data
@@ -41,18 +41,10 @@ export const updsApiActions = createApi({
       transformResponse: (response) => response?.data
     }),
 
-    createUpd: build.mutation({
-      query: (body) => ({
-        url: `upd/create`,
-        method: 'POST',
-        body: body
-      }),
-      invalidatesTags: ['Upds']
-    }),
 
     updateUpd: build.mutation({
       query: ({ body, id }) => ({
-        url: `upd/update/${id}`,
+        url: `acts/update/${id}`,
         method: 'PATCH',
         body: body
       }),
@@ -61,7 +53,7 @@ export const updsApiActions = createApi({
 
     deleteUpd: build.mutation({
       query: (id) => ({
-        url: `upd/delete/${id}`,
+        url: `acts/delete/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Upds']
@@ -69,7 +61,7 @@ export const updsApiActions = createApi({
 
     sendUpd: build.mutation({
       query: ({ body, id }) => ({
-        url: `upd/send/${id}`,
+        url: `acts/send/${id}`,
         method: 'POST',
         body: body
       }),
@@ -77,8 +69,8 @@ export const updsApiActions = createApi({
     }),
 
     getUpdDownload: build.mutation({
-      query: ({ id, params }) => ({
-        url: `upd/download/${id}`,
+      query: ({ type, id, params }) => ({
+        url: `${type}/download/${id}`,
         method: 'GET',
         params,
         responseHandler: (response) => {
@@ -93,7 +85,6 @@ export const {
   useGetUpdsQuery,
   useGetUpdQuery,
   useGetParametersQuery,
-  useCreateUpdMutation,
   useUpdateUpdMutation,
   useDeleteUpdMutation,
   useSendUpdMutation,

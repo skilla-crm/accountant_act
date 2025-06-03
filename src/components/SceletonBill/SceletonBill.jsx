@@ -41,6 +41,26 @@ const SceletonBill = ({ isLoading }) => {
 
                         </div>
 
+                        <div className={classNames(s.field, s.field_2)}>
+                            <div className={s.sub}>
+                                <Loader height={14} width={110} />
+                            </div>
+                            <div className={s.input}>
+                                <Loader />
+                            </div>
+
+                        </div>
+
+                        <div className={classNames(s.field, s.field_2)}>
+                            <div className={s.sub}>
+                                <Loader height={14} width={110} />
+                            </div>
+                            <div className={s.input}>
+                                <Loader />
+                            </div>
+
+                        </div>
+
                         <div className={s.block}>
                             <div className={s.field}>
                                 <div className={s.sub}>
@@ -97,10 +117,10 @@ const SceletonBill = ({ isLoading }) => {
                     </div>
                 </div>
 
-                <div className={s.preview}>
+                {/*   <div className={s.preview}>
                     <IconPreview />
                     <p>Предварительный просмотр разработке</p>
-                </div>
+                </div> */}
             </div>
         </div>
     )

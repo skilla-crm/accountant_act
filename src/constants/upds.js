@@ -1,6 +1,6 @@
 
 
-export const TITLE_UPD = 'Универсальные передаточные документы';
+export const TITLE_UPD = 'Акты';
 export const BUTTON_TEXT = 'Создать УПД'
 export const BUTTON_TEXT_EDO = 'Выгрузка в ЭДО'
 export const BUTTON_TEXT_1C = 'Выгрузка в 1С'

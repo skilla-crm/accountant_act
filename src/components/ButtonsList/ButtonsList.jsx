@@ -45,12 +45,6 @@ const ButtonsList = ({ type, handleAddBill }) => {
                 isLoading={false}
             />
 
-            <Button
-                type={type}
-                handler={handleAddBill}
-                buttonText={BUTTON_TEXT}
-                Icon={IconDocument}
-            />
         </div>
     )
 };

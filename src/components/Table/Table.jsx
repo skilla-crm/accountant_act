@@ -114,9 +114,7 @@ const Row = ({ bill }) => {
                 {bill?.details?.rs && <p><sup>*</sup>{String(bill?.details?.rs)?.slice(-4)}</p>}
             </td>
             <td className={s.connection}>
-                {bill?.type === 1 && <div className={classNames(s.lable, s.lable_act)}>
-                    <span>АКТ</span>
-                </div>}
+                
                 {bill?.related_order && <IconDone />}
             </td>
             {/* <td className={s.progress}>

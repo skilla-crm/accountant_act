@@ -10,7 +10,8 @@ import { useGetUpdQuery } from '../../redux/updsApiActions';
 import {
     setCustomer,
     setDetail,
-    setNumberBill,
+    setNumberAct,
+    setNumberInvoice,
     setDate,
     setOrders,
     setDraft,
@@ -24,7 +25,7 @@ import SceletonBill from '../../components/SceletonBill/SceletonBill';
 const Detail = () => {
     const [anim, setAnim] = useState(false)
     const [type, setType] = useState('detail')
-    const [isAct, setIsAct] = useState(true)
+    const [idInvoice, setIdInvoice] = useState(null);
     const dispatch = useDispatch();
     const location = useLocation();
     const id = location.pathname?.split('/').pop()
@@ -42,9 +43,11 @@ const Detail = () => {
             data?.draft === 1 && setType('draft')
             dispatch(setDraft(data?.draft))
             dispatch(setDate(dayjs(data?.date)))
-            dispatch(setNumberBill(data?.number))
+            dispatch(setNumberAct(data?.number))
+            dispatch(setNumberInvoice(data?.invoice ? data?.invoice?.number : null))
             dispatch(setOrders(data?.orders))
-            
+            setIdInvoice(data?.invoice?.id ? data?.invoice?.id : null)
+
             const rows = data?.rows?.map((el, i) => {
                 return {
                     id: i + 1,
@@ -60,7 +63,7 @@ const Detail = () => {
             )
             dispatch(setPositions(rows))
             dispatch(setCustomer(data?.company))
-            dispatch(setDetail({ ...data?.partnership, ...data?.details, nds: data?.details?.nds }))
+            dispatch(setDetail({ ...data?.partnership, ...data?.details }))
 
             if (data?.details?.company_contact_id) {
                 dispatch(setSignatory({ id: data?.details?.company_contact_id, name: data?.details?.signature }))
@@ -77,7 +80,7 @@ const Detail = () => {
     return (
         <div className={classNames(s.root, anim && s.root_anim)}>
             <SceletonBill isLoading={isLoading} />
-            <Upd id={id} type={type} setType={setType} isAct={isAct}/>
+            <Upd id={id} idInvoice={idInvoice} type={type} setType={setType} />
         </div>
     )
 };

@@ -11,7 +11,6 @@ import { getNextPage } from '../../api/Api';
 import {
     setCustomer,
     setDetail,
-    setNumberBill,
     setDate,
     setOrders
 } from '../../redux/mainInfo/slice';
@@ -61,10 +60,6 @@ const List = () => {
         dispatch(setNumberValidation(true))
         dispatch(setPositionsValidation(true))
     }, [])
-
-    useEffect(() => {
-        dispatch(setNumberBill(parameters?.upd_num))
-    }, [parameters])
 
 
     useEffect(() => {

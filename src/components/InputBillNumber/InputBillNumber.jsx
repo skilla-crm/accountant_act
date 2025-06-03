@@ -5,7 +5,7 @@ import { ReactComponent as IconUpdate } from '../../assets/icons/iconUpdate.svg'
 //Api
 import { getRandomNumber, getCheckNumber } from '../../api/Api';
 
-const InputBillNumber = ({ sub, number, setNumber, errorEmpity, errorText, resetError, disabled }) => {
+const InputBillNumber = ({ sub, number, setNumber, errorEmpity, errorText, resetError, disabled, type }) => {
     const [focus, setFocus] = useState(false);
     const [count, setCount] = useState(0);
     const [load, setLoad] = useState(false)
@@ -27,36 +27,19 @@ const InputBillNumber = ({ sub, number, setNumber, errorEmpity, errorText, reset
     }
 
     const handleBlur = () => {
-        getCheckNumber(3, number)
+        getCheckNumber(type, number)
             .then(res => setError(false))
             .catch(err => { number !== '' && setError(true) })
         setFocus(false)
     }
 
-    const handleRandomNumber = () => {
-        resetError()
-        setError(false)
-        setDone(false)
-        setLoad(true)
-        setCount(prevState => prevState + 1)
-        getRandomNumber(3)
-            .then(res => {
-                const num = res.data.num;
-                setNumber(num)
-                setDone(true)
-                setLoad(false)
-            })
-            .catch(err => console.log(err))
-    }
+  
 
     return (
         <div className={s.root}>
             <span className={classNames(s.sub)}>{sub}</span>
             <div className={classNames(s.field, (focus || done) && s.field_focus, (error || errorEmpity) && s.field_error, disabled && s.field_disabled)}>
                 <input className={classNames(s.input, load && s.input_hidden)} ref={inputRef} onFocus={handleFocus} onBlur={handleBlur} type='text' onChange={handleNumberValue} value={number || ''} placeholder=''></input>
-                <button onClick={handleRandomNumber} className={s.update}>
-                    <IconUpdate style={{ transform: `rotate(${180 * count}deg)` }} />
-                </button>
             </div>
 
             <span className={classNames(s.text, done && s.text_blue, (error || errorEmpity) && s.text_red)}>

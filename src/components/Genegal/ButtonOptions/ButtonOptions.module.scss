@@ -93,7 +93,7 @@
     &_open {
         opacity: 1;
         padding: 6px 0px;
-        max-height: 172px;
+        max-height: 390px;
     }
 
     li {
@@ -110,6 +110,14 @@
         &:hover {
             background-color: #F8FAFD;
         }
+    }
+
+    span {
+        width: calc(100% - 24px);
+        line-height: 24px;
+        color: #71869D;
+        margin: 4px 12px 0;
+        border-bottom: 1px solid #71869d34;
     }
 }
 

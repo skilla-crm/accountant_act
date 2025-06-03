@@ -209,13 +209,13 @@ module.exports = function (webpackEnv) {
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
       filename: isEnvProduction
-        ? 'static_upd/js/[name]Upd.js'
-        : isEnvDevelopment && 'static_upd/js/bundle.js',
+        ? 'static_act/js/[name]Act.js'
+        : isEnvDevelopment && 'static_act/js/bundle.js',
       // There are also additional JS chunk files if you use code splitting.
       chunkFilename: isEnvProduction
-        ? 'static_upd/js/[name]Upd.chunk.js'
-        : isEnvDevelopment && 'static_upd/js/[name]Upd.chunk.js',
-      assetModuleFilename: 'static_upd/media/[name]Upd.[hash][ext]',
+        ? 'static_act/js/[name]Act.chunk.js'
+        : isEnvDevelopment && 'static_act/js/[name]Act.chunk.js',
+      assetModuleFilename: 'static_act/media/[name]Act.[hash][ext]',
       // webpack uses `publicPath` to determine where the app is being served from.
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
@@ -393,7 +393,7 @@ module.exports = function (webpackEnv) {
                 {
                   loader: require.resolve('file-loader'),
                   options: {
-                    name: 'static_upd/media/[name]Upd.[hash].[ext]',
+                    name: 'static_act/media/[name]Act.[hash].[ext]',
                   },
                 },
               ],
@@ -625,8 +625,8 @@ module.exports = function (webpackEnv) {
         new MiniCssExtractPlugin({
           // Options similar to the same options in webpackOptions.output
           // both options are optional
-          filename: 'static_upd/css/[name]Upd.css',
-          chunkFilename: 'static_upd/css/[name]Upd.chunk.css',
+          filename: 'static_act/css/[name]Act.css',
+          chunkFilename: 'static_act/css/[name]Act.chunk.css',
         }),
       // Generate an asset manifest file with the following content:
       // - "files" key: Mapping of all asset filenames to their corresponding

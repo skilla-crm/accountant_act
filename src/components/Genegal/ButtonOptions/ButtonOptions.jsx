@@ -7,7 +7,7 @@ import LoaderButton from '../../LoaderButton/LoaderButton';
 
 
 
-const ButtonOptions = ({ handler, buttonText, Icon, isLoading, options }) => {
+const ButtonOptions = ({ handler, buttonText, Icon, isLoading, options, options2 }) => {
     const [openOptions, setOpenOptions] = useState(false)
     const buttonRef = useRef()
     const optionsRef = useRef()
@@ -19,19 +19,19 @@ const ButtonOptions = ({ handler, buttonText, Icon, isLoading, options }) => {
     const handleCloseOptions = () => {
         setOpenOptions(false)
     }
-    
-        const handleCloseModal = (e) => {
-            e.stopPropagation()
-            if (optionsRef.current && !optionsRef.current.contains(e.target) && !buttonRef.current.contains(e.target)) {
-                handleCloseOptions()
-                return
-            }
+
+    const handleCloseModal = (e) => {
+        e.stopPropagation()
+        if (optionsRef.current && !optionsRef.current.contains(e.target) && !buttonRef.current.contains(e.target)) {
+            handleCloseOptions()
+            return
         }
-    
-        useEffect(() => {
-            document.addEventListener('mousedown', handleCloseModal);
-            return () => document.removeEventListener('mousedown', handleCloseModal);
-        }, []);
+    }
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleCloseModal);
+        return () => document.removeEventListener('mousedown', handleCloseModal);
+    }, []);
 
     return (
         <div className={s.root}>
@@ -50,8 +50,23 @@ const ButtonOptions = ({ handler, buttonText, Icon, isLoading, options }) => {
                 <IconChewron className={classNames(s.arrow, openOptions && s.arrow_open)} />
             </button>
 
+
             <ul ref={optionsRef} className={classNames(s.options, openOptions && s.options_open)}>
+                <span>Акт</span>
                 {options?.map((el) => {
+                    const IconOptions = el.icon;
+                    return <li onClick={el.handler} onMouseUp={handleCloseOptions} key={el.id}>
+                        <IconOptions />
+                        <p>{el.name}</p>
+                        {el.default && <div className={s.label}>
+                            <p>по умолчанию</p>
+                        </div>
+                        }
+                    </li>
+                })}
+
+                {options2.length > 0 && <span>Счет-фактура</span>}
+                {options2?.map((el) => {
                     const IconOptions = el.icon;
                     return <li onClick={el.handler} onMouseUp={handleCloseOptions} key={el.id}>
                         <IconOptions />

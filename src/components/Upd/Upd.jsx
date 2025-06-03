@@ -7,7 +7,7 @@ import { ReactComponent as IconPreview } from '../../assets/icons/iconPreview.sv
 //Api
 import { useGetParametersQuery } from '../../redux/updsApiActions';
 //slice
-import { setNumberBill } from '../../redux/mainInfo/slice';
+import { setNumberAct } from '../../redux/mainInfo/slice';
 import { setPositionsValidation } from '../../redux/validation/slice';
 //components
 import HeaderDetail from '../HeaderDetail/HeaderDetail';
@@ -15,15 +15,13 @@ import MainInfoBlock from '../MainInfoBlock/MainInfoBlock';
 import ServicesBlock from '../ServicesBlock/ServicesBlock';
 
 
-const Upd = ({ id, type, setType, isAct }) => {
+const Upd = ({ id, idInvoice, type, setType }) => {
     const { data: parameters, isLoading: isLoadingParams } = useGetParametersQuery();
-    const { customer, detail, numberBill, date } = useSelector((state) => state.mainInfo);
+    const { customer, detail, numberAct, date } = useSelector((state) => state.mainInfo);
     const { positionsValidation } = useSelector((state) => state.validation);
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        numberBill == '' && parameters?.num && dispatch(setNumberBill(parameters?.upd_num))
-    }, [parameters])
+
 
     const handleResetErrorPositions = () => {
         dispatch(setPositionsValidation(true))
@@ -31,7 +29,7 @@ const Upd = ({ id, type, setType, isAct }) => {
 
     return (
         <div className={s.root}>
-            <HeaderDetail id={id} type={type} setType={setType} isAct={isAct}/>
+            <HeaderDetail id={id} idInvoice={idInvoice} type={type} setType={setType}/>
             <div className={s.container}>
                 <div className={s.left}>
                     <MainInfoBlock parameters={parameters} disabled={type === 'detail' || type === 'detail_act'} />
@@ -44,10 +42,10 @@ const Upd = ({ id, type, setType, isAct }) => {
                     />
                 </div>
 
-                <div className={s.preview}>
+              {/*   <div className={s.preview}>
                     <IconPreview />
                     <p>Предварительный просмотр в разработке</p>
-                </div>
+                </div> */}
             </div>
         </div>
     )
