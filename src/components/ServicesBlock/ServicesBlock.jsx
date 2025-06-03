@@ -49,7 +49,11 @@ const ServicesBlock = ({ parameters, error, errorText, resetError, disabled }) =
 
     return (
         <div className={classNames(s.root, disabled && s.root_disabled)}>
-            <h3>Услуги или товары</h3>
+            <div className={s.header}>
+                <h3>Услуги или товары</h3>
+                <span className={classNames(s.error, error && s.error_vis)}><IconWarning /> {errorText}</span>
+            </div>
+
             <div className={s.container}>
                 <div className={s.subs}>
                     <div className={s.number}></div>
@@ -78,7 +82,7 @@ const ServicesBlock = ({ parameters, error, errorText, resetError, disabled }) =
                         disabled={disabled}
                     />
                 })}
-                <span className={classNames(s.error, error && s.error_vis)}><IconWarning /> {errorText}</span>
+
             </div>
 
             <div className={s.bottom}>

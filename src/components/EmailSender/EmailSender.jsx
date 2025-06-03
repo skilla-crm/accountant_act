@@ -16,7 +16,7 @@ import FormatList from './FormatList/FormatList';
 //utils
 import { emailValidate } from './utils/EmailValidate';
 
-const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partnerEmail, handleSendEmailSuccess, detailState }) => {
+const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partnerEmail, handleSendEmailSuccess, detailState, isAct }) => {
     const [sendUpd, { data, isError, isLoading }] = useSendUpdMutation();
     const [emails, setEmails] = useState([])
     const [emailValue, setEmailValue] = useState('')
@@ -28,6 +28,8 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
     const [textValue, setTextValue] = useState(text || '')
     const [sendDetailing, setSendDetailing] = useState(false)
     const [sendCopy, setSendCopy] = useState(false)
+    const [sendInvoice, setSendInoice] = useState(false);
+    const [sendAct, setSendAct] = useState(true);
     const [formatDoc, setFormatDoc] = useState(1)
     const modalRef = useRef()
     const textAreaRef = useRef()
@@ -35,8 +37,26 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
     const contactsRef = useRef()
 
     useEffect(() => {
-        setThemeValue(theme)
-    }, [theme])
+        console.log(theme.replace('УПД', 'Акт'), isAct, sendInvoice, sendAct)
+        if (isAct && !sendInvoice && sendAct) {
+            setThemeValue(theme.replace('УПД', 'Акт'))
+            return
+        }
+
+        if (isAct && sendInvoice && sendAct) {
+            setThemeValue(theme.replace('УПД', 'Акт и Счёт-фактура'))
+            return
+        }
+
+        if (isAct && sendInvoice && !sendAct) {
+            setThemeValue(theme.replace('УПД', 'Счёт-фактура'))
+            return
+        }
+
+        if (!isAct) {
+            setThemeValue(theme)
+        }
+    }, [theme, sendInvoice, sendAct, isAct])
 
     useEffect(() => {
         setTextValue(text)
@@ -151,6 +171,14 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
 
     const handleSendCopy = () => {
         sendCopy ? setSendCopy(false) : setSendCopy(true)
+    }
+
+    const handleSendInvoice = () => {
+        sendInvoice ? setSendInoice(false) : setSendInoice(true)
+    }
+
+    const handleSendAct = () => {
+        sendAct ? setSendAct(false) : setSendAct(true)
     }
 
     const handleClose = () => {
@@ -275,11 +303,26 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
                     <div className={s.block}>
                         <span>Прикрепленные документы</span>
                         <div className={s.switches}>
-                            <Switch
+                            {!isAct && <Switch
                                 text={'УПД'}
                                 switchState={true}
                                 disabled={true}
-                            />
+                            />}
+
+                            {isAct && <Switch
+                                text={'Акт'}
+                                switchState={sendAct}
+                                handleSwitch={handleSendAct}
+                                disabled={false}
+                            />}
+
+                            {isAct && <Switch
+                                text={'Счёт-фактура'}
+                                switchState={sendInvoice}
+                                handleSwitch={handleSendInvoice}
+                                disabled={false}
+                            />}
+
                             {detailState && <Switch
                                 text={'Детализация'}
                                 switchState={sendDetailing}

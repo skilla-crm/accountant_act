@@ -213,6 +213,7 @@ const Buttons = ({ id, setType, isAct }) => {
                 setOpen={setModalEmail}
                 contacts={customer?.contacts?.filter(el => el.e_mail !== '')}
                 theme={`УПД № ${numberBill} от ${dayjs(date).format('DD.MM.YYYY')}`}
+                isAct={isAct}
                 text={parameters?.act_message}
                 formats={[{ id: 1, name: 'PDF с печатью' }, { id: 2, name: 'Word с печатью' }]}
                 partnerEmail={parameters?.email}
