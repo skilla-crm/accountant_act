@@ -173,43 +173,49 @@ const Buttons = ({ id, idInvoice, setType }) => {
 
 
     const printOptionsAct = [
-        {
-            type: 'act',
-            id: 1,
-            name: 'С печатью',
-            icon: IconDoc,
-            default: true,
-            handler: () => handlePrintAct(params1)
-        },
+
 
         {
             type: 'act',
             id: 2,
             name: 'Без печати',
             icon: IconDoc,
-            default: false,
+            default: true,
             handler: () => handlePrintAct(params2)
-        }
-    ]
+        },
 
-    const printOptionsInvoice = [
         {
             type: 'act',
             id: 1,
             name: 'С печатью',
             icon: IconDoc,
             default: false,
-            handler: () => handlePrintInvoice(params1)
-        },
+            handler: () => handlePrintAct(params1)
+        }
+
+    ]
+
+    const printOptionsInvoice = [
 
         {
             type: 'act',
-            id: 2,
+            id: 1,
             name: 'Без печати',
             icon: IconDoc,
             default: false,
             handler: () => handlePrintInvoice(params2)
+        },
+
+        {
+            type: 'act',
+            id: 2,
+            name: 'С печатью',
+            icon: IconDoc,
+            default: false,
+            handler: () => handlePrintInvoice(params1)
         }
+
+
     ]
 
     const handleOpenDelete = () => {
@@ -268,7 +274,7 @@ const Buttons = ({ id, idInvoice, setType }) => {
             />
 
             <ButtonOptions
-                handler={() => printOptionsInvoice(params1)}
+                handler={() => handlePrintAct(params2)}
                 buttonText={BUTTON_PRINT}
                 Icon={IconPrint}
                 isLoading={loadPrint}
@@ -291,7 +297,7 @@ const Buttons = ({ id, idInvoice, setType }) => {
                 open={modalEmail}
                 setOpen={setModalEmail}
                 contacts={customer?.contacts?.filter(el => el.e_mail !== '')}
-                theme={`УПД №  от ${dayjs(date).format('DD.MM.YYYY')}`}
+                date={dayjs(date).format('DD.MM.YYYY')}
                 numberAct={numberAct}
                 numberInvoice={numberInvoice}
                 text={parameters?.act_message}

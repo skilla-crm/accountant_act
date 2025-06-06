@@ -8,7 +8,7 @@ import { BUTTON_TEXT, BUTTON_TEXT_EDO, BUTTON_TEXT_1C, BUTTON_TEXT_EXCEL } from 
 import Button from '../Genegal/Button/Button';
 import ButtonSecond from '../Genegal/ButtonSecond/ButtonSecond';
 
-const ButtonsList = ({ type, handleAddBill }) => {
+const ButtonsList = ({ type }) => {
 
     const handleDownloadForEdo = () => {
         console.log('эдо')

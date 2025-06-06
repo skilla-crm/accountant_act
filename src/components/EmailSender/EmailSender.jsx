@@ -16,7 +16,7 @@ import FormatList from './FormatList/FormatList';
 //utils
 import { emailValidate } from './utils/EmailValidate';
 
-const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partnerEmail, handleSendEmailSuccess, detailState }) => {
+const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partnerEmail, handleSendEmailSuccess, numberAct, numberInvoice, date }) => {
     const [sendUpd, { data, isError, isLoading }] = useSendUpdMutation();
     const [emails, setEmails] = useState([])
     const [emailValue, setEmailValue] = useState('')
@@ -24,7 +24,7 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
     const [openContacts, setOpenContacts] = useState(false)
     const [filterContacts, setFilterContacts] = useState(contacts || [])
     const [errorText, setErrorText] = useState('')
-    const [themeValue, setThemeValue] = useState(theme || '')
+    const [themeValue, setThemeValue] = useState('')
     const [textValue, setTextValue] = useState(text || '')
     const [sendDetailing, setSendDetailing] = useState(false)
     const [sendCopy, setSendCopy] = useState(false)
@@ -37,23 +37,8 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
     const contactsRef = useRef()
 
     useEffect(() => {
-      
-        if (!sendInvoice && sendAct) {
-            setThemeValue(theme.replace('УПД', 'Акт'))
-            return
-        }
-
-        if (sendInvoice && sendAct) {
-            setThemeValue(theme.replace('УПД', 'Акт и Счёт-фактура'))
-            return
-        }
-
-        if (sendInvoice && !sendAct) {
-            setThemeValue(theme.replace('УПД', 'Счёт-фактура'))
-            return
-        }
-
-    }, [theme, sendInvoice, sendAct])
+        themeTextHendler()
+    }, [sendInvoice, sendAct, numberAct, numberInvoice])
 
     useEffect(() => {
         setTextValue(text)
@@ -76,6 +61,23 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
         }
     }, [emailError])
 
+    const themeTextHendler = () => {
+        if (!sendInvoice && sendAct) {
+            setThemeValue(`Акт №${numberAct} от ${date}`)
+            return
+        }
+
+        if (sendInvoice && sendAct) {
+            setThemeValue(`Акт №${numberAct} и Счет-фактура №${numberInvoice} от ${date}`)
+            return
+        }
+
+        if (sendInvoice && !sendAct) {
+           setThemeValue(`Счет-фактура №${numberInvoice} от ${date}`)
+            return
+        }
+    }
+
     const handleSendEmail = () => {
         const dataForSend = {
             emails: sendCopy && partnerEmail && partnerEmail !== '' ? [...emails.map(el => { return el.email }), partnerEmail] : emails.map(el => { return el.email }),
@@ -83,7 +85,9 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
             sign: true,
             detailing: sendDetailing,
             text: textValue,
-            subject: themeValue
+            subject: themeValue,
+            act: sendAct,
+            invoice: sendInvoice
         }
 
 
@@ -93,7 +97,7 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
                     setOpen(false)
                     handleSendEmailSuccess()
                     setEmails(contacts?.filter(el => el.email !== ''))
-                    setThemeValue(theme)
+                    themeTextHendler()
                     setTextValue(text)
                     setSendDetailing(false)
                     return
@@ -308,12 +312,12 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
                                 disabled={false}
                             />
 
-                            <Switch
+                            {numberInvoice && <Switch
                                 text={'Счёт-фактура'}
                                 switchState={sendInvoice}
                                 handleSwitch={handleSendInvoice}
                                 disabled={false}
-                            />
+                            />}
 
                             <Switch
                                 text={'Детализация'}
@@ -348,7 +352,7 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
                         <IconCloseBlue />
                     </button>
 
-                    <button onClick={handleSendEmail} disabled={isLoading || emails?.length === 0} className={s.button}>Отправить
+                    <button onClick={handleSendEmail} disabled={isLoading || emails?.length === 0 || (!sendInvoice && !sendAct)} className={s.button}>Отправить
                         <div className={classNames(s.icon, isLoading && s.icon_load)}>
                             <IconPlane />
 

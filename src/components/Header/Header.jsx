@@ -3,15 +3,14 @@ import s from './Header.module.scss';
 import ButtonsList from '../ButtonsList/ButtonsList';
 
 
-const Header = ({ title, type, handleAddBill }) => {
+const Header = ({ title, type }) => {
 
   return (
     <div className={s.root}>
       <h2>{title}</h2>
-      <ButtonsList
+     {/*  <ButtonsList
         type={type}
-        handleAddBill={handleAddBill}
-      />
+      /> */}
      
     </div>
   )

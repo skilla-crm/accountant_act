@@ -69,9 +69,6 @@ const List = () => {
         }
     }, [data])
 
-    const handleAddBill = () => {
-        navigate('/create')
-    }
 
     const handleLoadBills = () => {
         link && getNextPage(link)
@@ -89,7 +86,6 @@ const List = () => {
             <Header
                 title={TITLE_UPD}
                 type={'list'}
-                handleAddBill={handleAddBill}
             />
             <SubHeader isFetching={isFetching} />
             <InfiniteScroll
