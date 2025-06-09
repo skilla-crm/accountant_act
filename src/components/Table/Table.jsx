@@ -32,8 +32,11 @@ const Table = ({ data }) => {
         <table className={s.root}>
             <thead>
                 <tr>
-                    <th className={s.date}>Дата</th>
-                    <th className={s.number}>Номер</th>
+                    <th className={s.date}>Дата Акта</th>
+                    <th className={s.number}>Номер Акта</th>
+
+                    <th className={s.date}>Дата С/Ф</th>
+                    <th className={s.number}>Номер С/Ф</th>
                     <th className={s.customer}>Заказчик</th>
                     <th className={s.summ}>Сумма, ₽</th>
                     <th className={s.recipient}>Поставщик</th>
@@ -92,6 +95,14 @@ const Row = ({ bill }) => {
             <td className={s.number}>
                 <p>{bill?.number}</p>
             </td>
+
+            <td className={s.date}>
+                {bill?.invoice_date && <p>{dayjs(bill?.invoice_date).format('DD.MM.YY')}</p>}
+            </td>
+            <td className={s.number}>
+                <p>{bill?.invoice_num}</p>
+            </td>
+            
             <td className={s.customer}>
                 <p>
                     {bill?.company?.name}
@@ -138,7 +149,7 @@ const Tooltip = ({ open, id }) => {
         <div className={classNames(s.tooltip, open && s.tooltip_open, id === 'pay' && s.tooltip_pay)}>
             <IconUp />
             {id === 'order' && <p>Показывает наличие привязки счета к заказу</p>}
-            {id === 'pay' && <p>Старый функционал будет убран 1 июля 2025</p>}
+            {id === 'pay' && <p>Показывает наличие привязки счета к заказу</p>}
         </div>
     )
 }

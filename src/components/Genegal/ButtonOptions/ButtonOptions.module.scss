@@ -8,6 +8,7 @@
     align-items: center;
     border-radius: 4px;
     position: relative;
+     text-wrap: nowrap;
 }
 
 .button {
@@ -23,6 +24,7 @@
     font-size: 14px;
     font-weight: 500;
     line-height: 140%;
+    text-wrap: nowrap;
 
     svg path {
         transition: all 0.15s;

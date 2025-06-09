@@ -109,7 +109,7 @@ const Search = ({ isFetching }) => {
 
             <IconClose onClick={handleReset} className={classNames(s.clear, query.length > 0 && s.clear_vis)} />
             <button onClick={handleSearch} ref={buttonRef} className={classNames(s.button, query.length > 0 && !done && s.button_vis)}>
-                <p>Пойск</p>
+                <p>Поиск</p>
                 <IconEnter />
             </button>
         </div>

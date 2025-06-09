@@ -86,6 +86,7 @@ const List = () => {
             <Header
                 title={TITLE_UPD}
                 type={'list'}
+                params={params}
             />
             <SubHeader isFetching={isFetching} />
             <InfiniteScroll

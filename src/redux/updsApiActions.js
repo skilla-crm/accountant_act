@@ -78,6 +78,17 @@ export const updsApiActions = createApi({
         }
       }),
     }),
+
+    getUpdDownloadMass: build.mutation({
+      query: ({ params }) => ({
+        url: `acts/download`,
+        method: 'GET',
+        params,
+        responseHandler: (response) => {
+          return response.blob();
+        }
+      }),
+    }),
   })
 });
 
@@ -88,5 +99,6 @@ export const {
   useUpdateUpdMutation,
   useDeleteUpdMutation,
   useSendUpdMutation,
-  useGetUpdDownloadMutation
+  useGetUpdDownloadMutation,
+  useGetUpdDownloadMassMutation,
 } = updsApiActions;

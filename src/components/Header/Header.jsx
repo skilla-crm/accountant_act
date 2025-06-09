@@ -3,14 +3,15 @@ import s from './Header.module.scss';
 import ButtonsList from '../ButtonsList/ButtonsList';
 
 
-const Header = ({ title, type }) => {
+const Header = ({ title, type, params }) => {
 
   return (
     <div className={s.root}>
       <h2>{title}</h2>
-     {/*  <ButtonsList
+      <ButtonsList
         type={type}
-      /> */}
+        params={params}
+      />
      
     </div>
   )
