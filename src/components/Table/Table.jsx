@@ -87,7 +87,7 @@ const Row = ({ bill }) => {
     }
 
     return (
-        <tr onMouseEnter={handleFocus} onMouseLeave={handleBlur} className={s.row} onClick={handleNavigate}>
+        <tr key={bill.id} id={bill.id} onMouseEnter={handleFocus} onMouseLeave={handleBlur} className={s.row} onClick={handleNavigate}>
             <div className={s.border}></div>
             <td className={s.date}>
                 <p>{dayjs(bill?.date).format('DD.MM.YY')}</p>

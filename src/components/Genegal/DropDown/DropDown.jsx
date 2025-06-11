@@ -104,7 +104,7 @@ const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveI
                 className={classNames(s.block, openList && s.block_open, searchList?.length > 6 && s.block_scroll, type == 'position' && s.block_position)}
             >
                 {header?.title && <div className={s.header}></div>}
-                {!noActive && <div ref={parent} className={s.list}>
+                {!noActive && <div /* ref={parent} */ className={s.list}>
                     {searchList?.length === 0 && <div className={s.notfound}>Не найдено по запросу “{query}”</div>}
                     {searchList?.map(el => {
                         return <div onClick={() => handleChoseActiveItem(el)}><ListItem el={el} key={el.id} /></div>

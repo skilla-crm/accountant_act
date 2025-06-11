@@ -48,6 +48,8 @@ const Detail = () => {
             dispatch(setOrders(data?.orders))
             setIdInvoice(data?.invoice?.id ? data?.invoice?.id : null)
 
+            document.title = `Акт №${data?.number} от ${dayjs(data?.date).format('DD.MM.YYYY')}`
+
             const rows = data?.rows?.map((el, i) => {
                 return {
                     id: i + 1,
