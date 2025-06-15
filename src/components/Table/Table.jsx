@@ -148,8 +148,8 @@ const Tooltip = ({ open, id }) => {
     return (
         <div className={classNames(s.tooltip, open && s.tooltip_open, id === 'pay' && s.tooltip_pay)}>
             <IconUp />
-            {id === 'order' && <p>Показывает наличие привязки счета к заказу</p>}
-            {id === 'pay' && <p>Показывает наличие привязки счета к заказу</p>}
+            {id === 'order' && <p>Показывает наличие привязки акта к заказу</p>}
+            {id === 'pay' && <p>Показывает наличие привязки акта к заказу</p>}
         </div>
     )
 }
