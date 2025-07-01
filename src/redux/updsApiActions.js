@@ -41,6 +41,15 @@ export const updsApiActions = createApi({
       transformResponse: (response) => response?.data
     }),
 
+    createAct: build.mutation({
+      query: (body) => ({
+        url: `acts/create`,
+        method: 'POST',
+        body: body
+      }),
+      invalidatesTags: ['Upds']
+    }),
+
 
     updateUpd: build.mutation({
       query: ({ body, id }) => ({
@@ -96,6 +105,7 @@ export const {
   useGetUpdsQuery,
   useGetUpdQuery,
   useGetParametersQuery,
+  useCreateActMutation,
   useUpdateUpdMutation,
   useDeleteUpdMutation,
   useSendUpdMutation,

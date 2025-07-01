@@ -43,8 +43,8 @@ export const getRandomNumber = async (type) => {
   }
 };
 
-export const getCheckNumber = (type, num) => {
-  return instanceWithToken.get(`https://api2.skilla.ru/api/check_doc_num?type=${type}&num=${num}`)
+export const getCheckNumber = (type, num, partnership_id) => {
+  return instanceWithToken.get(`https://api2.skilla.ru/api/check_doc_num?type=${type}&num=${num}&partnership_id=${partnership_id}`)
 }
 
 

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   search: localStorage.getItem('searchQueryBills') || '',
-  filterCompanys: JSON.parse(localStorage.getItem('filterCompanysBills') || '[]') || [],
+  filterCompanys: JSON.parse(localStorage.getItem('filterCompanys') || '[]') || [],
   filterCustomers: JSON.parse(localStorage.getItem('filterCustomersBills') || '[]') || [],
   filterStatus: JSON.parse(localStorage.getItem('filterStatusBills') || '[]') || [],
 };

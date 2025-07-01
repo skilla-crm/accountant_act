@@ -1,10 +1,12 @@
 import s from './Position.module.scss';
 import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
+import dayjs from 'dayjs';
 //icons
 import { ReactComponent as IconCloseRed } from '../../assets/icons/iconCloseRed.svg'
 //components
 import InputNum from '../Genegal/InputNum/InputNum';
+import InputNumFloat from '../Genegal/InputNumFloat/InputNumFloat';
 import InputText from '../Genegal/InputText/InputText';
 import InputFinancial from '../Genegal/InputFinancial/InputFinancial';
 import DropDown from '../Genegal/DropDown/DropDown';
@@ -30,6 +32,9 @@ const Position = ({ data, id, i, length, rates, disabled }) => {
         }, 200)
     }
 
+    const nameService = data?.rate?.name_service?.trim()
+    const firstSymbolsDate = dayjs(`20${nameService?.slice(6, 8)}-${nameService?.slice(3, 5)}-${nameService?.slice(0, 2)}`).isValid()
+
     return (
         <div id={id} className={classNames(s.root, i === 0 && s.root_first, anim && s.root_anim)}>
 
@@ -43,15 +48,14 @@ const Position = ({ data, id, i, length, rates, disabled }) => {
                         list={rates}
                         ListItem={Rate}
                         activeItem={data?.rate}
-                        setActiveItem={(data) => dispatch(setPositionValues({ key: 'rate', id, rate: data }))}
+                        setActiveItem={(value) => dispatch(setPositionValues({ key: 'rate', id, rate: firstSymbolsDate ? { ...value, name_service: `${nameService?.slice(0, 8)} ${value?.name_service}` } : value }))}
                         disabled={disabled}
                     />
                 </div>
                 <div className={s.count}>
-                    <InputNum
-                        num={data?.count}
-                        setNum={(count) => dispatch(setPositionValues({ key: 'count', id, count: Number(count) }))}
-                    />
+                    <InputNumFloat
+                        sum={data?.count}
+                        setSum={(count) => dispatch(setPositionValues({ key: 'count', id, count: Number(count) }))} />
                 </div>
                 <div className={s.units}>
                     <InputText

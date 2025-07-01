@@ -7,6 +7,8 @@ const initialState = {
   detail: {},
   numberAct: '',
   numberInvoice: '',
+  numberActFirst: '',
+  numberInvoiceFirst: '',
   date: dayjs().locale('ru') || '',
   orders: [],
   signatory: {}
@@ -42,6 +44,14 @@ export const mainInfoSlice = createSlice({
       state.numberInvoice = action.payload;
     },
 
+    setNumberActFirst: (state, action) => {
+      state.numberActFirst = action.payload;
+    },
+
+    setNumberInvoiceFirst: (state, action) => {
+      state.numberInvoiceFirst = action.payload;
+    },
+
     setDate: (state, action) => {
       state.date = action.payload;
     },
@@ -62,6 +72,8 @@ export const {
   setDetail,
   setNumberAct,
   setNumberInvoice,
+  setNumberActFirst,
+  setNumberInvoiceFirst,
   setDate,
   setOrders,
   setSignatory

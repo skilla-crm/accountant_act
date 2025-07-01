@@ -2,7 +2,7 @@ import s from './HeaderDetail.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
-import { useUpdateUpdMutation } from '../../redux/updsApiActions';
+import { useUpdateUpdMutation, useCreateActMutation } from '../../redux/updsApiActions';
 //icons
 import { ReactComponent as IconDoneWhite } from '../../assets/icons/iconDoneWhite.svg'
 //slice
@@ -23,8 +23,11 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
     const { customer, detail, signatory, numberAct, numberInvoice, date } = useSelector((state) => state.mainInfo);
     const { positions, total } = useSelector((state) => state.positions);
     const [updateUpd, { isLoading: isLoadingEdit }] = useUpdateUpdMutation();
+    const [createBill, { data, isError, isLoading }] = useCreateActMutation();
     const dispatch = useDispatch();
     const navigate = useNavigate()
+
+    console.log(detail)
 
     const handleValidation = () => {
         const customerValidation = customer?.partnership_id ? true : false;
@@ -42,6 +45,51 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
             return false
         }
     }
+
+    const handleCreate = () => {
+        const rows = positions?.map(el => {
+            return {
+                description: el?.rate?.name_service,
+                date: '',
+                amount: Number(el?.count),
+                unit: el?.units,
+                okei: Number(el?.code),
+                sum_unit: Number(el?.price),
+                sum: Number(el?.total)
+            }
+        })
+        const dataForSend = {
+            invoice: detail?.nds === 0 ? 0 : 1,
+            order_ids: [],
+            company_id: customer?.id,
+            partnership_id: customer?.partnership_id,
+            date: dayjs(date).format('YYYY-MM-DD'),
+            num: Number(numberAct),
+            invoice_num: Number(numberInvoice),
+            detail_partnership_id: detail?.partnership_id,
+            detail_number: detail?.num,
+            company_contact_id: signatory.id && signatory.id !== 'dir' && signatory.id !== 'no' && signatory.id !== 'another' ? signatory.id : null,
+            signature: signatory.id !== 'no' ? signatory.name : null,
+            rows,
+            sum: total,
+
+        }
+
+
+        if (handleValidation()) {
+            createBill(dataForSend)
+                .then((data) => {
+                    if (data.data.success) {
+                        const id = data.data.data.id;
+                        navigate(`/detail/${id}`)
+                    } else {
+
+                    }
+                });
+            return
+        }
+    }
+
 
 
     const handleUpdate = () => {
@@ -87,9 +135,18 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
 
     return (
         <div className={s.root}>
-
+            {type == 'create' && <h2>Новый Акт №{numberAct} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
             {type == 'detail' && <h2>АКТ №{numberAct} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
             {type == 'edit' && <h2>АКТ №{numberAct} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
+
+            {type == 'create' && <Button
+                type={'create'}
+                handler={handleCreate}
+                buttonText={BUTTON_TEXT_CREATE}
+                Icon={IconDoneWhite}
+                isLoading={isLoading}
+            />
+            }
 
             {type === 'detail' && <Buttons
                 setType={setType}

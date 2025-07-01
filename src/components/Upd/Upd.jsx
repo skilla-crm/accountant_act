@@ -7,7 +7,7 @@ import { ReactComponent as IconPreview } from '../../assets/icons/iconPreview.sv
 //Api
 import { useGetParametersQuery } from '../../redux/updsApiActions';
 //slice
-import { setNumberAct } from '../../redux/mainInfo/slice';
+import { setNumberAct, setNumberInvoice } from '../../redux/mainInfo/slice';
 import { setPositionsValidation } from '../../redux/validation/slice';
 //components
 import HeaderDetail from '../HeaderDetail/HeaderDetail';
@@ -17,11 +17,14 @@ import ServicesBlock from '../ServicesBlock/ServicesBlock';
 
 const Upd = ({ id, idInvoice, type, setType }) => {
     const { data: parameters, isLoading: isLoadingParams } = useGetParametersQuery();
-    const { customer, detail, numberAct, date } = useSelector((state) => state.mainInfo);
+    const { customer, detail, numberAct, numberInvoice, date } = useSelector((state) => state.mainInfo);
     const { positionsValidation } = useSelector((state) => state.validation);
     const dispatch = useDispatch()
 
-
+    useEffect(() => {
+        numberAct == '' && parameters?.upd_num && dispatch(setNumberAct(parameters?.act_num))
+        numberInvoice == '' && parameters?.upd_num && dispatch(setNumberInvoice(parameters?.invoice_num))
+    }, [parameters])
 
     const handleResetErrorPositions = () => {
         dispatch(setPositionsValidation(true))
@@ -29,10 +32,10 @@ const Upd = ({ id, idInvoice, type, setType }) => {
 
     return (
         <div className={s.root}>
-            <HeaderDetail id={id} idInvoice={idInvoice} type={type} setType={setType}/>
+            <HeaderDetail id={id} idInvoice={idInvoice} type={type} setType={setType} />
             <div className={s.container}>
                 <div className={s.left}>
-                    <MainInfoBlock parameters={parameters} disabled={type === 'detail' || type === 'detail_act'} />
+                    <MainInfoBlock parameters={parameters} disabled={type === 'detail' || type === 'detail_act'} isCreate={type === 'create'} />
                     <ServicesBlock
                         disabled={type === 'detail'}
                         parameters={parameters}
@@ -42,7 +45,7 @@ const Upd = ({ id, idInvoice, type, setType }) => {
                     />
                 </div>
 
-              {/*   <div className={s.preview}>
+                {/*   <div className={s.preview}>
                     <IconPreview />
                     <p>Предварительный просмотр в разработке</p>
                 </div> */}

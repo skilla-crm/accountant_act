@@ -17,13 +17,13 @@ import { setCustomerValidation, setDetailValidation, setNumberValidation } from 
 
 
 
-const MainInfoBlock = ({ parameters, disabled }) => {
+const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
     const dispatch = useDispatch()
-    const { customer, detail, numberAct, numberInvoice, date, orders, signatory, draft } = useSelector((state) => state.mainInfo);
+    const { customer, detail, numberAct, numberInvoice, numberActFirst, numberInvoiceFirst, date, orders, signatory, draft } = useSelector((state) => state.mainInfo);
     const { customerValidation, detailValidation, signatoryValidation, numberValidation } = useSelector((state) => state.validation);
     const [detailsList, setDetailsList] = useState([])
     const [signatureList, setSignatureList] = useState([])
-    console.log(numberInvoice)
+    console.log(detail, numberInvoice)
 
     useEffect(() => {
         if (customer.id) {
@@ -99,18 +99,24 @@ const MainInfoBlock = ({ parameters, disabled }) => {
                 list={detailsList}
                 ListItem={Detail}
                 activeItem={detail}
-                setActiveItem={data => dispatch(setDetail(data))}
+                setActiveItem={data => {
+                    dispatch(setDetail(data))
+                    if (detail?.partnership_id !== data?.partnership_id) {
+                        dispatch(setNumberAct(data?.act_num))
+                        dispatch(setNumberInvoice(data?.invoice_num))
+                    }
+                }}
                 disabled={disabled}
                 error={!detailValidation}
                 errorText={'Реквизиты не выбраны'}
                 resetError={handleResetErrorDetail}
             />
 
-            <ContractInput
+            {/*   <ContractInput
                 text={customer?.contract_n}
                 span={customer?.contract_date && dayjs(customer?.contract_date).format('DD.MM.YY')}
                 disabled={disabled}
-            />
+            /> */}
 
             <DropDown
                 z={3}
@@ -140,22 +146,28 @@ const MainInfoBlock = ({ parameters, disabled }) => {
                     sub={'Номер акта'}
                     setNumber={data => dispatch(setNumberAct(data))}
                     number={numberAct}
+                    numberActFirst={numberActFirst}
+                    numberInvoiceFirst={numberInvoiceFirst}
                     errorEmpity={!numberValidation}
                     errorText={'Введи номер'}
                     resetError={handleResetErrorNumber}
                     disabled={disabled}
                     type={1}
+                    detail={detail}
                 />
 
-                {numberInvoice !== null && <InputBillNumber
+                {((numberInvoice !== null && !isCreate) || (detail?.nds > 0 && isCreate)) && <InputBillNumber
                     sub={'Номер счет-фактуры'}
                     setNumber={data => dispatch(setNumberInvoice(data))}
                     number={numberInvoice}
+                    numberActFirst={numberActFirst}
+                    numberInvoiceFirst={numberInvoiceFirst}
                     errorEmpity={!numberValidation}
                     errorText={'Введи номер'}
                     resetError={handleResetErrorNumber}
                     disabled={disabled}
                     type={2}
+                    detail={detail}
                 />}
             </div>
 

@@ -12,6 +12,8 @@ import {
     setDetail,
     setNumberAct,
     setNumberInvoice,
+    setNumberActFirst,
+    setNumberInvoiceFirst,
     setDate,
     setOrders,
     setDraft,
@@ -45,6 +47,8 @@ const Detail = () => {
             dispatch(setDate(dayjs(data?.date)))
             dispatch(setNumberAct(data?.number))
             dispatch(setNumberInvoice(data?.invoice ? data?.invoice?.number : null))
+            dispatch(setNumberActFirst(data?.number))
+            dispatch(setNumberInvoiceFirst(data?.invoice ? data?.invoice?.number : null))
             dispatch(setOrders(data?.orders))
             setIdInvoice(data?.invoice?.id ? data?.invoice?.id : null)
 

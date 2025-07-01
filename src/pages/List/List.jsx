@@ -12,7 +12,9 @@ import {
     setCustomer,
     setDetail,
     setDate,
-    setOrders
+    setOrders,
+    setNumberAct,
+    setNumberInvoice
 } from '../../redux/mainInfo/slice';
 import { setPositions } from '../../redux/positions/slice';
 import { setCustomerValidation, setDetailValidation, setNumberValidation, setPositionsValidation } from '../../redux/validation/slice';
@@ -69,6 +71,11 @@ const List = () => {
         }
     }, [data])
 
+    useEffect(() => {
+        dispatch(setNumberAct(parameters?.act_num))
+        dispatch(setNumberInvoice(parameters?.invoice_num))
+    }, [parameters])
+
 
     const handleLoadBills = () => {
         link && getNextPage(link)
@@ -81,12 +88,17 @@ const List = () => {
             .catch(err => console.log(err))
     }
 
+    const handleAddAct = () => {
+        navigate('/create')
+    }
+
     return (
         <div className={classNames(s.root, anim && s.root_anim)}>
             <Header
                 title={TITLE_UPD}
                 type={'list'}
                 params={params}
+                handleAddAct={handleAddAct}
             />
             <SubHeader isFetching={isFetching} />
             <InfiniteScroll

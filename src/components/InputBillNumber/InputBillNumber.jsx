@@ -5,13 +5,14 @@ import { ReactComponent as IconUpdate } from '../../assets/icons/iconUpdate.svg'
 //Api
 import { getRandomNumber, getCheckNumber } from '../../api/Api';
 
-const InputBillNumber = ({ sub, number, setNumber, errorEmpity, errorText, resetError, disabled, type }) => {
+const InputBillNumber = ({ sub, number, setNumber, errorEmpity, errorText, resetError, disabled, type, numberActFirst, numberInvoiceFirst, detail }) => {
     const [focus, setFocus] = useState(false);
     const [count, setCount] = useState(0);
     const [load, setLoad] = useState(false)
     const [done, setDone] = useState(false);
     const [error, setError] = useState(false)
     const inputRef = useRef()
+    console.log(type)
 
     const handleNumberValue = (e) => {
         let reg = /[A-Za-zA-Яа-яЁё]/g;
@@ -25,15 +26,29 @@ const InputBillNumber = ({ sub, number, setNumber, errorEmpity, errorText, reset
     const handleFocus = () => {
         setFocus(true)
     }
+    /* 
+        const handleBlur = () => {
+            getCheckNumber(type, number)
+                .then(res => setError(false))
+                .catch(err => { number !== '' && setError(true) })
+            setFocus(false)
+        } */
+       console.log(type, numberActFirst, number)
 
     const handleBlur = () => {
-        getCheckNumber(type, number)
+        type == 1 && Number(numberActFirst) !== Number(number) && getCheckNumber(type, number, detail?.partnership_id)
+            .then(res => setError(false))
+            .catch(err => { number !== '' && setError(true) })
+
+        type == 2 && Number(numberInvoiceFirst) !== Number(number) && getCheckNumber(type, number, detail?.partnership_id)
             .then(res => setError(false))
             .catch(err => { number !== '' && setError(true) })
         setFocus(false)
+
     }
 
-  
+
+
 
     return (
         <div className={s.root}>
