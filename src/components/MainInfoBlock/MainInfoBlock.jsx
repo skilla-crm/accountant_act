@@ -28,9 +28,9 @@ const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
     useEffect(() => {
         if (customer.id) {
             customer?.gendir?.replace(/\s+/g, '') === '' ?
-                setSignatureList([...customer?.contacts?.filter(el => el.name !== ''), { id: 'no', name: 'Без подписанта' }])
+                setSignatureList([/* ...customer?.contacts?.filter(el => el.name !== ''), */ { id: 'no', name: 'Без подписанта' }])
                 :
-                setSignatureList([{ id: 'dir', name: customer?.gendir }, ...customer?.contacts?.filter(el => el.name !== ''), { id: 'no', name: 'Без подписанта' }])
+                setSignatureList([{ id: 'dir', name: customer?.gendir }, { id: 'no', name: 'Без подписанта' }])
             return
         }
 

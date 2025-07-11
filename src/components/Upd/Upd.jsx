@@ -21,6 +21,8 @@ const Upd = ({ id, idInvoice, type, setType }) => {
     const { positionsValidation } = useSelector((state) => state.validation);
     const dispatch = useDispatch()
 
+    console.log(type)
+
     useEffect(() => {
         numberAct == '' && parameters?.upd_num && dispatch(setNumberAct(parameters?.act_num))
         numberInvoice == '' && parameters?.upd_num && dispatch(setNumberInvoice(parameters?.invoice_num))

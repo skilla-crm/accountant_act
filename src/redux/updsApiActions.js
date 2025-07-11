@@ -17,7 +17,7 @@ export const updsApiActions = createApi({
 
     getUpds: build.query({
       query: (params) => ({
-        url: `acts`,
+        url: `acts/with_invoices`,
         method: 'GET',
         params
       }),

@@ -32,11 +32,14 @@ const Table = ({ data }) => {
         <table className={s.root}>
             <thead>
                 <tr>
-                    <th className={s.date}>Дата Акта</th>
-                    <th className={s.number}>Номер Акта</th>
 
+                    <th className={s.date}>Дата</th>
+                    <th className={s.number}>Номер</th>
+                    <td className={s.bages}>
+                    </td>
+                    {/* 
                     <th className={s.date}>Дата С/Ф</th>
-                    <th className={s.number}>Номер С/Ф</th>
+                    <th className={s.number}>Номер С/Ф</th> */}
                     <th className={s.customer}>Заказчик</th>
                     <th className={s.summ}>Сумма, ₽</th>
                     <th className={s.recipient}>Поставщик</th>
@@ -52,6 +55,10 @@ const Table = ({ data }) => {
                             <Tooltip id={'pay'} open={openTooltip === 'pay'} />
                         </div>
                     </th>
+
+
+
+
                     {/*  <th className={s.progress}>Прогресс</th>
                     <th className={s.progress}>Прогресс</th> */}
                     <th className={s.button}></th>
@@ -75,7 +82,7 @@ const Row = ({ bill }) => {
     const navigate = useNavigate()
 
     const handleNavigate = () => {
-      navigate(`/detail/${bill?.id}`)
+        navigate(`/detail/${bill?.id}`)
     }
 
     const handleFocus = () => {
@@ -89,20 +96,29 @@ const Row = ({ bill }) => {
     return (
         <tr key={bill.id} id={bill.id} onMouseEnter={handleFocus} onMouseLeave={handleBlur} className={s.row} onClick={handleNavigate}>
             <div className={s.border}></div>
+
             <td className={s.date}>
+
                 <p>{dayjs(bill?.date).format('DD.MM.YY')}</p>
             </td>
             <td className={s.number}>
                 <p>{bill?.number}</p>
             </td>
 
-            <td className={s.date}>
+            <td className={s.bages}>
+                <div className={s.bage}>
+                    {bill?.type === 1 && 'АКТ'}
+                    {bill?.type === 2 && 'C/Ф'}
+                </div>
+            </td>
+
+            {/*  <td className={s.date}>
                 {bill?.invoice_date && <p>{dayjs(bill?.invoice_date).format('DD.MM.YY')}</p>}
             </td>
             <td className={s.number}>
                 <p>{bill?.invoice_num}</p>
-            </td>
-            
+            </td> */}
+
             <td className={s.customer}>
                 <p>
                     {bill?.company?.name}
@@ -125,9 +141,10 @@ const Row = ({ bill }) => {
                 {bill?.details?.rs && <p><sup>*</sup>{String(bill?.details?.rs)?.slice(-4)}</p>}
             </td>
             <td className={s.connection}>
-                
+
                 {bill?.related_order && <IconDone />}
             </td>
+
             {/* <td className={s.progress}>
                 <Progress />
             </td>

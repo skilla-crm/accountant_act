@@ -48,7 +48,7 @@ const Position = ({ data, id, i, length, rates, disabled }) => {
                         list={rates}
                         ListItem={Rate}
                         activeItem={data?.rate}
-                        setActiveItem={(value) => dispatch(setPositionValues({ key: 'rate', id, rate: firstSymbolsDate ? { ...value, name_service: `${nameService?.slice(0, 8)} ${value?.name_service}` } : value }))}
+                        setActiveItem={(value) => dispatch(setPositionValues({ key: 'rate', id, rate: firstSymbolsDate && value?.id ? { ...value, name_service: `${nameService?.slice(0, 8)} ${value?.name_service}` } : value }))}
                         disabled={disabled}
                     />
                 </div>

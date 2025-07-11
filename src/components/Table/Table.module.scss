@@ -54,8 +54,8 @@
 .number {
     text-align: start;
     padding-left: 16px !important;
-    width: 100px;
-    max-width: 100px;
+    width: 80px;
+    max-width: 80px;
     flex-shrink: 0;
 }
 
@@ -75,12 +75,24 @@
     }
 }
 
+
 .connection {
     width: 140px;
     max-width: 140px;
     padding-right: 0 !important;
     display: flex;
     justify-content: center;
+    gap: 6px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: visible !important;
+}
+
+.bages {
+    width: 100px;
+    padding-right: 0 !important;
+    display: flex;
+
     gap: 6px;
     flex-shrink: 0;
     position: relative;
@@ -273,4 +285,17 @@
         }
     }
 
+}
+
+.bage {
+    height: 24px;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    background-color: #F1F4F9;
+    color: #71869D;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
 }

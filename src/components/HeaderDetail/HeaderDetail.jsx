@@ -136,12 +136,22 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
     return (
         <div className={s.root}>
             {type == 'create' && <h2>Новый Акт №{numberAct} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
+            {type == 'draft' && <h2>Новый Акт №{numberAct} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
             {type == 'detail' && <h2>АКТ №{numberAct} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
             {type == 'edit' && <h2>АКТ №{numberAct} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
 
             {type == 'create' && <Button
                 type={'create'}
                 handler={handleCreate}
+                buttonText={BUTTON_TEXT_CREATE}
+                Icon={IconDoneWhite}
+                isLoading={isLoading}
+            />
+            }
+
+            {type == 'draft' && <Button
+                type={'create'}
+                handler={handleUpdate}
                 buttonText={BUTTON_TEXT_CREATE}
                 Icon={IconDoneWhite}
                 isLoading={isLoading}
@@ -159,6 +169,8 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
                 handleUpdate={handleUpdate}
                 isLoading={isLoadingEdit}
             />}
+
+            
         </div>
     )
 };
