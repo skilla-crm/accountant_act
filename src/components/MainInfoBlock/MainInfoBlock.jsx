@@ -11,15 +11,16 @@ import InputData from '../InputData/InputData';
 import InputBillNumber from '../InputBillNumber/InputBillNumber';
 import InputText from '../Genegal/InputText/InputText';
 import ContractInput from '../ContractInput/ContractInput';
+import DropDownNds from '../DropDownNds/DropDownNds';
 //slice
-import { setCustomer, setDetail, setNumberAct, setNumberInvoice, setDate, setSignatory } from '../../redux/mainInfo/slice';
+import { setCustomer, setDetail, setNumberAct, setNumberInvoice, setDate, setSignatory, setNds } from '../../redux/mainInfo/slice';
 import { setCustomerValidation, setDetailValidation, setNumberValidation } from '../../redux/validation/slice';
 
 
 
 const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
     const dispatch = useDispatch()
-    const { customer, detail, numberAct, numberInvoice, numberActFirst, numberInvoiceFirst, date, orders, signatory, draft } = useSelector((state) => state.mainInfo);
+    const { customer, detail, numberAct, numberInvoice, numberActFirst, numberInvoiceFirst, date, orders, signatory, draft, nds } = useSelector((state) => state.mainInfo);
     const { customerValidation, detailValidation, signatoryValidation, numberValidation } = useSelector((state) => state.validation);
     const [detailsList, setDetailsList] = useState([])
     const [signatureList, setSignatureList] = useState([])
@@ -90,6 +91,7 @@ const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
                 error={!customerValidation}
                 errorText={'Заказчик не определен'}
                 resetError={handleResetErrorCustomer}
+                overlay={true}
             />
 
             <DropDown
@@ -110,6 +112,7 @@ const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
                 error={!detailValidation}
                 errorText={'Реквизиты не выбраны'}
                 resetError={handleResetErrorDetail}
+                overlay={true}
             />
 
             {/*   <ContractInput
@@ -130,6 +133,7 @@ const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
                 noActive={signatureList?.length === 0 || !customer?.contacts}
                 error={false}
                 errorText={'Выбери подписанта'}
+                overlay={true}
             />
 
             <div className={s.block}>
@@ -170,6 +174,13 @@ const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
                     detail={detail}
                 />}
             </div>
+
+            <DropDownNds
+                value={nds}
+                setValue={(value) => dispatch(setNds(value))}
+                disabled={disabled}
+            />
+
 
             {orders.length > 0 && <div className={s.orders}>
                 <p>Связанные заказы</p>

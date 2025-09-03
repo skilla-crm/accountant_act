@@ -9,7 +9,7 @@ import mainInfoSlice from './mainInfo/slice';
 import validationSlice from './validation/slice';
 import userSlice from './user/slice';
 import dateRangeSlice from './dateRange/slice';
-
+import logsSlice from './logs/slice';
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +19,7 @@ export const store = configureStore({
     mainInfo: mainInfoSlice,
     validation: validationSlice,
     dateRange: dateRangeSlice,
+    logs: logsSlice,
     [updsApiActions.reducerPath]: updsApiActions.reducer
   },
 

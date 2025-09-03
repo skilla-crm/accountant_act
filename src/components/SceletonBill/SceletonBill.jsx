@@ -1,6 +1,6 @@
 import s from './SceletonBill.module.scss';
 import classNames from 'classnames';
-import { ReactComponent as IconPreview } from '../../assets/icons/iconPreview.svg';
+import iconPreview from '../../assets/icons/iconPreview.png';
 //components
 import Loader from '../Loader/Loader';
 
@@ -32,26 +32,6 @@ const SceletonBill = ({ isLoading }) => {
                         </div>
 
                         <div className={s.field}>
-                            <div className={s.sub}>
-                                <Loader height={14} width={110} />
-                            </div>
-                            <div className={s.input}>
-                                <Loader />
-                            </div>
-
-                        </div>
-
-                        <div className={classNames(s.field, s.field_2)}>
-                            <div className={s.sub}>
-                                <Loader height={14} width={110} />
-                            </div>
-                            <div className={s.input}>
-                                <Loader />
-                            </div>
-
-                        </div>
-
-                        <div className={classNames(s.field, s.field_2)}>
                             <div className={s.sub}>
                                 <Loader height={14} width={110} />
                             </div>
@@ -117,10 +97,10 @@ const SceletonBill = ({ isLoading }) => {
                     </div>
                 </div>
 
-                {/*   <div className={s.preview}>
-                    <IconPreview />
-                    <p>Предварительный просмотр разработке</p>
-                </div> */}
+                <div className={s.preview}>
+                    <img src={iconPreview}></img>
+                    <p>Предварительный просмотр в разработке</p>
+                </div>
             </div>
         </div>
     )

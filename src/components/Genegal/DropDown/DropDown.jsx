@@ -8,7 +8,7 @@ import { ReactComponent as IconWarning } from '../../../assets/icons/iconWarning
 //utils
 import { handleSearchCompany } from '../../../utils/SearchCompany';
 
-const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveItem, disabled, error, errorText, resetError, noActive }) => {
+const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveItem, disabled, error, errorText, resetError, overlay, noActive }) => {
     const [parent] = useAutoAnimate({ duration: 150 });
     const [query, setQuery] = useState('');
     const [caption, setCaption] = useState('')
@@ -59,7 +59,7 @@ const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveI
         type !== 'position' && type !== 'signatory' && resetError()
     }
     const handleOpenList = () => {
-        setOpenList(true)
+        !openList && setOpenList(true)
     }
 
     const handleFocus = () => {
@@ -88,29 +88,28 @@ const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveI
     return (
         <div className={classNames(s.root, type == 'signatory' && s.root_wide, noActive && s.root_noactive)}>
             {sub && sub !== '' && <span className={s.sub}>{sub}</span>}
-            <div ref={fieldRef} onClick={handleFocus} className={classNames(s.field, disabled && s.field_disabled, error && s.field_error)}>
+            <div ref={fieldRef} onClick={overlay ? handleFocus : null} className={classNames(s.field, disabled && s.field_disabled, disabled && !overlay && s.field_disabledover, error && s.field_error)}>
                 <input disabled={disabled} ref={inputRef} onFocus={handleOpenList} value={query || ''} onChange={handleSearch}></input>
-                <div className={classNames(s.overlay, !openList && s.overlay_active, disabled && s.overlay_disabled)}>
+                {overlay && <div className={classNames(s.overlay, !openList && s.overlay_active, disabled && s.overlay_disabled)}>
                     <p>{query}</p>
                     {caption.length > 0 && !openList && <span>{caption}</span>}
                     {lable.length > 0 && !openList && <div className={s.label}><p>{lable}</p></div>}
-                </div>
+                </div>}
 
-                <IconChewron className={classNames(s.chewron, openList && s.chewron_open)} />
+                <IconChewron onClick={handleChoseActiveItem} className={classNames(s.chewron, openList && s.chewron_open)} />
             </div>
             <ul
                 ref={modalRef}
-                style={{ zIndex: z }}
+                /*   style={{ zIndex: z }} */
                 className={classNames(s.block, openList && s.block_open, searchList?.length > 6 && s.block_scroll, type == 'position' && s.block_position)}
             >
                 {header?.title && <div className={s.header}></div>}
-                {!noActive && <div /* ref={parent} */ className={s.list}>
+                {!noActive && <div /* ref={parent}  */ className={s.list}>
                     {searchList?.length === 0 && <div className={s.notfound}>Не найдено по запросу “{query}”</div>}
-                    {searchList?.map(el => {
-                        return <div onClick={() => handleChoseActiveItem(el)}><ListItem el={el} key={el.id} /></div>
+                    {searchList?.map((el, i) => {
+                        return <div key={el.id ? el.id : i} onClick={() => handleChoseActiveItem(el)}><ListItem el={el} /></div>
                     })}
-                </div>
-                }
+                </div>}
 
             </ul>
 

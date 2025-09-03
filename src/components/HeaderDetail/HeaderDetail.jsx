@@ -20,7 +20,7 @@ import ButtonsEdit from '../ButtonsEdit/ButtonsEdit';
 import { BUTTON_TEXT_CREATE } from '../../constants/upds';
 
 const HeaderDetail = ({ id, idInvoice, type, setType }) => {
-    const { customer, detail, signatory, numberAct, numberInvoice, date } = useSelector((state) => state.mainInfo);
+    const { customer, detail, signatory, numberAct, numberInvoice, date, nds } = useSelector((state) => state.mainInfo);
     const { positions, total } = useSelector((state) => state.positions);
     const [updateUpd, { isLoading: isLoadingEdit }] = useUpdateUpdMutation();
     const [createBill, { data, isError, isLoading }] = useCreateActMutation();
@@ -33,7 +33,7 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
         const customerValidation = customer?.partnership_id ? true : false;
         const detailValidation = detail?.partnership_id ? true : false;
         const numberValidation = Number(numberAct) !== 0 ? true : false;
-        const positionsValidation = positions.every(el => el?.rate?.name_service !== '' && el?.rate?.name_service && Number(el?.count) > 0 && el?.units !== '' && Number(el?.code) > 0 && Number(el?.price) > 0 && Number(el?.total) > 0);
+        const positionsValidation = positions.every(el => el?.rate?.name_service !== '' && el?.rate?.name_service && Number(el?.count) > 0 && el?.units !== '' && Number(el?.code) > 0 && Number(el?.price) !== '' && Number(el?.total) !== '');
         dispatch(setCustomerValidation(customerValidation))
         dispatch(setDetailValidation(detailValidation))
         dispatch(setNumberValidation(numberValidation))
@@ -72,6 +72,7 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
             signature: signatory.id !== 'no' ? signatory.name : null,
             rows,
             sum: total,
+            nds
 
         }
 
@@ -117,7 +118,7 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
             rows,
             sum: total,
             draft: 0,
-            nds: detail?.nds,
+            nds
         }
 
         if (handleValidation()) {

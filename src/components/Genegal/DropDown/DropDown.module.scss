@@ -1,6 +1,6 @@
 .root {
     width: 100%;
-    min-width: 500px;
+    min-width: 460px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -8,13 +8,6 @@
 
     &_wide {
         width: 500px;
-    }
-
-    &_noactive {
-
-        svg {
-            opacity: 0;
-        }
     }
 }
 
@@ -45,12 +38,24 @@
 
     &_disabled {
         input {
-            opacity: 0;
+            /*  opacity: 0; */
+
+            &:disabled {
+                color: inherit;
+            }
         }
 
         svg {
             cursor: default;
             opacity: 0;
+        }
+    }
+
+    &_disabledover {
+        background-color: rgba(212, 223, 243, 0.17);
+
+        input {
+            background: none !important;
         }
     }
 
@@ -82,7 +87,7 @@
     max-height: 0;
     /*  opacity: 0; */
     z-index: 2;
-  /*   scrollbar-gutter: stable; */
+    scrollbar-gutter: stable;
     transition: all 0.25s ease-in-out;
 
     &_open {

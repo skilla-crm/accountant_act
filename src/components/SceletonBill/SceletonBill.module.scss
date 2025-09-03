@@ -1,5 +1,6 @@
 .root {
     width: 100%;
+    height: 100%;
     position: absolute;
     z-index: 2;
     top: 0;
@@ -55,6 +56,7 @@
     flex-direction: column;
     gap: 20px;
     min-width: 1000px;
+    max-width: 1840px;
 }
 
 .maininfo {
@@ -83,10 +85,6 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
-
-    &_2 {
-        width: 500px;
-    }
 }
 
 .input {
@@ -212,8 +210,8 @@
 }
 
 .preview {
-    height: 700px;
-    min-width: 500px;
+    height: 580px;
+    min-width: 480px;
     width: 100%;
     flex-shrink: 10;
     background: #ffffff;
@@ -236,9 +234,15 @@
         color: #ADBFDF;
         width: 370px;
         text-align: center;
-        font-size: 18px;
-        font-weight: 500;
-        line-height: 24px;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 16px;
+    }
+
+    img {
+        height: 248px;
+        width: auto;
     }
 
 }

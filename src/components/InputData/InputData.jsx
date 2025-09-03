@@ -9,7 +9,7 @@ const InputData = ({ sub, nosub, setDate, date, disabled }) => {
     const [fieldFocus, setFieldFocus] = useState(false);
     const [openCalendar, setOpenCalendar] = useState(false);
     const [dateVis, setDateVis] = useState('');
-    const [backspaceState, setBackspaceState] = useState(false);
+
     const inputRef = useRef();
     const fieldRef = useRef();
 
@@ -73,7 +73,7 @@ const InputData = ({ sub, nosub, setDate, date, disabled }) => {
                 <p onClick={handleBage} id='2'>Послезавтра</p>
             </div>
             }
-            {openCalendar && <DataPickerCalendar value={date} setValue={setDate} setOpenCalendar={setOpenCalendar} nosub={nosub} />}
+            {openCalendar && <DataPickerCalendar value={date === '' ? null : date} setValue={setDate} setOpenCalendar={setOpenCalendar} nosub={nosub} />}
         </div>
     )
 };

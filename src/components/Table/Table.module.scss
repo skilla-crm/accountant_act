@@ -54,8 +54,8 @@
 .number {
     text-align: start;
     padding-left: 16px !important;
-    width: 80px;
-    max-width: 80px;
+    width: 110px;
+    max-width: 120px;
     flex-shrink: 0;
 }
 
@@ -77,7 +77,7 @@
 
 
 .connection {
-    width: 140px;
+    width: 90px;
     max-width: 140px;
     padding-right: 0 !important;
     display: flex;
@@ -121,7 +121,7 @@
     min-width: 200px;
     width: 100%;
     max-width: 1fr;
-    flex-shrink: 10;
+    flex-shrink: 11;
     display: flex;
     align-items: center;
     gap: 4px;
@@ -138,18 +138,19 @@
 }
 
 .progress {
-    text-align: start;
+    display: flex;
+    align-items: center;
     width: 130px;
     max-width: 130px;
     padding: 16px 10px !important;
     flex-shrink: 0;
+    overflow: visible !important;
 }
 
 .status {
     text-align: center;
     width: 130px;
     max-width: 130px;
-    padding: 16px 10px !important;
     flex-shrink: 0;
 }
 
@@ -241,6 +242,64 @@
     }
 }
 
+
+.bage {
+    height: 24px;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    background-color: #F1F4F9;
+    color: #71869D;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+}
+
+.bar {
+    width: 24px;
+    height: 6px;
+    border-radius: 100px;
+    background-color: #DFE5EF;
+    position: relative;
+    pointer-events: none;
+
+    &_active {
+        pointer-events: all;
+        cursor: pointer;
+        background-color: #28A879;
+    }
+}
+
+.row {
+    height: 48px;
+    max-height: 48px;
+    position: relative;
+    transition: all 0.15s;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #F8FAFD;
+    }
+}
+
+.border {
+    position: absolute;
+    left: 28px;
+    border-top: 1px solid #EAF0FA;
+    width: calc(100% - 56px);
+}
+
+.container_tooltip {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    svg {
+        cursor: pointer;
+    }
+}
+
 .tooltip {
     width: fit-content;
     position: absolute;
@@ -251,7 +310,7 @@
     visibility: hidden;
     display: flex;
     flex-direction: column;
-    transition: all 0.15s;
+    transition: all 0.15s ease-in-out;
     padding: 3px 12px 8px 12px;
     background-color: #1f3345e6;
     border-radius: 4px;
@@ -259,7 +318,8 @@
 
     svg {
         position: relative;
-        left: 48%;
+        left: 50%;
+        transform: translateX(-50%);
         top: -8px;
     }
 
@@ -278,24 +338,82 @@
     }
 
     &_pay {
-        left: -286px;
+        left: -272px;
 
         svg {
             left: 88%;
         }
     }
 
+    &_progress {
+        top: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    &_status {
+        top: 38px;
+        right: 20px;
+        left: auto;
+        transform: none;
+        padding-top: 8px;
+
+        /*  left: 74%;
+        transform: translateX(-74%); */
+        svg {
+            display: none;
+        }
+
+    }
+
+    &_last {
+        top: auto;
+        bottom: 110%;
+
+        svg {
+            display: none;
+        }
+    }
+
 }
 
-.bage {
-    height: 24px;
-    padding: 0 8px;
+.status {
     display: flex;
+    height: 24px;
+    box-sizing: border-box;
+    padding: 3px 6px;
+    justify-content: center;
     align-items: center;
+    gap: 10px;
+    width: fit-content;
+    flex-shrink: 0;
     border-radius: 4px;
-    background-color: #F1F4F9;
-    color: #71869D;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 18px;
+    border: 1px solid #ADBFDF;
+    color: #ADBFDF;
+    /*  position: relative; */
+    pointer-events: none;
+
+    p {
+        line-height: 18px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    &_1 {
+        border-color: #002CFB;
+        color: #002CFB;
+        pointer-events: all;
+    }
+
+    &_2 {
+        color: #fff;
+        border-color: #002CFB;
+        background-color: #002CFB;
+        pointer-events: all;
+    }
 }

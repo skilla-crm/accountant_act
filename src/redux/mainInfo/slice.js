@@ -11,7 +11,8 @@ const initialState = {
   numberInvoiceFirst: '',
   date: dayjs().locale('ru') || '',
   orders: [],
-  signatory: {}
+  signatory: {},
+  nds: null,
 };
 
 export const mainInfoSlice = createSlice({
@@ -31,6 +32,7 @@ export const mainInfoSlice = createSlice({
 
     setDetail: (state, action) => {
       state.detail = action.payload;
+      state.nds = action.payload?.nds;
     },
 
     setNumberAct: (state, action) => {
@@ -59,6 +61,10 @@ export const mainInfoSlice = createSlice({
 
     setSignatory: (state, action) => {
       state.signatory = action.payload;
+    },
+
+    setNds: (state, action) => {
+      state.nds = action.payload;
     }
   }
 });
@@ -73,6 +79,7 @@ export const {
   setNumberInvoiceFirst,
   setDate,
   setOrders,
-  setSignatory
+  setSignatory,
+  setNds
 } = mainInfoSlice.actions;
 export default mainInfoSlice.reducer;

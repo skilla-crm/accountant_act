@@ -14,9 +14,8 @@ import { addSpaceNumber } from '../../utils/addSpaceNumber';
 const ServicesBlock = ({ parameters, error, errorText, resetError, disabled }) => {
     const dispatch = useDispatch()
     const { positions, total } = useSelector((state) => state.positions);
-    const { customer, detail } = useSelector((state) => state.mainInfo);
+    const { customer, detail, nds } = useSelector((state) => state.mainInfo);
     const [rates, setRates] = useState([]);
-    const nds = detail?.nds;
 
     useEffect(() => {
         resetError()

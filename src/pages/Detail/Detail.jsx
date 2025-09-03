@@ -20,6 +20,7 @@ import {
     setSignatory
 } from '../../redux/mainInfo/slice';
 import { setPositions } from '../../redux/positions/slice';
+import { setExchange, setLogs } from '../../redux/logs/slice';
 //components
 import Upd from '../../components/Upd/Upd';
 import SceletonBill from '../../components/SceletonBill/SceletonBill';
@@ -52,13 +53,16 @@ const Detail = () => {
             dispatch(setOrders(data?.orders))
             setIdInvoice(data?.invoice?.id ? data?.invoice?.id : null)
 
+            dispatch(setExchange(data?.exchange))
+            dispatch(setLogs(data?.logs))
+
             document.title = `Акт №${data?.number} от ${dayjs(data?.date).format('DD.MM.YYYY')}`
 
             const rows = data?.rows?.map((el, i) => {
                 return {
                     id: i + 1,
                     rate: { id: 999, name_service: el?.description },
-                    count: el?.amount,
+                    count: Number(el?.amount),
                     units: el?.unit,
                     code: el?.okei,
                     price: Number(el?.sum_unit),
@@ -81,7 +85,7 @@ const Detail = () => {
 
 
         }
-    }, [data, isFetching])
+    }, [data])
 
     return (
         <div className={classNames(s.root, anim && s.root_anim)}>

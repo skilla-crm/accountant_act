@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-const positionSample = { rate: {}, count: 1, units: 'ед', code: '642', price: '', total: '' }
+const positionSample = { rate: {}, count: 1, units: 'Ед', code: '642', price: '', total: '' }
 
 const initialState = {
-  positions: [{ id: 1, rate: {}, count: 1, units: 'ед', code: '642', price: '', total: '' }],
+  positions: [{ id: 1, rate: {}, count: 1, units: 'Ед', code: '642', price: '', total: '' }],
   total: 0
 };
 
@@ -31,15 +31,15 @@ export const positionsSlice = createSlice({
       let modifyItem = { ...item }
 
       if (key === 'rate' && data.rate.okei) {
-        modifyItem = { ...item, [key]: data[key], units: data.rate.unit, code: data.rate.okei}
+        modifyItem = { ...item, [key]: data[key], units: data.rate.unit, code: data.rate.okei }
       } else if (key === 'rate' && !data.rate.okei) {
-        modifyItem = { ...item, [key]: data[key], units: 'Ед', code: '642'}
+        modifyItem = { ...item, [key]: data[key], units: 'Ед', code: '642' }
       } else if (key === 'count' && item.price !== '') {
-        modifyItem = { ...item, [key]: data[key], total: item.price * data[key] !== 0 ? item.price * data[key] : '' }
+        modifyItem = { ...item, [key]: data[key], total: item.price * data[key] !== 0 ? item.price * data[key] : 0 }
       } else if (key === 'price') {
-        modifyItem = { ...item, [key]: data[key], total: item.count * data[key] !== 0 ? item.count * data[key] : '' }
+        modifyItem = { ...item, [key]: data[key], total: item.count * data[key] !== 0 ? item.count * data[key] : 0 }
       } else if (key === 'total') {
-        modifyItem = { ...item, [key]: data[key], price: data[key] / item.count !== 0 ? data[key] / item.count : '' }
+        modifyItem = { ...item, [key]: data[key], price: data[key] / item.count !== 0 ? data[key] / item.count : 0 }
       } else {
         modifyItem = { ...item, [key]: data[key] }
       }

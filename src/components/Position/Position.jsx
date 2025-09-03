@@ -50,6 +50,7 @@ const Position = ({ data, id, i, length, rates, disabled }) => {
                         activeItem={data?.rate}
                         setActiveItem={(value) => dispatch(setPositionValues({ key: 'rate', id, rate: firstSymbolsDate && value?.id ? { ...value, name_service: `${nameService?.slice(0, 8)} ${value?.name_service}` } : value }))}
                         disabled={disabled}
+                        overlay={false}
                     />
                 </div>
                 <div className={s.count}>

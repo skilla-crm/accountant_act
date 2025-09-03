@@ -22,7 +22,8 @@ const ModalDelete = ({ open, setOpen, id }) => {
     const handleDelete = () => {
         deleteUpd(id)
         .then(res => {
-            const data = res.data
+            const data = res.data;
+            console.log(data, res)
             data.success && navigate('/')
         })
     }

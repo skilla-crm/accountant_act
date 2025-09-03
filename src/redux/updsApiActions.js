@@ -17,7 +17,7 @@ export const updsApiActions = createApi({
 
     getUpds: build.query({
       query: (params) => ({
-        url: `acts/with_invoices`,
+        url: `acts`,
         method: 'GET',
         params
       }),
@@ -30,7 +30,8 @@ export const updsApiActions = createApi({
         url: `acts/detail/${id}`,
         method: 'GET',
       }),
-      transformResponse: (response) => response?.data
+      transformResponse: (response) => response?.data,
+      providesTags: ['Upd']
     }),
 
     getParameters: build.query({
@@ -57,7 +58,7 @@ export const updsApiActions = createApi({
         method: 'PATCH',
         body: body
       }),
-      invalidatesTags: ['Upds']
+      invalidatesTags: ['Upds', 'Upd']
     }),
 
     deleteUpd: build.mutation({
@@ -74,7 +75,7 @@ export const updsApiActions = createApi({
         method: 'POST',
         body: body
       }),
-      invalidatesTags: ['Upds']
+      invalidatesTags: ['Upds', 'Upd']
     }),
 
     getUpdDownload: build.mutation({
@@ -86,6 +87,7 @@ export const updsApiActions = createApi({
           return response.blob();
         }
       }),
+      invalidatesTags: ['Upd']
     }),
 
     getUpdDownloadMass: build.mutation({
@@ -97,6 +99,33 @@ export const updsApiActions = createApi({
           return response.blob();
         }
       }),
+    }),
+
+    sendOriginalUpd: build.mutation({
+      query: ({ body, id }) => ({
+        url: `acts/send_original/${id}`,
+        method: 'POST',
+        body: body
+      }),
+      invalidatesTags: ['Upd']
+    }),
+
+    signOriginalUpd: build.mutation({
+      query: ({ body, id }) => ({
+        url: `acts/sign_original/${id}`,
+        method: 'POST',
+        body: body
+      }),
+      invalidatesTags: ['Upd']
+    }),
+
+    unmarkUpd: build.mutation({
+      query: ({ body, id }) => ({
+        url: `acts/unmark/${id}`,
+        method: 'POST',
+        body: body
+      }),
+      invalidatesTags: ['Upd']
     }),
   })
 });
@@ -111,4 +140,7 @@ export const {
   useSendUpdMutation,
   useGetUpdDownloadMutation,
   useGetUpdDownloadMassMutation,
+  useSendOriginalUpdMutation,
+  useSignOriginalUpdMutation,
+  useUnmarkUpdMutation,
 } = updsApiActions;

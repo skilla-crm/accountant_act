@@ -9,6 +9,8 @@ import { ReactComponent as IconDone } from '../../assets/icons/iconDone.svg';
 import { ReactComponent as IconCloseBlue } from '../../assets/icons/iconCloseBlue.svg';
 import { ReactComponent as IconInfo } from '../../assets/icons/iconInfo.svg';
 import { ReactComponent as IconUp } from '../../assets/icons/iconUp.svg';
+import { ReactComponent as IconTime } from '../../assets/icons/iconTime.svg';
+import { ReactComponent as IconDoneWhite } from '../../assets/icons/iconDoneWhite.svg';
 //components
 /* import Tooltip from '../Tooltip/Tooltip'; */
 //utils
@@ -35,16 +37,16 @@ const Table = ({ data }) => {
 
                     <th className={s.date}>Дата</th>
                     <th className={s.number}>Номер</th>
-                    <td className={s.bages}>
-                    </td>
-                    {/* 
+                    {/*  <td className={s.bages}>
+                    </td> */}
+
                     <th className={s.date}>Дата С/Ф</th>
-                    <th className={s.number}>Номер С/Ф</th> */}
+                    <th className={s.number}>Номер С/Ф</th>
                     <th className={s.customer}>Заказчик</th>
                     <th className={s.summ}>Сумма, ₽</th>
                     <th className={s.recipient}>Поставщик</th>
                     <th className={s.bill}>Счет поставщика</th>
-                    <th className={s.connection}>Связь с заказом
+                    <th className={s.connection}>Заказ
                         <div className={s.container_tooltip}>
                             <IconInfo
                                 onMouseEnter={handleOpenTooltip}
@@ -59,8 +61,8 @@ const Table = ({ data }) => {
 
 
 
-                    {/*  <th className={s.progress}>Прогресс</th>
-                    <th className={s.progress}>Прогресс</th> */}
+                    <th className={s.progress}>Прогресс</th>
+                    <th className={s.progress}>Обмен оригиналом</th>
                     <th className={s.button}></th>
                 </tr>
 
@@ -68,8 +70,8 @@ const Table = ({ data }) => {
             <tbody>
 
 
-                {data?.map((el) => {
-                    return <Row key={el.id} bill={el} />
+                {data?.map((el, i) => {
+                    return <Row lastLines={data?.length - i < 2} key={el.id} bill={el} />
                 })}
             </tbody>
         </table>
@@ -77,7 +79,7 @@ const Table = ({ data }) => {
 };
 
 
-const Row = ({ bill }) => {
+const Row = ({ bill, lastLines }) => {
     const [focus, setFocus] = useState(false)
     const navigate = useNavigate()
 
@@ -105,19 +107,19 @@ const Row = ({ bill }) => {
                 <p>{bill?.number}</p>
             </td>
 
-            <td className={s.bages}>
+            {/*  <td className={s.bages}>
                 <div className={s.bage}>
                     {bill?.type === 1 && 'АКТ'}
                     {bill?.type === 2 && 'C/Ф'}
                 </div>
-            </td>
+            </td> */}
 
-            {/*  <td className={s.date}>
+            <td className={s.date}>
                 {bill?.invoice_date && <p>{dayjs(bill?.invoice_date).format('DD.MM.YY')}</p>}
             </td>
             <td className={s.number}>
                 <p>{bill?.invoice_num}</p>
-            </td> */}
+            </td>
 
             <td className={s.customer}>
                 <p>
@@ -145,13 +147,14 @@ const Row = ({ bill }) => {
                 {bill?.related_order && <IconDone />}
             </td>
 
-            {/* <td className={s.progress}>
-                <Progress />
+            <td className={s.progress}>
+                <Progress lastLines={lastLines} progress={bill?.progress} />
             </td>
 
             <td className={s.progress}>
-                <Progress />
-            </td> */}
+                <Status lastLines={lastLines} exchange={bill?.exchange} />
+            </td>
+
             <td className={classNames(s.button, focus && s.button_vis)}>
                 {/* <IconCloseBlue/> */}
             </td>
@@ -172,14 +175,122 @@ const Tooltip = ({ open, id }) => {
 }
 
 
-const Progress = () => {
+
+const Progress = ({ lastLines, progress }) => {
+    const [openTooltip, setOpenTooltip] = useState('')
+
+    const handleOpenTooltip = (num) => {
+        setOpenTooltip(num)
+    }
+
+    const handleCloseTooltip = () => {
+        setOpenTooltip('')
+    }
+
     return (
         <div className={s.line}>
-            <div className={classNames(s.bar, s.bar_active)}>
-                {/*      <Tooltip /> */}
+            <div
+                id={1}
+                className={classNames(s.bar, progress?.first?.date && s.bar_active)}
+                onMouseEnter={() => handleOpenTooltip(1)}
+                onMouseLeave={handleCloseTooltip}
+            >
+                <TooltipProgress
+                    id={1}
+                    lastLines={lastLines}
+                    open={openTooltip === 1}
+                    firstString={`Создан ${dayjs(progress?.first?.date).format('DD.MM.YY в HH:mm')}`}
+                    secondString={`${progress?.first?.person?.position === 'director' ? 'Руководитель' : 'Бухгалтер'} ${progress?.first?.person?.name} ${progress?.first?.person?.surname}`}
+                />
             </div>
-            <div className={classNames(s.bar)}></div>
-            <div className={classNames(s.bar)}></div>
+            <div
+                id={2}
+                className={classNames(s.bar, progress?.second?.date && s.bar_active)}
+                onMouseEnter={() => handleOpenTooltip(2)}
+                onMouseLeave={handleCloseTooltip}
+            >
+                <TooltipProgress
+                    id={2}
+                    lastLines={lastLines}
+                    open={openTooltip === 2}
+                    firstString={`Отправлен на e-mail ${dayjs(progress?.second?.date).format('DD.MM.YY в HH:mm')}`}
+                    secondString={`${progress?.second?.person?.position === 'director' ? 'Руководитель' : 'Бухгалтер'} ${progress?.second?.person?.name} ${progress?.second?.person?.surname}`}
+                />
+            </div>
+            <div
+                id={3}
+                className={classNames(s.bar, progress?.third?.date && s.bar_active)}
+                onMouseEnter={() => handleOpenTooltip(3)}
+                onMouseLeave={handleCloseTooltip}
+            >
+                <TooltipProgress
+                    id={3}
+                    lastLines={lastLines}
+                    open={openTooltip === 3}
+                    firstString={`Просмотрен ${dayjs(progress?.third?.date).format('DD.MM.YY в HH:mm')}`}
+                    secondString={''}
+                />
+            </div>
+        </div>
+    )
+}
+
+const TooltipProgress = ({ isStatus, lastLines, open, firstString, secondString }) => {
+    return (
+        <div
+            className={classNames(
+                s.tooltip,
+                s.tooltip_progress,
+                isStatus && s.tooltip_status,
+                open && s.tooltip_open,
+                lastLines && s.tooltip_last
+            )}
+        >
+            <IconUp />
+            {firstString !== '' && <p>{firstString}</p>}
+            {secondString !== '' && <p>{secondString}</p>}
+        </div>
+    )
+}
+
+const Status = ({ lastLines, exchange }) => {
+    const [openTooltip, setOpenTooltip] = useState(false)
+    const [firstString, setFirstString] = useState('')
+    const [secondString, setSecondString] = useState('')
+
+    const handleOpenTooltip = () => {
+        (exchange?.send === 1 || exchange?.sign === 1) && setOpenTooltip(true)
+        const position = exchange?.person?.position === 'director' ? 'Руководитель' : exchange?.person?.position === 'accountant' ? 'Бухгалтер' : 'Менеджер'
+        if (exchange?.send === 1 && exchange?.sign !== 1) {
+            setFirstString(`Отправлен ${dayjs(exchange?.send_date).format('DD.MM.YY')}`)
+            exchange?.person?.id && setSecondString(`${position} ${exchange?.person?.name} ${exchange?.person?.surname}`)
+            return
+        }
+
+        if (exchange?.send === 1 && exchange?.sign === 1) {
+            setFirstString(`Подписан ${dayjs(exchange?.sign_date).format('DD.MM.YY')}`)
+            exchange?.person?.id && setSecondString(`${position} ${exchange?.person?.name} ${exchange?.person?.surname}`)
+            return
+        }
+    }
+
+    const handleCloseTooltip = () => {
+        setOpenTooltip(false)
+    }
+    return (
+        <div onMouseEnter={handleOpenTooltip} onMouseLeave={handleCloseTooltip} className={classNames(s.status, exchange?.send === 1 && exchange?.sign !== 1 && s.status_1, exchange?.send === 1 && exchange?.sign === 1 && s.status_2)}>
+            {exchange?.send !== 1 && exchange?.sign !== 1 && <p>Не отправлен</p>}
+            {exchange?.send === 1 && exchange?.sign !== 1 && exchange?.send_type !== 'edo' && <p><IconTime /> На бумаге </p>}
+            {exchange?.send === 1 && exchange?.sign !== 1 && exchange?.send_type === 'edo' && <p><IconTime /> ЭДО</p>}
+            {exchange?.send === 1 && exchange?.sign === 1 && exchange?.sign_type !== 'edo' && <p><IconDoneWhite /> На бумаге </p>}
+            {exchange?.send === 1 && exchange?.sign === 1 && exchange?.sign_type === 'edo' && <p><IconDoneWhite /> ЭДО</p>}
+            <TooltipProgress
+                lastLines={lastLines}
+                isStatus={true}
+                open={openTooltip}
+                firstString={firstString}
+                secondString={secondString}
+            />
         </div>
     )
 }
