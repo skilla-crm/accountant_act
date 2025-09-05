@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
 //Api
 import { useGetUpdQuery } from '../../redux/updsApiActions';
+//hooks
+import useRefetchDoc from '../../hooks/useRefetchDoc';
 //slice
 import {
     setCustomer,
@@ -32,7 +34,10 @@ const Detail = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const id = location.pathname?.split('/').pop()
-    const { data, isLoading, isFetching } = useGetUpdQuery(id);
+    const { data, currentData, isLoading, isFetching, isUninitialized, refetch } = useGetUpdQuery(id);
+
+    const isReady = currentData && !isUninitialized
+    useRefetchDoc(id, refetch, isReady)
 
     useEffect(() => {
         setTimeout(() => {

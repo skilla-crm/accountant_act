@@ -64,7 +64,6 @@ const Buttons = ({ id, idInvoice, setType }) => {
         }
     }, [isLoading])
 
-    console.log(idInvoice)
 
     const handleDownloadAct = async (params) => {
         setLoadDownload(true)

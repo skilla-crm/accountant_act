@@ -24,7 +24,6 @@ const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
     const { customerValidation, detailValidation, signatoryValidation, numberValidation } = useSelector((state) => state.validation);
     const [detailsList, setDetailsList] = useState([])
     const [signatureList, setSignatureList] = useState([])
-    console.log(detail, numberInvoice)
 
     useEffect(() => {
         if (customer.id) {

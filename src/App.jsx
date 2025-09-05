@@ -2,6 +2,7 @@ import s from './App.module.scss';
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { ToastContainer, Slide } from "react-toastify";
 //api
 import { getProfile } from './api/Api';
 //slice
@@ -46,6 +47,15 @@ const App = () => {
                 />
 
             </Routes>
+
+            <ToastContainer
+                position="top-center"
+                hideProgressBar
+                closeOnClick
+                pauseOnHover
+                limit={3}
+                transition={Slide}
+            />
         </div>
 
     )

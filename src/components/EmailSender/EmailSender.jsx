@@ -15,6 +15,7 @@ import Switch from './Switch/Switch';
 import FormatList from './FormatList/FormatList';
 //utils
 import { emailValidate } from './utils/EmailValidate';
+import SendToast from '../../hooks/SendToast';
 
 const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partnerEmail, handleSendEmailSuccess, numberAct, numberInvoice, date }) => {
     const [sendUpd, { data, isError, isLoading }] = useSendUpdMutation();
@@ -95,7 +96,7 @@ const EmailSender = ({ id, open, setOpen, contacts, theme, text, formats, partne
             .then(res => {
                 if (res.data.success) {
                     setOpen(false)
-                    handleSendEmailSuccess()
+                    SendToast('email' , 'Письмо отправлено')
                     setEmails(contacts?.filter(el => el.email !== ''))
                     themeTextHendler()
                     setTextValue(text)

@@ -25,9 +25,8 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
     const [updateUpd, { isLoading: isLoadingEdit }] = useUpdateUpdMutation();
     const [createBill, { data, isError, isLoading }] = useCreateActMutation();
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
-    console.log(detail)
 
     const handleValidation = () => {
         const customerValidation = customer?.partnership_id ? true : false;

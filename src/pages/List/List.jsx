@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
+//hooks
+import useRefetchDocsList from '../../hooks/useRefetchDocsList';
 //Api
 import { useGetUpdsQuery, useGetParametersQuery } from '../../redux/updsApiActions';
 import { getNextPage } from '../../api/Api';
@@ -41,7 +43,11 @@ const List = () => {
         'filter[date_start]': dateStart,
         'filter[date_end]': dateEnd
     };
-    const { data, isLoading, isError, isFetching } = useGetUpdsQuery(params, { refetchOnMountOrArgChange: true });
+    const { data, currentData, isLoading, isError, isUninitialized, isFetching, refetch } = useGetUpdsQuery(params, { refetchOnMountOrArgChange: true });
+
+    const isReady = currentData && !isUninitialized
+    useRefetchDocsList(refetch, isReady)
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
 

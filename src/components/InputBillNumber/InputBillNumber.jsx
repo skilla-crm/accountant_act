@@ -12,7 +12,6 @@ const InputBillNumber = ({ sub, number, setNumber, errorEmpity, errorText, reset
     const [done, setDone] = useState(false);
     const [error, setError] = useState(false)
     const inputRef = useRef()
-    console.log(type)
 
     const handleNumberValue = (e) => {
         let reg = /[A-Za-zA-Яа-яЁё]/g;
@@ -26,14 +25,6 @@ const InputBillNumber = ({ sub, number, setNumber, errorEmpity, errorText, reset
     const handleFocus = () => {
         setFocus(true)
     }
-    /* 
-        const handleBlur = () => {
-            getCheckNumber(type, number)
-                .then(res => setError(false))
-                .catch(err => { number !== '' && setError(true) })
-            setFocus(false)
-        } */
-       console.log(type, numberActFirst, number)
 
     const handleBlur = () => {
         type == 1 && Number(numberActFirst) !== Number(number) && getCheckNumber(type, number, detail?.partnership_id)
