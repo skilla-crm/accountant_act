@@ -25,8 +25,6 @@ const DocumentFlow = ({ id, exchange }) => {
     const [blockStatus, setBlockStatus] = useState(0);
     const modalRef = useRef()
 
-    console.log(exchange)
-
     const handleContainerStatus = (e) => {
         const id = Number(e.currentTarget.id);
 

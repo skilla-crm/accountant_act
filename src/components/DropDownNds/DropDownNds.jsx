@@ -41,8 +41,6 @@ const DropDownNds = ({ value, setValue, disabled }) => {
         return () => document.removeEventListener('mousedown', closeModal);
     }, []);
 
-    console.log(value)
-
     return (
         <div className={s.root}>
             <span className={s.sub}>Ставка НДС</span>

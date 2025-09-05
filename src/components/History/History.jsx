@@ -47,11 +47,10 @@ const History = ({ logs }) => {
             <div className={classNames(s.container, open && s.container_open)}>
                 {dates?.map(el => {
                     const logsList = logsItems?.filter((item) => dayjs(item.date_create).format('YYYY-MM-DD') === el)
-                    console.log(dates, logsList)
                     const currentYear = dayjs(el).format('YYYY') == dayjs().format('YYYY')
                     const today = dayjs(el).format('D MM YYYY') == dayjs().format('D MM YYYY')
                     const tomorrow = dayjs(el).format('MM YYYY') == dayjs().format('MM YYYY') && dayjs().format('D') - dayjs(el).format('D') == 1;
-                    console.log(tomorrow, dayjs().format('D'), dayjs(el), el)
+
                     return <div className={s.block} key={el}>
                         {currentYear && today && <span>Сегодня</span>}
                         {currentYear && tomorrow && <span>Вчера</span>}
