@@ -18,6 +18,10 @@ const useRefetchDocsList = (refetch, isReady) => {
                     }
                 }
             );
+
+            return () => {
+                channel.stopListening("Broadcasting.UserReceivedEvent");
+            };
         }
     }, [window?.channelData, isReady])
 };
