@@ -8,16 +8,15 @@ import { getProfile } from './api/Api';
 //slice
 import { setUser } from './redux/user/slice';
 import { setSearchQuery } from './redux/filters/slice';
+//hooks
+import useRefetch from './hooks/useRefetch';
 //components
 import List from './pages/List/List';
 import Detail from './pages/Detail/Detail';
 import Create from './pages/Create/Create';
 
-
-
-
-
 const App = () => {
+    useRefetch()
     const dispatch = useDispatch()
 
     useEffect(() => {

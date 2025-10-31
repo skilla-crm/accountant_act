@@ -2,12 +2,10 @@ import s from './Detail.module.scss';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 //Api
 import { useGetUpdQuery } from '../../redux/updsApiActions';
-//hooks
-import useRefetchDoc from '../../hooks/useRefetchDoc';
 //slice
 import {
     setCustomer,
@@ -33,11 +31,17 @@ const Detail = () => {
     const [idInvoice, setIdInvoice] = useState(null);
     const dispatch = useDispatch();
     const location = useLocation();
+    const { update } = useSelector((state) => state.updateData);
     const id = location.pathname?.split('/').pop()
     const { data, currentData, isLoading, isFetching, isUninitialized, refetch } = useGetUpdQuery(id);
 
-    const isReady = currentData && !isUninitialized
-    useRefetchDoc(id, refetch, isReady)
+    //рефетч обновление деталки исполнителя
+    useEffect(() => {
+        if (update.id == id && !isUninitialized && update.count > 0) {
+            refetch()
+            return
+        }
+    }, [update.count, id, isUninitialized])
 
     useEffect(() => {
         setTimeout(() => {

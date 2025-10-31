@@ -4,8 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
-//hooks
-import useRefetchDocsList from '../../hooks/useRefetchDocsList';
 //Api
 import { useGetUpdsQuery, useGetParametersQuery } from '../../redux/updsApiActions';
 import { getNextPage } from '../../api/Api';
@@ -36,6 +34,7 @@ const List = () => {
     const { data: parameters, isLoading: isLoadingParams } = useGetParametersQuery();
     const { search, filterCompanys, filterCustomers, filterStatus } = useSelector((state) => state.filters);
     const { dateStart, dateEnd } = useSelector((state) => state.dateRange);
+    const { updateList } = useSelector((state) => state.updateData);
     const params = {
         'filter[search]': search,
         'filter[company_ids]': JSON.stringify(filterCustomers),
@@ -45,8 +44,13 @@ const List = () => {
     };
     const { data, currentData, isLoading, isError, isUninitialized, isFetching, refetch } = useGetUpdsQuery(params, { refetchOnMountOrArgChange: true });
 
-    const isReady = currentData && !isUninitialized
-    useRefetchDocsList(refetch, isReady)
+    //обновление данных
+    useEffect(() => {
+        if (updateList > 0 && !isUninitialized) {
+            refetch()
+            return
+        }
+    }, [updateList, isUninitialized])
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
