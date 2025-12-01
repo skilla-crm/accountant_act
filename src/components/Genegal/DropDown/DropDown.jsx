@@ -72,6 +72,10 @@ const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveI
         type !== 'position' && type !== 'signatory' && resetError()
     }
 
+    const handleCloseList = () => {
+        openList ? setOpenList(false) : setOpenList(true)
+    }
+
     const closeModal = (e) => {
         e.stopPropagation()
         if (modalRef.current && !modalRef.current.contains(e.target) && !fieldRef.current.contains(e.target)) {
@@ -96,7 +100,7 @@ const DropDown = ({ z, type, sub, list, ListItem, header, activeItem, setActiveI
                     {lable.length > 0 && !openList && <div className={s.label}><p>{lable}</p></div>}
                 </div>}
 
-                <IconChewron onClick={handleChoseActiveItem} className={classNames(s.chewron, openList && s.chewron_open)} />
+                <IconChewron onClick={handleCloseList} className={classNames(s.chewron, openList && s.chewron_open)} />
             </div>
             <ul
                 ref={modalRef}
