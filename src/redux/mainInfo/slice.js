@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 const initialState = {
   draft: 0,
   customer: {},
+  contract: {},
   detail: {},
   numberAct: '',
   numberInvoice: '',
@@ -28,6 +29,10 @@ export const mainInfoSlice = createSlice({
       state.customer = action.payload;
       state.signatory = action.payload?.gendir && action.payload?.gendir?.replace(/\s+/g, '') !== ''
         ? { id: 'dir', name: action.payload?.gendir } : { id: 'no', name: 'Без подписанта' };
+    },
+
+    setContract: (state, action) => {
+      state.contract = action.payload;
     },
 
     setDetail: (state, action) => {
@@ -72,6 +77,7 @@ export const mainInfoSlice = createSlice({
 export const {
   setDraft,
   setCustomer,
+  setContract,
   setDetail,
   setNumberAct,
   setNumberInvoice,

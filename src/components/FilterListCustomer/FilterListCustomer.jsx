@@ -19,11 +19,11 @@ const FilterListCustomer = ({ items, openModal, handleReset, setOpenModal, setLo
     const { data: parameters, isLoading: isLoadingParams } = useGetParametersQuery();
     const [searchQuery, setSearchQuery] = useState('')
     const [activeCompany, setActiveCompany] = useState(items || []);
-    const [filterCompanies, setFilterCompanies] = useState(parameters?.companies || [])
+    const [filterCompanies, setFilterCompanies] = useState(parameters?.companies_2 || [])
     const dispatch = useDispatch()
 
     useEffect(() => {
-        setFilterCompanies(parameters?.companies)
+        setFilterCompanies(parameters?.companies_2)
     }, [parameters])
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const FilterListCustomer = ({ items, openModal, handleReset, setOpenModal, setLo
     const handleSearch = (e) => {
         const value = e.currentTarget.value;
         setSearchQuery(value)
-        const result = handleSearchCompany(value, parameters?.companies)
+        const result = handleSearchCompany(value, parameters?.companies_2)
         setFilterCompanies(result)
     }
 

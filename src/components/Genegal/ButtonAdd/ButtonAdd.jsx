@@ -1,0 +1,20 @@
+import s from './ButtonAdd.module.scss';
+import classNames from 'classnames';
+//icons
+import { ReactComponent as IconAdd } from './assets/iconAdd.svg';
+
+
+const ButtonAdd = ({ vis, counterpartyId }) => {
+
+    const handleOpenAdd = () => {
+        window.open(`https://lk.skilla.ru/new/counterpartiesnew/details/contract/create?counterparty_id=${counterpartyId}&order=1`, '_blank')
+    }
+
+    return (
+        <div className={classNames(s.root, vis && s.root_vis)}>
+            <button onClick={handleOpenAdd}><IconAdd />Создать договор с заказчиком</button>
+        </div>
+    )
+};
+
+export default ButtonAdd;

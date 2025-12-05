@@ -9,7 +9,7 @@ import App from './App';
 const root = ReactDOM.createRoot(document.getElementById('root_act'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter basename='new/act'>
+    <BrowserRouter basename='new/test/act'>
       <Provider store={store}>
         <App />
       </Provider>

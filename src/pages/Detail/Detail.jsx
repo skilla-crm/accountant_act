@@ -9,6 +9,7 @@ import { useGetUpdQuery } from '../../redux/updsApiActions';
 //slice
 import {
     setCustomer,
+    setContract,
     setDetail,
     setNumberAct,
     setNumberInvoice,
@@ -83,6 +84,10 @@ const Detail = () => {
             dispatch(setPositions(rows))
             dispatch(setCustomer(data?.company))
             dispatch(setDetail({ ...data?.partnership, ...data?.details }))
+
+            if (data?.contract) {
+                dispatch(setContract(data?.contract))
+            }
 
             if (data?.details?.company_contact_id) {
                 dispatch(setSignatory({ id: data?.details?.company_contact_id, name: data?.details?.signature }))

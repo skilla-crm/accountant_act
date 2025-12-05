@@ -20,7 +20,7 @@ import ButtonsEdit from '../ButtonsEdit/ButtonsEdit';
 import { BUTTON_TEXT_CREATE } from '../../constants/upds';
 
 const HeaderDetail = ({ id, idInvoice, type, setType }) => {
-    const { customer, detail, signatory, numberAct, numberInvoice, date, nds } = useSelector((state) => state.mainInfo);
+    const { customer, contract, detail, signatory, numberAct, numberInvoice, date, nds } = useSelector((state) => state.mainInfo);
     const { positions, total } = useSelector((state) => state.positions);
     const [updateUpd, { isLoading: isLoadingEdit }] = useUpdateUpdMutation();
     const [createBill, { data, isError, isLoading }] = useCreateActMutation();
@@ -61,7 +61,8 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
             invoice: detail?.nds === 0 ? 0 : 1,
             order_ids: [],
             company_id: customer?.id,
-            partnership_id: customer?.partnership_id,
+            contract_id: contract?.id,
+            partnership_id: detail?.partnership_id,
             date: dayjs(date).format('YYYY-MM-DD'),
             num: Number(numberAct),
             invoice_num: Number(numberInvoice),
@@ -106,7 +107,8 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
         })
         const dataForSend = {
             company_id: customer?.id,
-            partnership_id: customer?.partnership_id,
+            contract_id: contract?.id,
+            partnership_id: detail?.partnership_id,
             date: dayjs(date).format('YYYY-MM-DD'),
             num: Number(numberAct),
             invoice_num: Number(numberInvoice),

@@ -12,29 +12,42 @@ import InputBillNumber from '../InputBillNumber/InputBillNumber';
 import InputText from '../Genegal/InputText/InputText';
 import ContractInput from '../ContractInput/ContractInput';
 import DropDownNds from '../DropDownNds/DropDownNds';
+import ButtonAdd from '../Genegal/ButtonAdd/ButtonAdd';
+import InputListContract from '../Genegal/InputListContract/InputListContract';
+import Field from '../Genegal/Field/Field';
 //slice
-import { setCustomer, setDetail, setNumberAct, setNumberInvoice, setDate, setSignatory, setNds } from '../../redux/mainInfo/slice';
+import { setCustomer, setContract, setDetail, setNumberAct, setNumberInvoice, setDate, setSignatory, setNds } from '../../redux/mainInfo/slice';
 import { setCustomerValidation, setDetailValidation, setNumberValidation } from '../../redux/validation/slice';
 
 
 
 const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
     const dispatch = useDispatch()
-    const { customer, detail, numberAct, numberInvoice, numberActFirst, numberInvoiceFirst, date, orders, signatory, draft, nds } = useSelector((state) => state.mainInfo);
+    const { customer, contract, detail, numberAct, numberInvoice, numberActFirst, numberInvoiceFirst, date, orders, signatory, draft, nds } = useSelector((state) => state.mainInfo);
     const { customerValidation, detailValidation, signatoryValidation, numberValidation } = useSelector((state) => state.validation);
     const [detailsList, setDetailsList] = useState([])
     const [signatureList, setSignatureList] = useState([])
 
+    /*  useEffect(() => {
+         if (customer.id) {
+             customer?.gendir?.replace(/\s+/g, '') === '' ?
+                 setSignatureList([{ id: 'no', name: 'Без подписанта' }])
+                 :
+                 setSignatureList([{ id: 'dir', name: customer?.gendir }, { id: 'no', name: 'Без подписанта' }])
+             return
+         }
+     }, [customer]) */
+
+
     useEffect(() => {
-        if (customer.id) {
-            customer?.gendir?.replace(/\s+/g, '') === '' ?
-                setSignatureList([/* ...customer?.contacts?.filter(el => el.name !== ''), */ { id: 'no', name: 'Без подписанта' }])
+        if (contract?.id) {
+            contract?.company_signature ?
+                setSignatureList([{ id: 'dir', name: contract?.company_signature?.full_name }, { id: 'no', name: 'Без подписанта' }])
                 :
-                setSignatureList([{ id: 'dir', name: customer?.gendir }, { id: 'no', name: 'Без подписанта' }])
+                setSignatureList([{ id: 'no', name: 'Без подписанта' }])
             return
         }
-
-    }, [customer])
+    }, [contract])
 
     useEffect(() => {
         if (customer?.partnership_id) {
@@ -45,13 +58,13 @@ const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
         }
     }, [customer, parameters])
 
-    useEffect(() => {
+    /* useEffect(() => {
 
         if (detail?.partnership_id && customer?.partnership_id && detail?.partnership_id !== customer?.partnership_id) {
             dispatch(setDetail({}))
         }
 
-    }, [customer, detail])
+    }, [customer, detail]) */
 
     const handleResetErrorCustomer = () => {
         dispatch(setCustomerValidation(true))
@@ -79,12 +92,16 @@ const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
                 z={5}
                 type={'customer'}
                 sub={'Заказчик'}
-                list={parameters?.companies}
+                list={parameters?.companies_2}
                 ListItem={Customer}
                 activeItem={customer}
                 setActiveItem={data => {
                     dispatch(setCustomer(data))
-                    dispatch(setDetail(parameters?.partnerships_details?.find(el => el.partnership_id === data?.partnership_id)))
+                    dispatch(setContract(data?.contracts?.[0]))
+                    const newDetail = parameters?.partnerships_details?.find(el => el.partnership_id === data?.contracts?.[0]?.partnership_id)
+                    newDetail && dispatch(setDetail(newDetail))
+                    newDetail && dispatch(setNumberAct(newDetail?.act_num))
+                    newDetail && dispatch(setNumberInvoice(newDetail?.invoice_num))
                 }}
                 disabled={disabled || draft === 1}
                 error={!customerValidation}
@@ -93,7 +110,35 @@ const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
                 overlay={true}
             />
 
-            <DropDown
+            <ButtonAdd
+                vis={customer?.contracts?.length === 0 && customer?.id && draft === 0}
+                counterpartyId={customer?.id}
+            />
+
+            <InputListContract
+                disabled={disabled || draft === 1}
+                list={customer?.contracts || []}
+                value={contract}
+                vis={customer?.contracts?.length > 0}
+                setValue={(data) => {
+                    dispatch(setContract(data))
+                    const newDetail = parameters?.partnerships_details?.find(el => el.partnership_id === data?.partnership_id)
+                    newDetail && dispatch(setDetail(newDetail))
+                    newDetail && dispatch(setNumberAct(newDetail?.act_num))
+                    newDetail && dispatch(setNumberInvoice(newDetail?.invoice_num))
+                }}
+            />
+
+            <Field
+                disabled={disabled || draft === 1}
+                vis={detail?.partnership_id}
+                sub={'Получатель'}
+                text={detail?.partnership_name}
+                span={`${detail?.bank} ${detail?.rs ? ` *${detail?.rs?.slice(-4)}` : ''}`}
+            />
+
+
+            {/*   <DropDown
                 z={4}
                 type={'detail'}
                 sub={'Поставщик'}
@@ -112,7 +157,7 @@ const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
                 errorText={'Реквизиты не выбраны'}
                 resetError={handleResetErrorDetail}
                 overlay={true}
-            />
+            /> */}
 
             {/*   <ContractInput
                 text={customer?.contract_n}

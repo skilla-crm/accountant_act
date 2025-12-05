@@ -10,6 +10,7 @@ const ndsList = [
     { id: 7, text: '7%' },
     { id: 10, text: '10%' },
     { id: 20, text: '20%' },
+    { id: 22, text: '22%' },
 ]
 
 
