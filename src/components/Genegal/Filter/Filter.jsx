@@ -2,6 +2,7 @@ import s from './Filter.module.scss';
 import classNames from 'classnames';
 import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 //icons
 import { ReactComponent as IconClose } from '../../../assets/icons/filters/iconClose.svg'
 import { ReactComponent as IconDone } from '../../../assets/icons/filters/iconDone.svg'
@@ -17,9 +18,10 @@ const Filter = ({ title, Icon, type, items, Component, isFetching }) => {
     const [openModal, setOpenModal] = useState(false);
     const [load, setLoad] = useState(false);
     const [done, setDone] = useState(false)
-    const modalRef = useRef()
+    const modalRef = useRef();
     const filterRef = useRef();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         items.length > 0 && setDone(true)
@@ -40,6 +42,7 @@ const Filter = ({ title, Icon, type, items, Component, isFetching }) => {
         setDone(false)
         dispatch(setFilterCustomers([]))
         setOpenModal(false)
+        navigate('/')
     }
 
     useEffect(() => {

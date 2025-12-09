@@ -1,5 +1,6 @@
 import s from './FilterListCustomer.module.scss';
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useGetParametersQuery } from '../../redux/updsApiActions';
 import { ReactComponent as IconSearch } from '../../assets/icons/iconSearch.svg';
@@ -16,19 +17,27 @@ import { handleSearchCompany } from '../../utils/SearchCompany';
 
 
 const FilterListCustomer = ({ items, openModal, handleReset, setOpenModal, setLoad, load, setDone }) => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const counterpartyId = searchParams.get('counterparty_id');
     const { data: parameters, isLoading: isLoadingParams } = useGetParametersQuery();
     const [searchQuery, setSearchQuery] = useState('')
     const [activeCompany, setActiveCompany] = useState(items || []);
     const [filterCompanies, setFilterCompanies] = useState(parameters?.companies_2 || [])
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setFilterCompanies(parameters?.companies_2)
     }, [parameters])
 
     useEffect(() => {
-        setActiveCompany(items)
+        if (counterpartyId) {
+            dispatch(setFilterCustomers([Number(counterpartyId)]))
+        }
 
+    }, [counterpartyId])
+
+    useEffect(() => {
+        setActiveCompany(items)
     }, [items])
 
     const handleSearch = (e) => {
