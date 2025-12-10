@@ -33,7 +33,6 @@ const FilterListCustomer = ({ items, openModal, handleReset, setOpenModal, setLo
         if (counterpartyId) {
             dispatch(setFilterCustomers([Number(counterpartyId)]))
         }
-
     }, [counterpartyId])
 
     useEffect(() => {
