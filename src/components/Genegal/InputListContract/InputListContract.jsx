@@ -50,8 +50,10 @@ const InputListContract = ({ vis, disabled, list, value, setValue, width }) => {
 
             <div ref={fieldRef} onClick={handleOpenList} className={classNames(s.field, disabled && s.field_disabled)}>
                 {value?.id && <div className={s.contract}>
-                    <p>{`${value?.template_name ? value?.template_name : 'Договор'} №${value?.prefix ? ' ' + value?.prefix : ''} ${value?.number}`} {value?.date ? ` от ${dayjs(value?.date).format('DD.MM.YYYY')}` : ''}</p>
-                    {/* <span>{`${value?.partnership_name} ${value?.partnership_details?.bank ? value?.partnership_details?.bank : ''} ${value?.partnership_details?.rs ? `*${value?.partnership_details?.rs.slice(-4)}` : ''}`}</span> */}
+                    <p>
+                        {`${value?.template_name ? value?.template_name : 'Договор'} №${value?.prefix ? ' ' + value?.prefix : ''} ${value?.number}`} {value?.date ? ` от ${dayjs(value?.date).format('DD.MM.YYYY')}` : ''}
+                        {value?.label && <div className={s.label}><p>{value?.label}</p></div>}
+                    </p>
                 </div>}
 
                 {!value?.id && <div className={s.contract}>
@@ -67,7 +69,10 @@ const InputListContract = ({ vis, disabled, list, value, setValue, width }) => {
                     key={el.id}
                     id={el.id}
                 >
-                    <p>{`${el?.template_name ? el?.template_name : 'Договор'} №${el?.prefix ? ' ' + el?.prefix : ''} ${el?.number}`} {el?.date ? ` от ${dayjs(el?.date).format('DD.MM.YYYY')}` : ''}</p>
+                    <p>
+                        {`${el?.template_name ? el?.template_name : 'Договор'} №${el?.prefix ? ' ' + el?.prefix : ''} ${el?.number}`} {el?.date ? ` от ${dayjs(el?.date).format('DD.MM.YYYY')}` : ''}
+                        {el?.label && <div className={s.label}><p>{el?.label}</p></div>}
+                    </p>
                     <span>{`${el?.partnership_name} ${el?.partnership_details?.bank ? el?.partnership_details?.bank : ''} ${el?.partnership_details?.rs ? `*${el?.partnership_details?.rs.slice(-4)}` : ''}`}</span>
                 </li>)}
             </ul>

@@ -67,6 +67,12 @@
         width: 100%;
         overflow: hidden;
     }
+
+    p {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 }
 
 .list {
@@ -121,6 +127,12 @@
         width: 100%;
         overflow: hidden;
     }
+
+    p {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 }
 
 .chewron {
@@ -138,4 +150,24 @@
     line-height: 16px;
     color: #71869D;
     user-select: none;
+}
+
+.label {
+    max-width: 140px;
+    border-radius: 4px;
+    background: #F1F4F9;
+    padding: 0 8px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    color: #71869D;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+
+    p {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        text-wrap: nowrap;
+    }
 }
