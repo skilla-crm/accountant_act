@@ -85,6 +85,8 @@ const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
         window.open(`https://lk.skilla.ru/new/orders/order_detail/${orderId}`, '_blank')
     }
 
+    console.log(detail)
+
     return (
         <div className={s.root}>
             <h3>Основная информация</h3>
@@ -99,7 +101,7 @@ const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
                     dispatch(setCustomer(data))
                     dispatch(setContract(data?.contracts?.[0]))
                     const newDetail = parameters?.partnerships_details?.find(el => el.partnership_id === data?.contracts?.[0]?.partnership_id)
-                    newDetail && dispatch(setDetail(newDetail))
+                    dispatch(setDetail({ ...data?.contracts?.[0]?.partnership_details, partnership_name: data?.contracts?.[0]?.partnership_name, partnership_id: data?.contracts?.[0]?.partnership_id, nds: newDetail?.nds }))
                     newDetail && dispatch(setNumberAct(newDetail?.act_num))
                     newDetail && dispatch(setNumberInvoice(newDetail?.invoice_num))
                 }}
@@ -122,10 +124,13 @@ const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
                 vis={customer?.contracts?.length > 0}
                 setValue={(data) => {
                     dispatch(setContract(data))
+
+                    console.log(data)
+
                     const newDetail = parameters?.partnerships_details?.find(el => el.partnership_id === data?.partnership_id)
-                    newDetail && dispatch(setDetail(newDetail))
-                    newDetail && dispatch(setNumberAct(newDetail?.act_num))
-                    newDetail && dispatch(setNumberInvoice(newDetail?.invoice_num))
+                    dispatch(setDetail({ ...data?.partnership_details, partnership_name: data?.partnership_name, partnership_id: data?.partnership_id, nds: newDetail?.nds}))
+            newDetail && dispatch(setNumberAct(newDetail?.act_num))
+            newDetail && dispatch(setNumberInvoice(newDetail?.invoice_num))
                 }}
             />
 
@@ -134,7 +139,7 @@ const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
                 vis={detail?.partnership_id}
                 sub={'Получатель'}
                 text={detail?.partnership_name}
-                span={`${detail?.bank} ${detail?.rs ? ` *${detail?.rs?.slice(-4)}` : ''}`}
+                span={detail?.bank ? `${detail?.bank} ${detail?.rs ? ` *${detail?.rs?.slice(-4)}` : ''}` : ''}
             />
 
 

@@ -27,6 +27,8 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    console.log(detail)
+
 
     const handleValidation = () => {
         const customerValidation = customer?.partnership_id ? true : false;
@@ -67,7 +69,7 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
             num: Number(numberAct),
             invoice_num: Number(numberInvoice),
             detail_partnership_id: detail?.partnership_id,
-            detail_number: detail?.num,
+            detail_number: detail?.id,
             company_contact_id: signatory.id && signatory.id !== 'dir' && signatory.id !== 'no' && signatory.id !== 'another' ? signatory.id : null,
             signature: signatory.id !== 'no' ? signatory.name : null,
             rows,
@@ -113,7 +115,7 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
             num: Number(numberAct),
             invoice_num: Number(numberInvoice),
             detail_partnership_id: detail?.partnership_id,
-            detail_number: detail?.num,
+            detail_number: detail?.id,
             company_contact_id: signatory.id && signatory.id !== 'dir' && signatory.id !== 'no' && signatory.id !== 'another' ? signatory.id : null,
             signature: signatory.id !== 'no' ? signatory.name : null,
             rows,

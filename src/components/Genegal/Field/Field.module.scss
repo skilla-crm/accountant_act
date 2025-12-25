@@ -26,7 +26,9 @@
 .field {
     box-sizing: border-box;
     height: 40px;
-    max-width: 600px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
     display: flex;
     align-items: center;
     padding: 12px;
