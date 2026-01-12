@@ -69,6 +69,14 @@ export const updsApiActions = createApi({
       invalidatesTags: ['Upds']
     }),
 
+    deleteInvoice: build.mutation({
+      query: (id) => ({
+        url: `invoice/delete/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Upds']
+    }),
+
     sendUpd: build.mutation({
       query: ({ body, id }) => ({
         url: `acts/send/${id}`,
@@ -137,6 +145,7 @@ export const {
   useCreateActMutation,
   useUpdateUpdMutation,
   useDeleteUpdMutation,
+  useDeleteInvoiceMutation,
   useSendUpdMutation,
   useGetUpdDownloadMutation,
   useGetUpdDownloadMassMutation,
