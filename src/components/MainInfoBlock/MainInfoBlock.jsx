@@ -2,6 +2,7 @@ import s from './MainInfoBlock.module.scss';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc'
 //components
 import DropDown from '../Genegal/DropDown/DropDown';
 import Customer from '../Customer/Customer';
@@ -22,6 +23,7 @@ import { setCustomerValidation, setDetailValidation, setNumberValidation } from 
 
 
 const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
+    dayjs.extend(utc)
     const dispatch = useDispatch()
     const { customer, contract, detail, numberAct, numberInvoice, numberActFirst, numberInvoiceFirst, date, orders, signatory, draft, nds } = useSelector((state) => state.mainInfo);
     const { customerValidation, detailValidation, signatoryValidation, numberValidation } = useSelector((state) => state.validation);
@@ -236,7 +238,7 @@ const MainInfoBlock = ({ parameters, disabled, isCreate }) => {
                 <ul>
                     {orders?.map((el, i) => {
                         return <li onClick={handleOpenOrder} key={el.id} id={el.id}>
-                            <p>{dayjs(el.date).format('DD.MM.YYYY')}{orders[i + 1] ? ', ' : ''}</p>
+                            <p>{dayjs.utc(el.date).format('DD.MM.YYYY')}{orders[i + 1] ? ', ' : ''}</p>
                         </li>
                     })}
                 </ul>

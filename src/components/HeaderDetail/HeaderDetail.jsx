@@ -1,6 +1,7 @@
 import s from './HeaderDetail.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc'
 import { useNavigate } from 'react-router-dom';
 import { useUpdateUpdMutation, useCreateActMutation } from '../../redux/updsApiActions';
 //icons
@@ -20,6 +21,7 @@ import ButtonsEdit from '../ButtonsEdit/ButtonsEdit';
 import { BUTTON_TEXT_CREATE } from '../../constants/upds';
 
 const HeaderDetail = ({ id, idInvoice, type, setType }) => {
+    dayjs.extend(utc)
     const { customer, contract, detail, signatory, numberAct, numberInvoice, date, nds } = useSelector((state) => state.mainInfo);
     const { positions, total } = useSelector((state) => state.positions);
     const [updateUpd, { isLoading: isLoadingEdit }] = useUpdateUpdMutation();
@@ -62,7 +64,7 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
             company_id: customer?.id,
             contract_id: contract?.id,
             partnership_id: detail?.partnership_id,
-            date: dayjs(date).format('YYYY-MM-DD'),
+            date: dayjs.utc(date).format('YYYY-MM-DD'),
             num: Number(numberAct),
             invoice_num: Number(numberInvoice),
             detail_partnership_id: detail?.partnership_id,
@@ -108,7 +110,7 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
             company_id: customer?.id,
             contract_id: contract?.id,
             partnership_id: detail?.partnership_id,
-            date: dayjs(date).format('YYYY-MM-DD'),
+            date: dayjs.utc(date).format('YYYY-MM-DD'),
             num: Number(numberAct),
             invoice_num: Number(numberInvoice),
             detail_partnership_id: detail?.partnership_id,
@@ -136,10 +138,10 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
 
     return (
         <div className={s.root}>
-            {type == 'create' && <h2>Новый Акт №{numberAct} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
-            {type == 'draft' && <h2>Новый Акт №{numberAct} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
-            {type == 'detail' && <h2>АКТ №{numberAct} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
-            {type == 'edit' && <h2>АКТ №{numberAct} от {dayjs(date).format('DD.MM.YYYY')}</h2>}
+            {type == 'create' && <h2>Новый Акт №{numberAct} от {dayjs.utc(date).format('DD.MM.YYYY')}</h2>}
+            {type == 'draft' && <h2>Новый Акт №{numberAct} от {dayjs.utc(date).format('DD.MM.YYYY')}</h2>}
+            {type == 'detail' && <h2>АКТ №{numberAct} от {dayjs.utc(date).format('DD.MM.YYYY')}</h2>}
+            {type == 'edit' && <h2>АКТ №{numberAct} от {dayjs.utc(date).format('DD.MM.YYYY')}</h2>}
 
             {type == 'create' && <Button
                 type={'create'}

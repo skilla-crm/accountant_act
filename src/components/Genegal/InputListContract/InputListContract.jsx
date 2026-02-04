@@ -2,15 +2,16 @@ import classNames from 'classnames';
 import s from './InputListContract.module.scss';
 import { useState, useEffect, useRef } from 'react';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc'
 //icons
 import { ReactComponent as IconChewron } from './assets/iconChewron.svg';
 
 
 const InputListContract = ({ vis, disabled, list, value, setValue, width }) => {
+    dayjs.extend(utc)
     const [openList, setOpenList] = useState(false);
     const listRef = useRef();
     const fieldRef = useRef();
-    console.log(value)
 
     const handleOpenList = () => {
         openList ? setOpenList(false) : setOpenList(true)
@@ -51,7 +52,7 @@ const InputListContract = ({ vis, disabled, list, value, setValue, width }) => {
             <div ref={fieldRef} onClick={handleOpenList} className={classNames(s.field, disabled && s.field_disabled)}>
                 {value?.id && <div className={s.contract}>
                     <p>
-                        {`${value?.template_name ? value?.template_name : 'Договор'} №${value?.prefix ? ' ' + value?.prefix : ''} ${value?.number}`} {value?.date ? ` от ${dayjs(value?.date).format('DD.MM.YYYY')}` : ''}
+                        {`${value?.template_name ? value?.template_name : 'Договор'} №${value?.prefix ? ' ' + value?.prefix : ''} ${value?.number}`} {value?.date ? ` от ${dayjs.utc(value?.date).format('DD.MM.YYYY')}` : ''}
                         {value?.label && <div className={s.label}><p>{value?.label}</p></div>}
                     </p>
                 </div>}
@@ -70,7 +71,7 @@ const InputListContract = ({ vis, disabled, list, value, setValue, width }) => {
                     id={el.id}
                 >
                     <p>
-                        {`${el?.template_name ? el?.template_name : 'Договор'} №${el?.prefix ? ' ' + el?.prefix : ''} ${el?.number}`} {el?.date ? ` от ${dayjs(el?.date).format('DD.MM.YYYY')}` : ''}
+                        {`${el?.template_name ? el?.template_name : 'Договор'} №${el?.prefix ? ' ' + el?.prefix : ''} ${el?.number}`} {el?.date ? ` от ${dayjs.utc(el?.date).format('DD.MM.YYYY')}` : ''}
                         {el?.label && <div className={s.label}><p>{el?.label}</p></div>}
                     </p>
                     <span>{`${el?.partnership_name} ${el?.partnership_details?.bank ? el?.partnership_details?.bank : ''} ${el?.partnership_details?.rs ? `*${el?.partnership_details?.rs.slice(-4)}` : ''}`}</span>

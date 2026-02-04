@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc'
 import 'dayjs/locale/ru';
 //icons
 import { ReactComponent as IconDone } from '../../assets/icons/iconDone.svg';
@@ -19,6 +20,7 @@ import { addSpaceNumber } from '../../utils/addSpaceNumber';
 
 
 const Table = ({ data }) => {
+    dayjs.extend(utc)
     const [openTooltip, setOpenTooltip] = useState('');
 
     const handleOpenTooltip = (e) => {
@@ -101,7 +103,7 @@ const Row = ({ bill, lastLines }) => {
 
             <td className={s.date}>
 
-                <p>{dayjs(bill?.date).format('DD.MM.YY')}</p>
+                <p>{dayjs.utc(bill?.date).format('DD.MM.YY')}</p>
             </td>
             <td className={s.number}>
                 <p>{bill?.number}</p>
@@ -115,7 +117,7 @@ const Row = ({ bill, lastLines }) => {
             </td> */}
 
             <td className={s.date}>
-                {bill?.invoice_date && <p>{dayjs(bill?.invoice_date).format('DD.MM.YY')}</p>}
+                {bill?.invoice_date && <p>{dayjs.utc(bill?.invoice_date).format('DD.MM.YY')}</p>}
             </td>
             <td className={s.number}>
                 <p>{bill?.invoice_num}</p>
@@ -199,7 +201,7 @@ const Progress = ({ lastLines, progress }) => {
                     id={1}
                     lastLines={lastLines}
                     open={openTooltip === 1}
-                    firstString={`Создан ${dayjs(progress?.first?.date).format('DD.MM.YY в HH:mm')}`}
+                    firstString={`Создан ${dayjs.utc(progress?.first?.date).format('DD.MM.YY в HH:mm')}`}
                     secondString={`${progress?.first?.person?.position === 'director' ? 'Руководитель' : 'Бухгалтер'} ${progress?.first?.person?.name} ${progress?.first?.person?.surname}`}
                 />
             </div>
@@ -213,7 +215,7 @@ const Progress = ({ lastLines, progress }) => {
                     id={2}
                     lastLines={lastLines}
                     open={openTooltip === 2}
-                    firstString={`Отправлен на e-mail ${dayjs(progress?.second?.date).format('DD.MM.YY в HH:mm')}`}
+                    firstString={`Отправлен на e-mail ${dayjs.utc(progress?.second?.date).format('DD.MM.YY в HH:mm')}`}
                     secondString={`${progress?.second?.person?.position === 'director' ? 'Руководитель' : 'Бухгалтер'} ${progress?.second?.person?.name} ${progress?.second?.person?.surname}`}
                 />
             </div>
@@ -227,7 +229,7 @@ const Progress = ({ lastLines, progress }) => {
                     id={3}
                     lastLines={lastLines}
                     open={openTooltip === 3}
-                    firstString={`Просмотрен ${dayjs(progress?.third?.date).format('DD.MM.YY в HH:mm')}`}
+                    firstString={`Просмотрен ${dayjs.utc(progress?.third?.date).format('DD.MM.YY в HH:mm')}`}
                     secondString={''}
                 />
             </div>
@@ -262,13 +264,13 @@ const Status = ({ lastLines, exchange }) => {
         (exchange?.send === 1 || exchange?.sign === 1) && setOpenTooltip(true)
         const position = exchange?.person?.position === 'director' ? 'Руководитель' : exchange?.person?.position === 'accountant' ? 'Бухгалтер' : 'Менеджер'
         if (exchange?.send === 1 && exchange?.sign !== 1) {
-            setFirstString(`Отправлен ${dayjs(exchange?.send_date).format('DD.MM.YY')}`)
+            setFirstString(`Отправлен ${dayjs.utc(exchange?.send_date).format('DD.MM.YY')}`)
             exchange?.person?.id && setSecondString(`${position} ${exchange?.person?.name} ${exchange?.person?.surname}`)
             return
         }
 
         if (exchange?.send === 1 && exchange?.sign === 1) {
-            setFirstString(`Подписан ${dayjs(exchange?.sign_date).format('DD.MM.YY')}`)
+            setFirstString(`Подписан ${dayjs.utc(exchange?.sign_date).format('DD.MM.YY')}`)
             exchange?.person?.id && setSecondString(`${position} ${exchange?.person?.name} ${exchange?.person?.surname}`)
             return
         }
