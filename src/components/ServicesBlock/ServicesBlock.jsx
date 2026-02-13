@@ -35,7 +35,7 @@ const ServicesBlock = ({ parameters, error, errorText, resetError, disabled }) =
                     price: el.price
                 }
             })
-            setRates([...result, ...parameters?.document_buttons,])
+            setRates([...result, ...parameters?.document_buttons])
             return
         }
         if (customer?.works?.length > 0) {
@@ -47,7 +47,7 @@ const ServicesBlock = ({ parameters, error, errorText, resetError, disabled }) =
                     price: el.price
                 }
             })
-            setRates([...result, ...parameters?.document_buttons,])
+            setRates([...result, ...parameters?.document_buttons])
             return
         }
         setRates(parameters?.document_buttons)
