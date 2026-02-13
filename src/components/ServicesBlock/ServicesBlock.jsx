@@ -14,7 +14,7 @@ import { addSpaceNumber } from '../../utils/addSpaceNumber';
 const ServicesBlock = ({ parameters, error, errorText, resetError, disabled }) => {
     const dispatch = useDispatch()
     const { positions, total } = useSelector((state) => state.positions);
-    const { customer, detail, nds } = useSelector((state) => state.mainInfo);
+    const { customer, detail, nds, contract } = useSelector((state) => state.mainInfo);
     const [rates, setRates] = useState([]);
 
     useEffect(() => {
@@ -26,7 +26,19 @@ const ServicesBlock = ({ parameters, error, errorText, resetError, disabled }) =
     }, [positions])
 
     useEffect(() => {
-        if (customer?.works?.length > 0 && parameters?.document_buttons?.length > 0) {
+        if (contract?.works?.length > 0) {
+            const result = contract?.works?.map(el => {
+                return {
+                    id: el.work,
+                    name_button: el.work,
+                    name_service: el.work,
+                    price: el.price
+                }
+            })
+            setRates([...result, ...parameters?.document_buttons,])
+            return
+        }
+        if (customer?.works?.length > 0) {
             const result = customer?.works?.map(el => {
                 return {
                     id: el.work,
@@ -35,12 +47,13 @@ const ServicesBlock = ({ parameters, error, errorText, resetError, disabled }) =
                     price: el.price
                 }
             })
-            setRates([...parameters?.document_buttons, ...result])
-        } else {
-            setRates(parameters?.document_buttons)
+            setRates([...result, ...parameters?.document_buttons,])
+            return
         }
+        setRates(parameters?.document_buttons)
 
-    }, [parameters, customer])
+
+    }, [parameters, customer, contract])
 
     const handleAddRow = () => {
         dispatch(setAddPosition())
