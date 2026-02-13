@@ -26,7 +26,7 @@ const ServicesBlock = ({ parameters, error, errorText, resetError, disabled }) =
     }, [positions])
 
     useEffect(() => {
-        if (contract?.works?.length > 0) {
+        if (contract?.works?.length > 0 && parameters?.document_buttons) {
             const result = contract?.works?.map(el => {
                 return {
                     id: el.work,
@@ -38,7 +38,7 @@ const ServicesBlock = ({ parameters, error, errorText, resetError, disabled }) =
             setRates([...result, ...parameters?.document_buttons])
             return
         }
-        if (customer?.works?.length > 0) {
+        if (customer?.works?.length > 0 && parameters?.document_buttons) {
             const result = customer?.works?.map(el => {
                 return {
                     id: el.work,
