@@ -2,6 +2,7 @@ import s from './Position.module.scss';
 import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc'
 //icons
 import { ReactComponent as IconCloseRed } from '../../assets/icons/iconCloseRed.svg'
 //components
@@ -17,6 +18,7 @@ import { useEffect, useState } from 'react';
 
 
 const Position = ({ data, id, i, length, rates, disabled }) => {
+    dayjs.extend(utc)
     const [anim, setAnim] = useState(false)
     const dispatch = useDispatch()
 
@@ -33,7 +35,7 @@ const Position = ({ data, id, i, length, rates, disabled }) => {
     }
 
     const nameService = data?.rate?.name_service?.trim()
-    const firstSymbolsDate = dayjs(`20${nameService?.slice(6, 8)}-${nameService?.slice(3, 5)}-${nameService?.slice(0, 2)}`).isValid()
+    const firstSymbolsDate = dayjs.utc(`20${nameService?.slice(6, 8)}-${nameService?.slice(3, 5)}-${nameService?.slice(0, 2)}`).isValid()
 
     return (
         <div id={id} className={classNames(s.root, i === 0 && s.root_first, anim && s.root_anim)}>

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc'
 //Api
 import { useGetUpdQuery } from '../../redux/updsApiActions';
 //slice
@@ -27,6 +28,7 @@ import Upd from '../../components/Upd/Upd';
 import SceletonBill from '../../components/SceletonBill/SceletonBill';
 
 const Detail = () => {
+    dayjs.extend(utc)
     const [anim, setAnim] = useState(false)
     const [type, setType] = useState('detail')
     const [idInvoice, setIdInvoice] = useState(null);
@@ -55,7 +57,7 @@ const Detail = () => {
         if (data) {
             data?.draft === 1 && setType('draft')
             dispatch(setDraft(data?.draft))
-            dispatch(setDate(dayjs(data?.date)))
+            dispatch(setDate(dayjs.utc(data?.date)))
             dispatch(setNumberAct(data?.number))
             dispatch(setNumberInvoice(data?.invoice ? data?.invoice?.number : null))
             dispatch(setNumberActFirst(data?.number))
@@ -66,7 +68,7 @@ const Detail = () => {
             dispatch(setExchange(data?.exchange))
             dispatch(setLogs(data?.logs))
 
-            document.title = `Акт №${data?.number} от ${dayjs(data?.date).format('DD.MM.YYYY')}`
+            document.title = `Акт №${data?.number} от ${dayjs.utc(data?.date).format('DD.MM.YYYY')}`
 
             const rows = data?.rows?.map((el, i) => {
                 return {

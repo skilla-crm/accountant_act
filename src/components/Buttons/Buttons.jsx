@@ -2,6 +2,7 @@ import s from './Buttons.module.scss';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc'
 import printJS from 'print-js'
 //api
 import { useGetUpdDownloadMutation, useGetParametersQuery } from '../../redux/updsApiActions';
@@ -27,6 +28,7 @@ import EmailSender from '../EmailSender/EmailSender';
 import Notification from '../Genegal/Notification/Notification';
 
 const Buttons = ({ id, idInvoice, setType }) => {
+    dayjs.extend(utc)
     const { data: parameters } = useGetParametersQuery();
     const { user } = useSelector((state) => state.user);
     const { customer, date, numberAct, numberInvoice, orders } = useSelector((state) => state.mainInfo);
@@ -70,7 +72,7 @@ const Buttons = ({ id, idInvoice, setType }) => {
         const data = await getUpdDownload({ type: 'acts', params, id }).unwrap()
         const link = document.createElement('a');
         link.href = URL.createObjectURL(data);
-        link.setAttribute('download', `Акт №${numberAct} от ${dayjs(date).format('DD.MM.YYYY')}.${params.format}`);
+        link.setAttribute('download', `Акт №${numberAct} от ${dayjs.utc(date).format('DD.MM.YYYY')}.${params.format}`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -81,7 +83,7 @@ const Buttons = ({ id, idInvoice, setType }) => {
         const data = await getUpdDownload({ type: 'invoices', params, id: idInvoice }).unwrap()
         const link = document.createElement('a');
         link.href = URL.createObjectURL(data);
-        link.setAttribute('download', `Счет-фактура №${numberInvoice} от ${dayjs(date).format('DD.MM.YYYY')}.${params.format}`);
+        link.setAttribute('download', `Счет-фактура №${numberInvoice} от ${dayjs.utc(date).format('DD.MM.YYYY')}.${params.format}`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -296,7 +298,7 @@ const Buttons = ({ id, idInvoice, setType }) => {
                 open={modalEmail}
                 setOpen={setModalEmail}
                 contacts={customer?.contacts?.filter(el => el.e_mail !== '')}
-                date={dayjs(date).format('DD.MM.YYYY')}
+                date={dayjs.utc(date).format('DD.MM.YYYY')}
                 numberAct={numberAct}
                 numberInvoice={numberInvoice}
                 text={parameters?.act_message}
