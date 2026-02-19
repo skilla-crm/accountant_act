@@ -33,7 +33,7 @@ export const positionsSlice = createSlice({
       if (key === 'rate' && data.rate.okei) {
         modifyItem = { ...item, [key]: data[key], units: data.rate.unit, code: data.rate.okei }
       } else if (key === 'rate' && !data.rate.okei) {
-        modifyItem = { ...item, [key]: data[key], units: 'Ед', code: '642' }
+        modifyItem = { ...item, [key]: data[key], units: data.rate.unit ? data.rate.unit : 'Ед', code: data.rate.okei ? data.rate.okei : '642' }
       } else if (key === 'count' && item.price !== '') {
         modifyItem = { ...item, [key]: data[key], total: item.price * data[key] !== 0 ? item.price * data[key] : 0 }
       } else if (key === 'price') {

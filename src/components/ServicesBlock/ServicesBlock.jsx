@@ -32,7 +32,9 @@ const ServicesBlock = ({ parameters, error, errorText, resetError, disabled }) =
                     id: el.work,
                     name_button: el.work,
                     name_service: el.work,
-                    price: el.price
+                    price: el.price,
+                    okei: el?.okei,
+                    unit: el?.unit
                 }
             })
             setRates([...result, ...parameters?.document_buttons])
@@ -44,7 +46,9 @@ const ServicesBlock = ({ parameters, error, errorText, resetError, disabled }) =
                     id: el.work,
                     name_button: el.work,
                     name_service: el.work,
-                    price: el.price
+                    price: el.price,
+                    okei: el?.okei,
+                    unit: el?.unit
                 }
             })
             setRates([...result, ...parameters?.document_buttons])
