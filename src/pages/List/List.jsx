@@ -67,7 +67,7 @@ const List = () => {
         dispatch(setDetail({}))
         dispatch(setDate(dayjs()))
         dispatch(setOrders([]))
-        dispatch(setPositions([{ id: 1, rate: {}, count: '', units: 'ед', code: '642', price: '', total: '' }]))
+        dispatch(setPositions([{ id: 1, rate: {}, count: '', units: 'Ед', code: '642', price: '', total: '' }]))
         dispatch(setCustomerValidation(true))
         dispatch(setDetailValidation(true))
         dispatch(setNumberValidation(true))
