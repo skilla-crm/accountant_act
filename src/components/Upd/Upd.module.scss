@@ -70,25 +70,3 @@
 
 }
 
-.pro {
-    width: 100%;
-    height: fit-content;
-    background: #ffffff;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    text-wrap: nowrap;
-    padding: 20px 16px;
-    overflow: hidden;
-
-
-    p {
-        font-weight: 500;
-        color: #002CFB;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        cursor: pointer;
-    }
-}
