@@ -1,4 +1,5 @@
 import { ReactComponent as IconClose } from "./assets/iconClose.svg";
+import { ReactComponent as IconWarning } from "./assets/iconWarning.svg";
 import s from "./CustomToast.module.scss";
 import './index.css';
 import classNames from "classnames";
@@ -12,6 +13,7 @@ const CustomToast = ({ closeToast, message, icon, type, buttonClose }) => {
   return (
     <div className={classNames(s.notification, typeClassMap[type])}>
       {icon && <div className={s.icon}>{icon}</div>}
+      {type == 'error' && !icon && <div className={s.icon}><IconWarning /></div>}
       <p>{message}</p>
       {buttonClose && <button className={s.close} onClick={closeToast}>
         <IconClose />

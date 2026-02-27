@@ -39,7 +39,8 @@ export const updsApiActions = createApi({
         url: `parameters`,
         method: 'GET',
       }),
-      transformResponse: (response) => response?.data
+      transformResponse: (response) => response?.data,
+      providesTags: ['Upds', 'Upd']
     }),
 
     createAct: build.mutation({

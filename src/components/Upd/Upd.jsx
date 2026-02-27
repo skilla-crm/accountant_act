@@ -17,6 +17,7 @@ import MainInfoBlock from '../MainInfoBlock/MainInfoBlock';
 import ServicesBlock from '../ServicesBlock/ServicesBlock';
 import DocumentFlow from '../DocumentFlow/DocumentFlow';
 import History from '../History/History';
+import { HistoryLog } from '../HistoryLog/HistoryLog';
 
 
 const Upd = ({ id, idInvoice, type, setType }) => {
@@ -61,13 +62,14 @@ const Upd = ({ id, idInvoice, type, setType }) => {
                         <img src={iconPreview}></img>
                         <p>Предварительный просмотр в разработке</p>
                     </div>
-                    {(type === 'detail' || type === 'edit') && ispro === '1' && <History logs={logs} />}
+                    {(type === 'detail' || type === 'edit') && ispro === '1' && <HistoryLog logs={logs}/>}
                     {(type === 'detail' || type === 'edit') && ispro === '0' && <div className={s.pro}>
                         <h3>История изменений</h3>
-                        <img src={historyblur} alt='мстория доступна для про'></img>
+                        <img src={historyblur} alt='история доступна для про'></img>
                         <p onClick={openModalPro}>Доступно только для  <BadgePro /></p>
 
                     </div>}
+                    
 
                 </div>
             </div>

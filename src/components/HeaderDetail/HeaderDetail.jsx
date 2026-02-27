@@ -13,6 +13,8 @@ import {
     setNumberValidation,
     setPositionsValidation
 } from '../../redux/validation/slice';
+//handlers
+import ErrorHandler from '../../handlers/ErrorHandler';
 //components
 import Button from '../Genegal/Button/Button';
 import Buttons from '../Buttons/Buttons';
@@ -68,7 +70,7 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
             num: Number(numberAct),
             invoice_num: Number(numberInvoice),
             detail_partnership_id: detail?.partnership_id,
-           detail_number: detail?.id || detail?.num,
+            detail_number: detail?.id || detail?.num,
             company_contact_id: signatory.id && signatory.id !== 'dir' && signatory.id !== 'no' && signatory.id !== 'another' ? signatory.id : null,
             signature: signatory.id !== 'no' ? signatory.name : null,
             rows,
@@ -81,11 +83,15 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
         if (handleValidation()) {
             createBill(dataForSend)
                 .then((data) => {
-                    if (data.data.success) {
+                    if (data?.data?.success) {
                         const id = data.data.data.id;
                         navigate(`/detail/${id}`)
-                    } else {
+                        return
+                    }
 
+                    if (data?.error) {
+                        ErrorHandler(data?.error?.status)
+                        return
                     }
                 });
             return
@@ -126,10 +132,13 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
         if (handleValidation()) {
             updateUpd({ body: dataForSend, id })
                 .then((data) => {
-                    if (data.data.success) {
+                    if (data?.data?.success) {
                         setType('detail')
-                    } else {
+                    }
 
+                    if (data?.error) {
+                        ErrorHandler(data?.error?.status)
+                        return
                     }
                 });
             return
@@ -173,7 +182,7 @@ const HeaderDetail = ({ id, idInvoice, type, setType }) => {
                 isLoading={isLoadingEdit}
             />}
 
-            
+
         </div>
     )
 };

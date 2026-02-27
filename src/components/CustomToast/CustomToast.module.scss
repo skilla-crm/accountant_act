@@ -19,7 +19,8 @@
 }
 
 .notification_error {
-  width: 500px;
+  width: 400px;
+  border-left: 2px solid #ff2d2d;
 }
 
 .notification_success {
@@ -38,9 +39,6 @@
   margin-right: 8px;
 }
 
-.lineError {
-  background-color: #ff2d2d !important;
-}
 
 .icon {
   display: flex;
